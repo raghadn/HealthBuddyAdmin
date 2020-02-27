@@ -17,12 +17,17 @@ public class MainActivity extends AppCompatActivity {
 
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signOut();
+
+
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
 
 
         if (firebaseUser == null) {
 
             startActivity(new Intent(MainActivity.this, Login.class));
         }
+
     }
 }

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,6 +30,8 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private RadioGroup radioGroup;
     private RadioButton radioButton;
+    private TextView Forgotpass;
+
 
 
 
@@ -42,6 +45,13 @@ public class Login extends AppCompatActivity {
         adminPassword=(EditText)findViewById(R.id.Adminpassword);
         mAuth=FirebaseAuth.getInstance();
         radioGroup=(RadioGroup)findViewById(R.id.radioGroup);
+        Forgotpass=(TextView)findViewById(R.id.ForgotPassword);
+        Forgotpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendUserToForgotPassword();
+            }
+        });
         adminLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,6 +158,10 @@ public class Login extends AppCompatActivity {
 
     private void sendUserToMainActivity(){
         Intent loginIntent=new Intent(Login.this,MainActivity.class);
+        startActivity(loginIntent);
+    }
+    private void sendUserToForgotPassword(){
+        Intent loginIntent=new Intent(Login.this,Forgotpassword.class);
         startActivity(loginIntent);
     }
 
