@@ -72,6 +72,36 @@ public class Login extends AppCompatActivity {
 
     private void loginProvider() {
 
+        final String ID = adminID.getText().toString();
+        final String password = adminPassword.getText().toString();
+
+        DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
+        firebaseRef.child("DoctorIDs").child(ID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    String Email =dataSnapshot.getValue().toString();
+                    mAuth.signInWithEmailAndPassword(Email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()) {
+                                // Send user to Doctors main Activity
+                                Intent loginIntent=new Intent(Login.this,DoctorMainActivity.class);
+                                startActivity(loginIntent);
+                                Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
+                            }
+                            else
+                                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void loginAdmin() {
