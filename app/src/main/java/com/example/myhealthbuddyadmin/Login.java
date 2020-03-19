@@ -33,8 +33,6 @@ public class Login extends AppCompatActivity {
     private TextView Forgotpass;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +57,9 @@ public class Login extends AppCompatActivity {
                 if(radioID==R.id.adminrButton)
                 loginAdmin();
                 else
-                    if(radioID==R.id.providerrButton)
+                    if(radioID==R.id.providerrButton) {
                         loginProvider();
+                    }
 
 
             }
@@ -71,37 +70,43 @@ public class Login extends AppCompatActivity {
     }
 
     private void loginProvider() {
-
         final String ID = adminID.getText().toString();
         final String password = adminPassword.getText().toString();
 
-        DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
-        firebaseRef.child("DoctorIDs").child(ID).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    String Email =dataSnapshot.getValue().toString();
-                    mAuth.signInWithEmailAndPassword(Email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        if (ID.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Please Enter Your ID", Toast.LENGTH_LONG).show();
+        }
+        else
+        if (password.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Please Enter Your password", Toast.LENGTH_LONG).show();
+        } else {
+            DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
+            firebaseRef.child("DoctorIDs").child(ID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+                    String Email = dataSnapshot.getValue(String.class);
+                    mAuth.signInWithEmailAndPassword(Email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()) {
+                            if (task.isSuccessful()) {
                                 // Send user to Doctors main Activity
-                                Intent loginIntent=new Intent(Login.this,DoctorMainActivity.class);
+                                Intent loginIntent = new Intent(Login.this, DoctorMainActivity.class);
                                 startActivity(loginIntent);
                                 Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
-                            }
-                            else
+                            } else
                                 Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                         }
                     });
+                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     public void loginAdmin() {

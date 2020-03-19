@@ -14,13 +14,21 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Random;
 
 public class CreateDoctor extends AppCompatActivity {
 
     EditText ID,name,emaill,phone,specialty,gender,password;
     Button createbtn ;
-    FirebaseAuth mAuth;
+    FirebaseAuth mAuth ,Hauth;
+    String HID;
+
     private FirebaseUser Fuser; //the Hospital User
 
     @Override
@@ -36,12 +44,15 @@ public class CreateDoctor extends AppCompatActivity {
         password=findViewById(R.id.pas);
 
         mAuth = FirebaseAuth.getInstance();
+        Hauth =FirebaseAuth.getInstance();
 
+        genaratedID();
 
         createbtn = findViewById(R.id.createaccount);
         createbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 String Uid = ID.getText().toString();
                 String Uname = name.getText().toString();
@@ -61,11 +72,37 @@ public class CreateDoctor extends AppCompatActivity {
     }
     // the generated ID
     public String genaratedID(){
-        // the firs 3 digit should be the hospital numbers
+
+       // the firs 3 digit should be the hospital numbers
+        String HospitalID = Hauth.getCurrentUser().getUid();
+        showMessage(HospitalID);
+        DatabaseReference Href =FirebaseDatabase.getInstance().getReference();
+
+        Href.child("Admins").child(HospitalID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+
+                    String Hid= dataSnapshot.child("Hospital").getValue().toString();
+                    Random rand = new Random();
+                    int id= rand.nextInt(9999+1);
+                    setHID(Hid);
+                     String HID= Hid+id;
+                     ID.setText(HID);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         String Id;
         Id= "1111";
+
         return Id;
+
     }
 
     // the generated password
@@ -76,6 +113,9 @@ public class CreateDoctor extends AppCompatActivity {
     }
 
 
+    public void setHID(String Hid){
+        HID = Hid;
+    }
 
     // method adding thr created account to database
     private void CreateHealthcareProviderAccount(final String email , final String pass, final String ID , final String Name , final String Phone, final String Gender, final String Specialty) {
@@ -89,12 +129,13 @@ public class CreateDoctor extends AppCompatActivity {
 
                     // save the doctor's data in real time database
                     FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid);
-                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("Email").setValue(email);
-                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("ID").setValue(ID);
-                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("Name").setValue(Name);
-                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("Phone").setValue(Phone);
-                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("Gender").setValue(Gender);
-                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("Specialty").setValue(Specialty);
+                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("email").setValue(email);
+                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("hospital").setValue(HID);
+                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("id").setValue(ID);
+                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("name").setValue(Name);
+                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("phone").setValue(Phone);
+                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("gender").setValue(Gender);
+                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("specialty").setValue(Specialty);
 
                     //For the doctors id (Login)
                     FirebaseDatabase.getInstance().getReference().child("DoctorIDs").child(ID).setValue(email);

@@ -119,6 +119,8 @@ public class ProfileActivity extends AppCompatActivity {
     private void UserMenuSelector(MenuItem item) {
         switch (item.getItemId()) {
 
+
+
             case R.id.nav_home:
                 Intent intentprofile = new Intent(ProfileActivity.this, MainActivity.class);
                 startActivity(intentprofile);
