@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -31,14 +32,13 @@ import com.squareup.picasso.Picasso;
 public class DoctorMainActivity extends AppCompatActivity {
 
 
-    DatabaseReference RecordRef ,DoctorRef, PatientRef;
+    DatabaseReference RecordRef ,DoctorRef, PatientRef,HospitalRef;
     FirebaseAuth mAuth;
-    String currentDoctorid;
+    String currentDoctorid, HospitalID, HospitalName;
     RecyclerView RecordList;
     BottomNavigationView Doctorbottomnav;
 
-    // to be deleted later
-    Button SearchPationt;
+
 
 
     @Override
@@ -59,17 +59,6 @@ public class DoctorMainActivity extends AppCompatActivity {
 
 
 
-        ////////// to be deleted Later
-        SearchPationt=findViewById(R.id.button3);
-        SearchPationt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent searchPatient = new Intent(DoctorMainActivity.this, SearchForPatient.class);
-                startActivity(searchPatient);
-            }
-        });
-
 
 
         RecordRef = FirebaseDatabase.getInstance().getReference().child("Records");
@@ -80,7 +69,6 @@ public class DoctorMainActivity extends AppCompatActivity {
         RecordList.setHasFixedSize(true);
         RecyclerView myRecycler = (RecyclerView) findViewById(R.id.recordlist);
         myRecycler.setLayoutManager(new LinearLayoutManager(this));
-        myRecycler.setAdapter(new DoctorMainActivity.SampleRecycler());
         RecordList.setLayoutManager(new LinearLayoutManager(this));
         //Toast.makeText(this, HID, Toast.LENGTH_LONG).show();
 
@@ -112,16 +100,18 @@ public class DoctorMainActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String Doctor_Name = dataSnapshot.child("name").getValue().toString();
+                       // HospitalID =dataSnapshot.child("hospital").getValue().toString();
                         recordViweHolder.setDoctorName(Doctor_Name);
+
                     }
+
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
                     }
                 });
 
-               /* PatientRef = FirebaseDatabase.getInstance().getReference().child("Patients").child(module.getPid());
+                PatientRef = FirebaseDatabase.getInstance().getReference().child("Patients").child(module.getPid());
                 PatientRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -131,10 +121,23 @@ public class DoctorMainActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+
+                HospitalRef= FirebaseDatabase.getInstance().getReference().child("Hospitals").child("122");
+                HospitalRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        HospitalName =dataSnapshot.child("Name").getValue().toString();
+                        recordViweHolder.setHospitalName(HospitalName);
 
                     }
-                });*/
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
             }
         };
@@ -156,6 +159,12 @@ public class DoctorMainActivity extends AppCompatActivity {
             TextView MyName= (TextView)mViwe.findViewById(R.id.d_name);
             MyName.setText(DName);
         }
+
+        public void setHospitalName(String HName) {
+            TextView MyName= (TextView)mViwe.findViewById(R.id.hname);
+            MyName.setText(HName);
+        }
+
         public void setPatientName(String Pname) {
             TextView myID=(TextView)mViwe.findViewById(R.id.patient_name);
             myID.setText(Pname);
@@ -165,37 +174,18 @@ public class DoctorMainActivity extends AppCompatActivity {
             TextView myDate=(TextView) mViwe.findViewById(R.id.record_date);
             myDate.setText(Date);
         }
-        public void setGender(String gender) {
-            TextView mygender=(TextView) mViwe.findViewById(R.id.all_HCP_profile_gender);
-            mygender.setText(gender);
-        }
+
     }
 
-    public class SampleHolder extends RecyclerView.ViewHolder {
-        public SampleHolder(View itemView) {
-            super(itemView);
-        }
-    }
 
-    public class SampleRecycler extends RecyclerView.Adapter<MainActivity.SampleHolder> {
-        @Override
-        public MainActivity.SampleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return null;
-        }
-
-        @Override
-        public void onBindViewHolder(MainActivity.SampleHolder holder, int position) {
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return 0;
-        }
-    }
 
     private void DoctorMenuSelector(MenuItem item) {
         switch (item.getItemId()) {
+
+            case R.id.d_nav_search:
+                Intent intentSearch = new Intent(DoctorMainActivity.this, SearchForPatient.class);
+                startActivity(intentSearch);
+                break;
 
             case R.id.d_nav_profile:
                 Intent intentProfile = new Intent(DoctorMainActivity.this, DoctorProfile.class);
@@ -203,8 +193,9 @@ public class DoctorMainActivity extends AppCompatActivity {
                 break;
 
 
-
         }
 
     }
+
+
 }

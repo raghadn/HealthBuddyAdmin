@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,6 +41,7 @@ public class SearchForPatient extends AppCompatActivity {
     private RecyclerView PatientResultList;
     private DatabaseReference allPatientsdatabaseRef ;
     private FirebaseAuth mAuth;
+    BottomNavigationView Doctorbottomnav;
 
 
     @Override
@@ -48,7 +52,15 @@ public class SearchForPatient extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         allPatientsdatabaseRef = FirebaseDatabase.getInstance().getReference().child("Patients");
 
-
+        Doctorbottomnav=findViewById(R.id.d_bottom_navigation);
+        Doctorbottomnav.setSelectedItemId(R.id.d_nav_search);
+        Doctorbottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                DoctorMenuSelector(menuItem);
+                return false;
+            }
+        });
 
 
         // search btn
@@ -204,6 +216,22 @@ public class SearchForPatient extends AppCompatActivity {
         public int getItemCount() {
             return 0;
         }
+    }
+
+    private void DoctorMenuSelector(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.d_nav_profile:
+                Intent intentProfile = new Intent(SearchForPatient.this, DoctorProfile.class);
+                startActivity(intentProfile);
+                break;
+
+            case R.id.d_nav_home:
+                Intent intentHome = new Intent(SearchForPatient.this, DoctorMainActivity.class);
+                startActivity(intentHome);
+                break;
+        }
+
     }
 }
 

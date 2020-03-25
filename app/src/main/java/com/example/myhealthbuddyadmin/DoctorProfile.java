@@ -133,13 +133,15 @@ public class DoctorProfile extends AppCompatActivity {
     private void DoctorMenuSelector(MenuItem item) {
         switch (item.getItemId()) {
 
+            case R.id.d_nav_search:
+                Intent intentSearch = new Intent(DoctorProfile.this, SearchForPatient.class);
+                startActivity(intentSearch);
+                break;
+
             case R.id.d_nav_home:
                 Intent intentHome = new Intent(DoctorProfile.this, DoctorMainActivity.class);
                 startActivity(intentHome);
                 break;
-
-
-
         }
 
     }
