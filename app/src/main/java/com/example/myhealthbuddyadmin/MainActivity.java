@@ -24,7 +24,6 @@ import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,15 +34,15 @@ import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button CreateDoctor,Signoutbtn;
-
+   // Button CreateDoctor;
     private BottomNavigationView bottomnav;
     private ImageButton searchbtn;
     private EditText searchInpuText;
     private RecyclerView SearchResultList;
-    private DatabaseReference allUsersdatabaseRef,admins;
-    private FirebaseAuth mAuth;
-    private String currentUserid,HospitalID;
+    private DatabaseReference allUsersdatabaseRef,admins,adminid;
+    private FirebaseAuth mAuth,dAuth;
+    String currentUserid,HospitalID;
+    int DocNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,28 +59,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        CreateDoctor = findViewById(R.id.CD);
+       /* CreateDoctor = findViewById(R.id.CD);
         CreateDoctor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 startActivity(new Intent(MainActivity.this, CreateDoctor.class));
             }
-        });
-
-        Signoutbtn = findViewById(R.id.singout);
-        Signoutbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                firebaseAuth.signOut();
-                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                if (firebaseUser == null) {
-
-                    startActivity(new Intent(MainActivity.this, Login.class));
-                }
-            }
-        });
+        });*/
 
 
         //For Search
@@ -91,38 +76,19 @@ public class MainActivity extends AppCompatActivity {
             mAuth = FirebaseAuth.getInstance();
             currentUserid = mAuth.getCurrentUser().getUid();
             admins = FirebaseDatabase.getInstance().getReference().child("Admins");
-
             admins.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        HospitalID = dataSnapshot.child(currentUserid).child("Hospital").getValue().toString();
+                       HospitalID = dataSnapshot.child(currentUserid).child("Hospital").getValue().toString();
+                        Browse();
                     }
-
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
                 }
             });
-
-        /*
-
-        ------------ to Create new doc
-
-
-        hivecreate=(Button)findViewById(R.id.createHive);
-
-        hivecreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent hivecreation=new Intent(searchActivity.this,CreateHiveActivity.class);
-                startActivity(hivecreation);
-            }
-        });
-
-        */
+      //  Toast.makeText(this, "1"+HospitalID, Toast.LENGTH_LONG).show();
 
 
         // search btn
@@ -132,33 +98,26 @@ public class MainActivity extends AppCompatActivity {
         searchInpuText = (EditText) findViewById(R.id.SearchInput);
         searchInpuText.setOnEditorActionListener(editorListener);
 
-
         // RecyclerView
         SearchResultList = (RecyclerView) findViewById(R.id.Searchresult);
         SearchResultList.setHasFixedSize(true);
-
-
-
-
 
         RecyclerView myRecycler = (RecyclerView) findViewById(R.id.Searchresult);
         myRecycler.setLayoutManager(new LinearLayoutManager(this));
         myRecycler.setAdapter(new SampleRecycler());
 
         SearchResultList.setLayoutManager(new LinearLayoutManager(this));
-        Browse();
+        //Toast.makeText(this, HID, Toast.LENGTH_LONG).show();
+
 
         searchbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String SearchBoxInput = searchInpuText.getText().toString();
-
                 SearchMethod(SearchBoxInput);
-
 
             }
         });
-
     }
 
     private TextView.OnEditorActionListener editorListener = new TextView.OnEditorActionListener() {
@@ -179,9 +138,14 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
+
+
+
     public void SearchMethod(String SearchBoxInput) {
 
+
         // check health facility id
+        // **** we have to check if the text less than 3 char ******
         if (SearchBoxInput.substring(0,3).equals(HospitalID)) {
             Toast.makeText(this, "جاري البحث..", Toast.LENGTH_LONG).show();
             Query searchHCPInfiQuere = allUsersdatabaseRef.orderByChild("id").startAt(SearchBoxInput).endAt(SearchBoxInput+ "\uf8ff");
@@ -201,26 +165,6 @@ public class MainActivity extends AppCompatActivity {
                     searchViweHolder.setGender(module.getGender());
                     //searchViweHolder.setImage(getApplicationContext(),module.getImage());
 
-
-                   /*
-
-
-
-
-
-
-                      ----------to go to specific page
-
-                   searchViweHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String Name=getRef(i).getKey();
-                        Intent profielintent=new Intent(searchActivity.this,ViewHCP.class);
-                        profielintent.putExtra("HCPName",Name);
-                        startActivity(profielintent);
-                    }
-                }); */
-
                 }
 
             };
@@ -228,13 +172,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "الرجاء إدخال رقم تابع للمنشئه الصحيه", Toast.LENGTH_LONG).show();
         }
-
-
     }
 
-
     public void Browse() {
-        Query DisplayInfiQuere =allUsersdatabaseRef.orderByChild("id").startAt(HospitalID).endAt(HospitalID+ "\uf8ff");
+
+        Query DisplayInfiQuere =allUsersdatabaseRef.orderByChild("id").startAt(HospitalID).endAt(HospitalID+"\uf8ff");
         //Query DisplayInfiQuere = allUsersdatabaseRef.orderByKey();
         FirebaseRecyclerAdapter<search_result, SearchViweHolder> FirebaseRecycleAdapter
                 = new FirebaseRecyclerAdapter<search_result, SearchViweHolder>
@@ -243,35 +185,17 @@ public class MainActivity extends AppCompatActivity {
                         R.layout.display_users_for_search,
                         SearchViweHolder.class,
                         DisplayInfiQuere
-                ) {
+                ){
             @Override
             protected void populateViewHolder(SearchViweHolder searchViweHolder, search_result module, final int i) {
+                DocNum++;
                 searchViweHolder.setName(module.getName());
                 searchViweHolder.setID(module.getID());
                 searchViweHolder.setSpecialty(module.getSpecialty());
                 searchViweHolder.setGender(module.getGender());
 
                 //searchViweHolder.setImage(getApplicationContext(),module.getImage());
-
-
-
-                /*
-
-
-                      ----------to go to specific page
-
-                searchViweHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String hivename=getRef(i).getKey();
-                        Intent profielintent=new Intent(searchActivity.this,ViewHive.class);
-                        profielintent.putExtra("HiveName",hivename);
-                        startActivity(profielintent);
-                    }
-                });*/
-
             }
-
         };
         SearchResultList.setAdapter(FirebaseRecycleAdapter);
     }
@@ -320,12 +244,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
     public class SampleHolder extends RecyclerView.ViewHolder {
         public SampleHolder(View itemView) {
             super(itemView);
         }
-
     }
+
     public class SampleRecycler extends RecyclerView.Adapter<SampleHolder> {
         @Override
         public SampleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -343,10 +268,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
     private void UserMenuSelector(MenuItem item) {
         switch (item.getItemId()) {
 
-
+            case R.id.nav_create:
+                Intent intentCreate = new Intent(MainActivity.this, CreateDoctor.class);
+                startActivity(intentCreate);
+                break;
 
             case R.id.nav_profile:
                 Intent intentprofile = new Intent(MainActivity.this, ProfileActivity.class);

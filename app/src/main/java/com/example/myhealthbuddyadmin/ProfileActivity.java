@@ -6,9 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,6 +31,8 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseUser Fuser;
     private FirebaseAuth mAuth;
     private DatabaseReference mRef,href;
+    Button Signoutbtn;
+
 
 
 
@@ -44,6 +47,20 @@ public class ProfileActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         Fuser =mAuth.getCurrentUser();
+
+        Signoutbtn = findViewById(R.id.singout);
+        Signoutbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                firebaseAuth.signOut();
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                if (firebaseUser == null) {
+
+                    startActivity(new Intent(ProfileActivity.this, Login.class));
+                }
+            }
+        });
 
         bottomnav=(BottomNavigationView)findViewById(R.id.bottom_navigation);
         bottomnav.setSelectedItemId(R.id.nav_profile);
@@ -99,12 +116,6 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                     });
 
-
-
-
-
-
-
                 }
             }
 
@@ -112,14 +123,16 @@ public class ProfileActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
-
     }
 
     private void UserMenuSelector(MenuItem item) {
         switch (item.getItemId()) {
 
 
+            case R.id.nav_create:
+                Intent intentCreate = new Intent(ProfileActivity.this, CreateDoctor.class);
+                startActivity(intentCreate);
+                break;
 
             case R.id.nav_home:
                 Intent intentprofile = new Intent(ProfileActivity.this, MainActivity.class);

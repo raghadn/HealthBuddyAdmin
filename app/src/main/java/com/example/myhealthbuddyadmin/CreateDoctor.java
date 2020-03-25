@@ -3,14 +3,18 @@ package com.example.myhealthbuddyadmin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,10 +28,12 @@ import java.util.Random;
 
 public class CreateDoctor extends AppCompatActivity {
 
-    EditText ID,name,emaill,phone,specialty,gender,password;
+    EditText name,emaill,phone,specialty,gender,password;
     Button createbtn ;
     FirebaseAuth mAuth ,Hauth;
     String HID;
+    TextView ID;
+    private BottomNavigationView bottomnav;
 
     private FirebaseUser Fuser; //the Hospital User
 
@@ -35,6 +41,18 @@ public class CreateDoctor extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_doctor);
+
+        bottomnav=findViewById(R.id.bottom_navigation);
+        bottomnav.setSelectedItemId(R.id.nav_create);
+        bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                UserMenuSelector(menuItem);
+                return false;
+            }
+        });
+
+
         ID= findViewById(R.id.idd);
         name=findViewById(R.id.name);
         emaill=findViewById(R.id.email);
@@ -156,6 +174,24 @@ public class CreateDoctor extends AppCompatActivity {
     private void showMessage(String message) {
 
         Toast.makeText(getApplicationContext(), message,Toast.LENGTH_LONG).show();
+    }
+
+    private void UserMenuSelector(MenuItem item) {
+        switch (item.getItemId()) {
+
+
+            case R.id.nav_profile:
+                Intent intentProfile = new Intent(CreateDoctor.this, ProfileActivity.class);
+                startActivity(intentProfile);
+                break;
+
+            case R.id.nav_home:
+                Intent intentHome = new Intent(CreateDoctor.this, MainActivity.class);
+                startActivity(intentHome);
+                break;
+
+        }
+
     }
 
 }

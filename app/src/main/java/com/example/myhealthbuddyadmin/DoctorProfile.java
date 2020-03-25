@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -28,11 +30,37 @@ public class DoctorProfile extends AppCompatActivity {
     private FirebaseUser Fuser;
     private FirebaseAuth mAuth;
     private DatabaseReference dref,href;
+    BottomNavigationView Doctorbottomnav;
+    Button Signout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_profile);
+
+        Doctorbottomnav=findViewById(R.id.d_bottom_navigation);
+        Doctorbottomnav.setSelectedItemId(R.id.d_nav_profile);
+        Doctorbottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                DoctorMenuSelector(menuItem);
+                return false;
+            }
+        });
+
+
+        Signout = findViewById(R.id.signoutD);
+        Signout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent logoIntent = new Intent(DoctorProfile.this, Login.class);
+                logoIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(logoIntent);
+                finish();
+            }
+        });
+
 
         userImage=findViewById(R.id.doctorimage);
         userHos=findViewById(R.id.doctorHospital);
@@ -41,12 +69,12 @@ public class DoctorProfile extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         Fuser =mAuth.getCurrentUser();
 
-        bottomnav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomnav.setSelectedItemId(R.id.nav_profile);
+        bottomnav =  findViewById(R.id.d_bottom_navigation);
+        bottomnav.setSelectedItemId(R.id.d_nav_profile);
         bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                UserMenuSelector(menuItem);
+                DoctorMenuSelector(menuItem);
                 return false;
             }
         });
@@ -59,7 +87,7 @@ public class DoctorProfile extends AppCompatActivity {
                     String fName, hos;
                     fName = dataSnapshot.child("name").getValue().toString();
                     userName.setText(fName);
-                    hos = dataSnapshot.child("Hospital").getValue().toString();
+                    hos = dataSnapshot.child("hospital").getValue().toString();
 
 
                     href = FirebaseDatabase.getInstance().getReference().child("Hospitals").child(hos);
@@ -100,13 +128,17 @@ public class DoctorProfile extends AppCompatActivity {
     }
 
 
-    private void UserMenuSelector(MenuItem item) {
+
+
+    private void DoctorMenuSelector(MenuItem item) {
         switch (item.getItemId()) {
 
-            case R.id.nav_home:
-                Intent intentprofile = new Intent(DoctorProfile.this, DoctorMainActivity.class);
-                startActivity(intentprofile);
+            case R.id.d_nav_home:
+                Intent intentHome = new Intent(DoctorProfile.this, DoctorMainActivity.class);
+                startActivity(intentHome);
                 break;
+
+
 
         }
 
