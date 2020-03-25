@@ -50,8 +50,4 @@ dependencies {
     implementation 'com.android.support:design:29.0.0'
 
 
-
-
-
-
 }

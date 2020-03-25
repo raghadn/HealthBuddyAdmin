@@ -36,6 +36,11 @@ public class DoctorMainActivity extends AppCompatActivity {
     String currentDoctorid;
     RecyclerView RecordList;
     BottomNavigationView Doctorbottomnav;
+
+    // to be deleted later
+    Button SearchPationt;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +56,20 @@ public class DoctorMainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
+
+        ////////// to be deleted Later
+        SearchPationt=findViewById(R.id.button3);
+        SearchPationt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent searchPatient = new Intent(DoctorMainActivity.this, SearchForPatient.class);
+                startActivity(searchPatient);
+            }
+        });
+
 
 
         RecordRef = FirebaseDatabase.getInstance().getReference().child("Records");
