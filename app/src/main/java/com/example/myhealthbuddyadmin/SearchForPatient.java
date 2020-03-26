@@ -132,6 +132,17 @@ public class SearchForPatient extends AppCompatActivity {
                 patientViweHolder.setName(module.getName());
                 patientViweHolder.setNational_id(module.getNational_id());
 
+                //redirect to the patient when clicking on it
+                patientViweHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String PatientKey=getRef(i).getKey();
+                        Intent intent=new Intent(SearchForPatient.this,ViewPatient.class);
+                        intent.putExtra("PatientKey",PatientKey);
+                        startActivity(intent);
+                    }
+                });
+
 
                 //searchViweHolder.setImage(getApplicationContext(),module.getImage());
 
