@@ -192,6 +192,11 @@ public class DoctorMainActivity extends AppCompatActivity {
                 startActivity(intentProfile);
                 break;
 
+            case R.id.d_nav_notification:
+                Intent intentNotifications = new Intent(DoctorMainActivity.this, Notifications.class);
+                startActivity(intentNotifications);
+                break;
+
 
         }
 
