@@ -85,7 +85,7 @@ public class Notifications extends AppCompatActivity {
     }
 
     private void displayNotifications(String currentDoctorid) {
-        Query query =requestsRef.orderByChild("doctor_id").startAt(currentDoctorid).endAt(currentDoctorid+"\uf8ff");
+        Query query =requestsRef.child("PendingRequests").orderByChild("doctor_id").startAt(currentDoctorid).endAt(currentDoctorid+"\uf8ff");
 
 
         FirebaseRecyclerAdapter<DoctorRequests,NotificationsViewHolder> firebaseRecyclerAdapter =
