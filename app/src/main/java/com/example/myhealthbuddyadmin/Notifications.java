@@ -95,6 +95,7 @@ public class Notifications extends AppCompatActivity {
                 notificationsViewHolder.setPatient_id(doctorRequests.getPatient_id());
                 notificationsViewHolder.setType(doctorRequests.getType());
                 notificationsViewHolder.setDate(doctorRequests.getDate());
+                notificationsViewHolder.setRequest_date(doctorRequests.getRequest_date());
 
                 PatientRef = FirebaseDatabase.getInstance().getReference().child("Patients");
                 PatientRef.child(doctorRequests.getPatient_uid()).addValueEventListener(new ValueEventListener() {
@@ -158,6 +159,10 @@ public class Notifications extends AppCompatActivity {
         public void setDate(String date){
             TextView myDate=(TextView)mView.findViewById(R.id.display_request_Date);
             myDate.setText(date);
+        }
+        public void setRequest_date(String request_date) {
+            TextView rdate=(TextView)mView.findViewById(R.id.display_request_daterequest);
+            rdate.setText(request_date);
         }
 
     }

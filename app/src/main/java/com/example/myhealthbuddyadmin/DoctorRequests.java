@@ -7,6 +7,15 @@ public class DoctorRequests {
     public String type;
     public String patient_uid;
     public String doctor_uid;
+    public String request_date;
+
+    public String getRequest_date() {
+        return request_date;
+    }
+
+    public void setRequest_date(String request_date) {
+        this.request_date = request_date;
+    }
 
     public DoctorRequests(){
 
