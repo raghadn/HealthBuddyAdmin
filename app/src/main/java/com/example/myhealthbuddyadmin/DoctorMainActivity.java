@@ -30,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class DoctorMainActivity extends AppCompatActivity {
-
+//added the redirect to record when clicked viewRecord method
 
     DatabaseReference RecordRef ,DoctorRef, PatientRef,HospitalRef;
     FirebaseAuth mAuth;
@@ -104,12 +104,11 @@ public class DoctorMainActivity extends AppCompatActivity {
                         recordViweHolder.setDoctorName(Doctor_Name);
 
                     }
-
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
+
 
                 PatientRef = FirebaseDatabase.getInstance().getReference().child("Patients").child(module.getPid());
                 PatientRef.addValueEventListener(new ValueEventListener() {
@@ -131,6 +130,26 @@ public class DoctorMainActivity extends AppCompatActivity {
                         HospitalName =dataSnapshot.child("Name").getValue().toString();
                         recordViweHolder.setHospitalName(HospitalName);
 
+                        //redirect based on record type
+                        viewRecord(module.getType());
+
+                    }
+
+                    private void viewRecord(int type) {
+                        switch(type) {
+                            case 1:
+                                recordViweHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        String recordID = getRef(i).getKey();
+                                        Intent intent = new Intent(DoctorMainActivity.this, ViewPrescription.class);
+                                        intent.putExtra("recordID", recordID);
+                                        intent.putExtra("hospitalName", HospitalName);
+                                        startActivity(intent);
+                                    }
+                                });
+                                break;
+                        }
                     }
 
                     @Override
@@ -139,10 +158,17 @@ public class DoctorMainActivity extends AppCompatActivity {
                     }
                 });
 
+
+
+
             }
+
+
         };
         RecordList.setAdapter(FirebaseRecycleAdapter);
     }
+
+
 
 
     public static class RecordViweHolder extends RecyclerView.ViewHolder {

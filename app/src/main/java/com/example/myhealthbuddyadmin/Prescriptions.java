@@ -26,7 +26,7 @@ public class Prescriptions extends AppCompatActivity {
         writeTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent redirect = new Intent(Prescriptions.this,WriteRecord.class);
+                Intent redirect = new Intent(Prescriptions.this,WritePrescription.class);
                 redirect.putExtra("PatientKey",PatientKey);
                 startActivity(redirect);
             }

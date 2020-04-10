@@ -8,6 +8,8 @@ public class item_record {
     public String pid;
     public String rid;
     public String time;
+    public int type;
+
 
     public item_record() {
 
@@ -20,6 +22,9 @@ public class item_record {
         this.pid = pid;
         this.rid = rid;
         this.time = time;
+    }
+    public int getType() {
+        return type;
     }
 
     public String getDate() {

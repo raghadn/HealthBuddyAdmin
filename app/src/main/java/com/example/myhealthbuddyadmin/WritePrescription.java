@@ -45,13 +45,13 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Random;
 
-public class WriteRecord extends AppCompatActivity {
+public class WritePrescription extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String currentuser;
-    private DatabaseReference patientRef, doctorRef,recordRef;
+    private DatabaseReference patientRef, doctorRef,recordRef,hospitalRef;
 
     TextView medicationT,doseT,everyT,durationT,timeT,noteT;
-    String medication,dose,every,duration,time,note;
+    String medication,dose,every,duration,time,note, patientName,hospitalName;
     String type,pid;
     Button submitRecord,cancelRecord,addAttachment;
     ImageButton deleteAttachment;
@@ -70,6 +70,7 @@ public class WriteRecord extends AppCompatActivity {
 
     StorageReference storageReference;
     String recordIDٍ;
+
     /*
      * id patient
      * id file
@@ -77,7 +78,7 @@ public class WriteRecord extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_write_record);
+        setContentView(R.layout.activity_write_prescripition);
 
         medicationT=findViewById(R.id.medication);
         doseT=findViewById(R.id.dose);
@@ -104,6 +105,8 @@ public class WriteRecord extends AppCompatActivity {
 
 
 
+
+
         //submit the record
         submitRecord.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,12 +116,10 @@ public class WriteRecord extends AppCompatActivity {
         });
 
 
-//
-//        //loadingBar = new ProgressDialog(this);
-//
         //doctor details
         mAuth= FirebaseAuth.getInstance();
         currentuser=mAuth.getCurrentUser().getUid();
+
 
 
         storageReference= FirebaseStorage.getInstance().getReference();
@@ -129,13 +130,21 @@ public class WriteRecord extends AppCompatActivity {
         patientRef= FirebaseDatabase.getInstance().getReference().child("Patients");
         doctorRef= FirebaseDatabase.getInstance().getReference().child("Doctors");
 
+        patientRef.child(pid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                patientName=dataSnapshot.child("name").getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         //record details
-        //from template Rid-Pid-Did-Fid-Pname-RecordFile-Date
         type="Prescription";
 
-
-//
-//
         //addAttachment
         addAttachment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,7 +167,7 @@ public class WriteRecord extends AppCompatActivity {
                 try {
                     startActivity(pdfIntent);
                 } catch (ActivityNotFoundException e) {
-                    Toast.makeText(WriteRecord.this, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WritePrescription.this, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -187,18 +196,28 @@ public class WriteRecord extends AppCompatActivity {
 
     private void validateRecord() {
 
-        Toast.makeText(this, "validate.", Toast.LENGTH_SHORT).show();
 
+        medication=medicationT.getText().toString();
+        dose=doseT.getText().toString();
+        every=everyT.getText().toString();
+        duration=durationT.getText().toString();
+        time=timeT.getText().toString();
         note=noteT.getText().toString(); //mandontary field the one i am checking if empty get back to it everywhere
 
-        if (fileUri==null&& TextUtils.isEmpty(note)){
-            Toast.makeText(this, "الرجاء ادخال محتوى أو ملف لمشاركته...", Toast.LENGTH_SHORT).show();
+        //if no file have to fill all fields
+        //if there is a file then all fields are optional
+
+
+        //No file OR one of fields are messing  except NOTE is optonal
+        if (fileUri==null && ( medication==null || dose==null || every==null || duration==null || time==null) ){/////////////////put mand field here
+            Toast.makeText(this, "الرجاء تعبئة جميع الحقول أو اضافة ملف لمشاركته...", Toast.LENGTH_SHORT).show();
         }
         else
         if(fileUri!=null&&!fileUri.equals(Uri.EMPTY)){
-            Toast.makeText(this, "none empty", Toast.LENGTH_SHORT).show();
+            recordIDٍ=generateRecordID(type);
             StoreFile();}
         else{
+            recordIDٍ=generateRecordID(type);
             saveRecord("");
         }
     }
@@ -206,9 +225,7 @@ public class WriteRecord extends AppCompatActivity {
 
     private void StoreFile() {
 
-        recordIDٍ=generateRecordID(type);
-
-        final StorageReference filepath=storageReference.child("RecordsFiles").child(fileUri.getLastPathSegment()+recordIDٍ+".pdf");
+        final StorageReference filepath=storageReference.child("RecordsFiles").child(recordIDٍ+".pdf");
 
         filepath.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -217,7 +234,7 @@ public class WriteRecord extends AppCompatActivity {
                     @Override
                     public void onSuccess(Uri uri) {
                         String url=String.valueOf(uri);
-                        Toast.makeText(WriteRecord.this, "تم حفظ الملف...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WritePrescription.this, "تم حفظ الملف...", Toast.LENGTH_SHORT).show();
                         myUrl=url;
                         saveRecord(url);
 
@@ -237,7 +254,6 @@ public class WriteRecord extends AppCompatActivity {
         });
     }
 
-
     /*
      * This algorithm aims to generate a unique record ID for each new record in the system
      * the record ID consists of nine digits
@@ -248,7 +264,6 @@ public class WriteRecord extends AppCompatActivity {
         // check recordType to be implemented on development phase
         if(recordType.equals("Prescription"))
             recordType="1";
-
 
         //String ID
         String StrId = "";
@@ -298,21 +313,35 @@ public class WriteRecord extends AppCompatActivity {
 
     private void saveRecord(final String url) { //savepostinfo
 
-//        loadingBar=new ProgressDialog(this);
-//        loadingBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//        loadingBar.setTitle("يتم رفع الملف");
-//        loadingBar.setMessage("الرجاء الانتظار");
-
-
         doctorRef.child(currentuser).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
-                    HashMap recordMap=new HashMap();
+
+                    final HashMap recordMap=new HashMap();
+                    recordMap.put("type",1);
                     recordMap.put("did",currentuser);
                     recordMap.put("pid",pid);
+                    recordMap.put("patientName",patientName);
                     recordMap.put("date",savecurrentdate);
                     recordMap.put("time",savecurrenttime);
+                    recordMap.put("doctorSpeciality",dataSnapshot.child("specialty").getValue().toString());
+                    recordMap.put("doctorName",dataSnapshot.child("name").getValue().toString());
+                    recordMap.put("hospital",getIntent().getExtras().get("hospitalName").toString());
+
+                    if(medication!=null)
+                    recordMap.put("medication",medication);
+                    if(dose!=null)
+                    recordMap.put("dose",dose);
+                    if(every!=null)
+                    recordMap.put("every",every);
+                    if(duration!=null)
+                    recordMap.put("duration",duration);
+                    if(time!=null)
+                    recordMap.put("timeOfPrescription",time);
+                    if(note!=null)
+                    recordMap.put("note",note);
+
                     //file
                     if(!TextUtils.isEmpty(url)){
                         recordMap.put("file",url);
@@ -323,10 +352,10 @@ public class WriteRecord extends AppCompatActivity {
                         public void onComplete(@NonNull Task task) {
                             if(task.isSuccessful()){
                                 finish();
-                                Toast.makeText(WriteRecord.this, "تمت العملية بنجاح...", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(WritePrescription.this, "تمت العملية بنجاح...", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                Toast.makeText(WriteRecord.this, "حدث خطأ...", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(WritePrescription.this, "حدث خطأ...", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -345,7 +374,6 @@ public class WriteRecord extends AppCompatActivity {
         galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("application/pdf");
         startActivityForResult(galleryIntent,Gallerypick);
-        // startActivityForResult(galleryIntent.createChooser(galleryIntent,"الرجاء اختيار الملف"),438);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
@@ -357,29 +385,7 @@ public class WriteRecord extends AppCompatActivity {
             fileUri = data.getData();
             attachmentView.setVisibility(View.VISIBLE);
             deleteAttachment.setVisibility(View.VISIBLE);
-            //add imageviiew for the added pdf
-            //selectedimage.setImageURI(imageuri);
-            //selectedimage.setVisibility(View.VISIBLE);
-
-            //  deleteAttachment.setVisibility(View.VISIBLE);
-
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
