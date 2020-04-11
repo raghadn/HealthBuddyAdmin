@@ -87,7 +87,6 @@ public class Notifications extends AppCompatActivity {
     private void displayNotifications(String currentDoctorid) {
         Query query =requestsRef.child("PendingRequests").orderByChild("doctor_id").startAt(currentDoctorid).endAt(currentDoctorid+"\uf8ff");
 
-
         FirebaseRecyclerAdapter<DoctorRequests,NotificationsViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<DoctorRequests, NotificationsViewHolder>(DoctorRequests.class,R.layout.display_notifications,NotificationsViewHolder.class,query) {
             @Override
@@ -106,13 +105,22 @@ public class Notifications extends AppCompatActivity {
                         String Patient_name =dataSnapshot.child("name").getValue().toString();
 
                         notificationsViewHolder.setPatientName(Patient_name);}
-
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
+
+                final String RequestKey = getRef(i).getKey();
+                notificationsViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent ClickRequest = new Intent(Notifications.this, ViewPatientRequest.class);
+                        ClickRequest.putExtra("RequestKey",RequestKey);
+                        startActivity(ClickRequest);
+                    }
+                });
+
             }
 
         };
@@ -137,21 +145,22 @@ public class Notifications extends AppCompatActivity {
             ImageView imageView=(ImageView)mView.findViewById(R.id.display_request_image);
             TextView t=(TextView)mView.findViewById(R.id.display_request_type);
             t.setText(type);
-            if(type.equals("medicalreport")){
+            if(type.equals("Medical Report")){
                 imageView.setImageResource(R.drawable.report);
             }
-            if(type.equals("Radiologyreport")){
+            if(type.equals("Radiology Report")){
                 imageView.setImageResource(R.drawable.nuclear);
             }
-            if(type.equals("prescription")){
+            if(type.equals("Prescription")){
                 imageView.setImageResource(R.drawable.pills);
             }
-            if(type.equals("vitalsigns")){
+            if(type.equals("Vital Signs")){
                 imageView.setImageResource(R.drawable.cardiogram);
             }
 
 
         }
+
         public void setPatientName(String Pname) {
             TextView myID=(TextView)mView.findViewById(R.id.display_request_name);
             myID.setText(Pname);

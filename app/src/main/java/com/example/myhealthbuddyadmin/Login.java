@@ -79,34 +79,41 @@ public class Login extends AppCompatActivity {
         else
         if (password.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please Enter Your password", Toast.LENGTH_LONG).show();
-        } else {
-            DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
-            firebaseRef.child("DoctorIDs").child(ID).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.exists()){
-                    String Email = dataSnapshot.getValue(String.class);
-                    mAuth.signInWithEmailAndPassword(Email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Send user to Doctors main Activity
-                                Intent loginIntent = new Intent(Login.this, DoctorMainActivity.class);
-                                startActivity(loginIntent);
-                                Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
-                            } else
-                                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                     }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
         }
+        else {
+
+            if (ID.length() == 7 && !password.isEmpty()) {
+                DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
+                firebaseRef.child("DoctorIDs").child(ID).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            String Email = dataSnapshot.getValue(String.class);
+                            mAuth.signInWithEmailAndPassword(Email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Send user to Doctors main Activity
+                                        Intent loginIntent = new Intent(Login.this, DoctorMainActivity.class);
+                                        startActivity(loginIntent);
+                                        Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
+                                    } else
+                                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            } else {
+                Toast.makeText(getApplicationContext(), "Wrong ID or password", Toast.LENGTH_LONG).show();
+            }
+        }
+
     }
 
     public void loginAdmin() {
@@ -120,72 +127,43 @@ public class Login extends AppCompatActivity {
         if (password.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please Enter Your password", Toast.LENGTH_LONG).show();
         } else {
-            DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
+            if (ID.length() == 5 && !password.isEmpty()) {
+
+                DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
 
 
-            firebaseRef.child("AdminIDs").child(ID)
-                    .addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if(dataSnapshot.exists()){
-                                    String Email =  dataSnapshot.getValue(String.class);
-                                    mAuth.signInWithEmailAndPassword(Email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                firebaseRef.child("AdminIDs").child(ID)
+                        .addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    String Email = dataSnapshot.getValue(String.class);
+                                    mAuth.signInWithEmailAndPassword(Email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
-                                            if(task.isSuccessful()) {
+                                            if (task.isSuccessful()) {
                                                 sendUserToMainActivity();
                                                 Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
-                                            }
-                                            else
+                                            } else
                                                 Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                                         }
                                     });
 
-                                }
-                                else
+                                } else
                                     Toast.makeText(getApplicationContext(), "ID does not exist", Toast.LENGTH_LONG).show();
 
                             }
 
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    }) ;
-
-
-            /*
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-            ref.child("AdminIDs").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    //if(dataSnapshot.hasChild(ID)) {
-                        Toast.makeText(getApplicationContext(), "hello111111", Toast.LENGTH_LONG).show();///////////////////
-                        final String Email=dataSnapshot.child(ID).getValue().toString();
-                        mAuth.signInWithEmailAndPassword(Email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if(task.isSuccessful()) {
-                                    sendUserToMainActivity();
-                                }
-                                else {
-                                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-                                }
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
                             }
                         });
 
-                    //}
-                   // else {
-                        Toast.makeText(getApplicationContext(), "ID does not exists", Toast.LENGTH_LONG).show();
-                    //}
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            }); */
+            } else {
+                Toast.makeText(getApplicationContext(), "Wrong ID or password", Toast.LENGTH_LONG).show();
+            }
         }
     }
 

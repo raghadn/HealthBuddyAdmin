@@ -9,21 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WriteBloodTest"></activity>
-        <activity android:name=".ReadActivity" />
-        <activity android:name=".ViewPrescription" />
-        <activity android:name=".DoctorProfile" />
+        <activity android:name=".DoctorProfile"></activity>
         <activity android:name=".ProfileActivity" />
         <activity android:name=".DoctorMainActivity" />
+        <activity android:name=".ViewPatientRequest"/>
         <activity android:name=".CreateDoctor" />
-        <activity android:name=".Prescriptions" />
-        <activity android:name=".WritePrescription" />
         <activity android:name=".Forgotpassword" />
-        <activity android:name=".ViewPatient" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".SearchForPatient" />
-        <activity android:name=".Notifications" />
+        <activity android:name=".SearchForPatient"/>
+        <activity android:name=".Notifications"/>
         <activity android:name=".Login">
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
