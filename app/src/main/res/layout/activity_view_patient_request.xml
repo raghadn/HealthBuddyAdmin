@@ -141,7 +141,7 @@
                 android:gravity="center"
                 android:inputType="none"
                 android:scrollbars="vertical"
-                android:text="hello My name is raghad and im in the room wi th my project a lot to do todam vm mvmd d md md mvd mvd m md md md dmd dm dm dmd dmd dmd dmd md dmd d dmd dmd md dmd dm dmd dmd md dmd dmd mdmd dmd md dmd dm dmd dmd dm dmd dmd mdd md dmd md ddm dmdy and "
+                android:text="None"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/textView17"
