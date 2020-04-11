@@ -6,6 +6,16 @@ public class DoctorRequests {
     public String patient_id;
     public String type;
     public String patient_uid;
+    public String doctor_uid;
+    public String request_date;
+
+    public String getRequest_date() {
+        return request_date;
+    }
+
+    public void setRequest_date(String request_date) {
+        this.request_date = request_date;
+    }
 
     public DoctorRequests(){
 
@@ -16,6 +26,14 @@ public class DoctorRequests {
         this.doctor_id = doctor_id;
         this.patient_id = patient_id;
         this.type = type;
+    }
+
+    public String getDoctor_uid() {
+        return doctor_uid;
+    }
+
+    public void setDoctor_uid(String doctor_uid) {
+        this.doctor_uid = doctor_uid;
     }
 
     public String getDate() {
