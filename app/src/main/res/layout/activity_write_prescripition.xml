@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".WritePrescription">
 
+
+    <EditText
+        android:id="@+id/every"
+        android:layout_width="214dp"
+        android:layout_height="37dp"
+        android:ems="10"
+        android:hint="كل"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dose" />
+
     <include
         android:id="@+id/viewRequestToolbar"
         layout="@layout/toolbar"
@@ -15,61 +27,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:menu="@menu/bottom_navigation" />
-
-
     <EditText
         android:id="@+id/medication"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="548dp"
         android:ems="10"
         android:hint="الدواء"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewHiveToolBar" />
-
-
-    <EditText
-        android:id="@+id/dose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="الجرعة"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/medication" />
-
-    <EditText
-        android:id="@+id/every"
-        android:layout_width="214dp"
-        android:layout_height="37dp"
-        android:ems="10"
-        android:hint="كل"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dose" />
-
-    <EditText
-        android:id="@+id/duration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="لمدة"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/every" />
 
     <EditText
         android:id="@+id/time"
@@ -78,8 +46,34 @@
         android:ems="10"
         android:hint="الوقت"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/duration" />
+
+    <EditText
+        android:id="@+id/dose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:ems="10"
+        android:hint="الجرعة"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/deleteAttachment"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/trash"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/attachmentView"
+        app:layout_constraintEnd_toStartOf="@+id/attachmentView"
+        app:layout_constraintTop_toTopOf="@+id/attachmentView"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/note"
@@ -88,6 +82,7 @@
         android:ems="10"
         android:hint="ملاحظة"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/time" />
 
@@ -112,42 +107,46 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/addAttachment"
         app:layout_constraintEnd_toStartOf="@+id/addAttachment"
-        app:layout_constraintTop_toTopOf="@+id/addAttachment" />
+        app:layout_constraintTop_toTopOf="@+id/addAttachment"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <ImageButton
-        android:id="@+id/deleteAttachment"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/trash"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/attachmentView"
-        app:layout_constraintEnd_toStartOf="@+id/attachmentView"
-        app:layout_constraintTop_toTopOf="@+id/attachmentView" />
+    <EditText
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="لمدة"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/every" />
 
 
     <Button
         android:id="@+id/submitRecord"
         android:layout_width="330dp"
         android:layout_height="49dp"
+        android:layout_marginTop="416dp"
         android:background="#C98DCF"
-        android:text="إنشاء"
+        android:text="Create "
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addAttachment" />
+        app:layout_constraintTop_toTopOf="@+id/medication" />
 
     <Button
         android:id="@+id/cancelRecord"
         android:layout_width="330dp"
         android:layout_height="49dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="52dp"
         android:background="#C98DCF"
-        android:text="إلغاء"
+        android:text="Cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/submitRecord" />
+        app:layout_constraintTop_toBottomOf="@+id/submitRecord"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

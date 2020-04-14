@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,9 +32,12 @@ public class CreateDoctor extends AppCompatActivity {
 
     EditText name,emaill,phone,specialty,gender,password;
     Button createbtn ;
-    FirebaseAuth mAuth ,Hauth;
+    FirebaseAuth  Hauth;
     String HID;
     TextView ID;
+    String Gender;
+    private RadioGroup Group;
+    private RadioButton radioBtn;
     private BottomNavigationView bottomnav;
 
     private FirebaseUser Fuser; //the Hospital User
@@ -42,7 +47,7 @@ public class CreateDoctor extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_doctor);
 
-        bottomnav=findViewById(R.id.bottom_navigation);
+      /*  bottomnav=findViewById(R.id.bottom_navigation);
         bottomnav.setSelectedItemId(R.id.nav_create);
         bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -50,18 +55,18 @@ public class CreateDoctor extends AppCompatActivity {
                 UserMenuSelector(menuItem);
                 return false;
             }
-        });
+        });*/
 
+        Group=findViewById(R.id.radiogender);
 
         ID= findViewById(R.id.idd);
         name=findViewById(R.id.name);
         emaill=findViewById(R.id.email);
         phone=findViewById(R.id.phone);
         specialty=findViewById(R.id.sp);
-        gender=findViewById(R.id.gen);
         password=findViewById(R.id.pas);
 
-        mAuth = FirebaseAuth.getInstance();
+
         Hauth =FirebaseAuth.getInstance();
 
         genaratedID();
@@ -71,18 +76,25 @@ public class CreateDoctor extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                int radioID=Group.getCheckedRadioButtonId();
+                if(radioID==R.id.male)
+                    Gender="Male";
+                else
+                if(radioID==R.id.female) {
+                    Gender="Female";
+                }
 
                 String Uid = ID.getText().toString();
                 String Uname = name.getText().toString();
                 String Uemail = emaill.getText().toString();
                 String Uphone = phone.getText().toString();
                 String Uspecialty = specialty.getText().toString();
-                String Ugender = gender.getText().toString();
-                String Upass = password.getText().toString();
-                if(Uid.isEmpty()|| Uname.isEmpty()|| Uemail.isEmpty()|| Uphone.isEmpty()|| Uspecialty.isEmpty()|| Ugender.isEmpty() || Upass.isEmpty())
+               // String Ugender = gender.getText().toString();
+                String Ulicense = password.getText().toString();
+                if(Uid.isEmpty()|| Uname.isEmpty()|| Uemail.isEmpty()|| Uphone.isEmpty()|| Uspecialty.isEmpty()|| Ulicense.isEmpty())
                     showMessage("الرجاء اكمال البيانات");
                 else
-                    CreateHealthcareProviderAccount(Uemail,Upass ,Uid,Uname,Uphone,Ugender,Uspecialty);
+                    CreateHealthcareProviderAccount(Uemail,Ulicense ,Uid,Uname,Uphone,Gender,Uspecialty);
             }
         });
 
@@ -136,9 +148,11 @@ public class CreateDoctor extends AppCompatActivity {
     }
 
     // method adding thr created account to database
-    private void CreateHealthcareProviderAccount(final String email , final String pass, final String ID , final String Name , final String Phone, final String Gender, final String Specialty) {
+    private void CreateHealthcareProviderAccount(final String email , final String license, final String ID , final String Name , final String Phone, final String Gender, final String Specialty) {
 
-        mAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        FirebaseAuth mAuth;
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.createUserWithEmailAndPassword(email,license).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
@@ -154,19 +168,19 @@ public class CreateDoctor extends AppCompatActivity {
                     FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("phone").setValue(Phone);
                     FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("gender").setValue(Gender);
                     FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("specialty").setValue(Specialty);
+                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("license").setValue(license);
 
                     //For the doctors id (Login)
                     FirebaseDatabase.getInstance().getReference().child("DoctorIDs").child(ID).setValue(email);
 
 
-                    //user.sendEmailVerification(); // Send an email with the userId and the password
-
-                    showMessage("الرجاء تأكيد الحساب من البريد الالكتروني للدكتور");
                 }else {
                     showMessage("حدث خطأ");
                 }
             }
         });
+
+
 
     }
 
@@ -180,10 +194,6 @@ public class CreateDoctor extends AppCompatActivity {
         switch (item.getItemId()) {
 
 
-            case R.id.nav_profile:
-                Intent intentProfile = new Intent(CreateDoctor.this, ProfileActivity.class);
-                startActivity(intentProfile);
-                break;
 
             case R.id.nav_home:
                 Intent intentHome = new Intent(CreateDoctor.this, MainActivity.class);

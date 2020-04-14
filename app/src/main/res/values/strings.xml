@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MyHealthBuddyAdmin</string>
+    <string name="Open">Open</string>
+    <string name="Close">Close</string>
+
+
 </resources>

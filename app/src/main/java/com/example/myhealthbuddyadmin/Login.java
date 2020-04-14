@@ -38,18 +38,23 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
+
         adminLoginButton=(Button)findViewById(R.id.AdminLoginbutton);
         adminID=(EditText)findViewById(R.id.AdminID);
         adminPassword=(EditText)findViewById(R.id.Adminpassword);
         mAuth=FirebaseAuth.getInstance();
         radioGroup=(RadioGroup)findViewById(R.id.radioGroup);
         Forgotpass=(TextView)findViewById(R.id.ForgotPassword);
+
         Forgotpass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendUserToForgotPassword();
             }
         });
+
+
         adminLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,51 +75,70 @@ public class Login extends AppCompatActivity {
     }
 
     private void loginProvider() {
+
         final String ID = adminID.getText().toString();
         final String password = adminPassword.getText().toString();
 
         if (ID.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please Enter Your ID", Toast.LENGTH_LONG).show();
-        }
-        else
+        } else
         if (password.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please Enter Your password", Toast.LENGTH_LONG).show();
-        }
-        else {
+        } else {
+            final DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
+            firebaseRef.child("DoctorIDs").child(ID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+                    final String Email = dataSnapshot.getValue(String.class);
 
-            if (ID.length() == 7 && !password.isEmpty()) {
-                DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
-                firebaseRef.child("DoctorIDs").child(ID).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            String Email = dataSnapshot.getValue(String.class);
-                            mAuth.signInWithEmailAndPassword(Email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
+                    mAuth.signInWithEmailAndPassword(Email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+
+                              //  if (mAuth.getCurrentUser().isEmailVerified()) {
+                                    if (password.equals(ID)) {
+                                        mAuth.sendPasswordResetEmail(Email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()){
+                                                    Toast.makeText(getApplicationContext(), "We send an Email to reset your password", Toast.LENGTH_LONG).show();
+                                                }
+                                                else {
+                                                    String Error = task.getException().getMessage();
+                                                    Toast.makeText(getApplicationContext(),Error,Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        });
+                                    }else {
                                         // Send user to Doctors main Activity
                                         Intent loginIntent = new Intent(Login.this, DoctorMainActivity.class);
                                         startActivity(loginIntent);
                                         Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
-                                    } else
-                                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-                                }
-                            });
+                                    }//}
+                             //   else {
+                              //      mAuth.getCurrentUser().sendEmailVerification();
+                                    //Phone auth
+                                   //Intent PhoneIntent = new Intent(Login.this, PhoneAuth.class);
+                                   // startActivity(PhoneIntent);
+                             //   }
+
+                            } else
+                                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                         }
-                    }
+                    });
+                     }
+                }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
                 });
-            } else {
-                Toast.makeText(getApplicationContext(), "Wrong ID or password", Toast.LENGTH_LONG).show();
             }
         }
 
-    }
 
     public void loginAdmin() {
         final String ID = adminID.getText().toString();
@@ -132,17 +156,17 @@ public class Login extends AppCompatActivity {
                 DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
 
 
-                firebaseRef.child("AdminIDs").child(ID)
-                        .addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.exists()) {
-                                    String Email = dataSnapshot.getValue(String.class);
-                                    mAuth.signInWithEmailAndPassword(Email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            firebaseRef.child("AdminIDs").child(ID)
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){
+                                    final String Email =  dataSnapshot.getValue(String.class);
+                                    mAuth.signInWithEmailAndPassword(Email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
-                                            if (task.isSuccessful()) {
-                                                sendUserToMainActivity();
+                                            if(task.isSuccessful()) {
+                                                sendUserToMainActivity(Email,password);
                                                 Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
                                             } else
                                                 Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
@@ -169,8 +193,10 @@ public class Login extends AppCompatActivity {
 
 
 
-    private void sendUserToMainActivity(){
+    private void sendUserToMainActivity(String Email,String password){
         Intent loginIntent=new Intent(Login.this,MainActivity.class);
+        loginIntent.putExtra("Email",Email);
+        loginIntent.putExtra("Password",password);
         startActivity(loginIntent);
     }
     private void sendUserToForgotPassword(){

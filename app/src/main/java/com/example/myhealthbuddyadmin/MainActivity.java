@@ -1,7 +1,9 @@
 package com.example.myhealthbuddyadmin;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,17 +15,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,24 +37,72 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-public class MainActivity extends AppCompatActivity {
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
    // Button CreateDoctor;
     private BottomNavigationView bottomnav;
     private ImageButton searchbtn;
     private EditText searchInpuText;
     private RecyclerView SearchResultList;
-    private DatabaseReference allUsersdatabaseRef,admins,adminid;
+    private DatabaseReference allUsersdatabaseRef,admins,adminid,href;
     private FirebaseAuth mAuth,dAuth;
     String currentUserid,HospitalID;
     int DocNum;
+
+
+    DrawerLayout mDrawer;
+    NavigationView navigationView;
+    ActionBarDrawerToggle mToggle;
+    Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomnav=(BottomNavigationView)findViewById(R.id.bottom_navigation);
+
+
+        //Admin Drawer
+        mDrawer=findViewById(R.id.maindrawer);
+        toolbar=findViewById(R.id.tool);
+        setSupportActionBar(toolbar);
+        navigationView =findViewById(R.id.nav22);
+        mToggle =new ActionBarDrawerToggle(MainActivity.this,mDrawer,R.string.Open,R.string.Close);
+        mDrawer.addDrawerListener(mToggle);
+        mToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
+        // IMPORTANT
+        String AdminEmail = getIntent().getStringExtra("Email");
+        String AdminPass = getIntent().getStringExtra("Password");
+        Toast.makeText(this, AdminEmail, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, AdminPass, Toast.LENGTH_LONG).show();
+
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentrequest=new Intent(MainActivity.this, CreateDoctor.class);
+                startActivity(intentrequest);
+            }
+        });
+
+
+
+
+
+
+
+
+
+       /* bottomnav=(BottomNavigationView)findViewById(R.id.bottom_navigation);
         bottomnav.setSelectedItemId(R.id.nav_home);
         bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -57,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 UserMenuSelector(menuItem);
                 return false;
             }
-        });
+        });*/
 
        /* CreateDoctor = findViewById(R.id.CD);
         CreateDoctor.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +141,9 @@ public class MainActivity extends AppCompatActivity {
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                 }
             });
+
+
+        UpdateAdminHeader();
       //  Toast.makeText(this, "1"+HospitalID, Toast.LENGTH_LONG).show();
 
 
@@ -200,6 +256,41 @@ public class MainActivity extends AppCompatActivity {
         SearchResultList.setAdapter(FirebaseRecycleAdapter);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(mToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.drawer_home:
+                Toast.makeText(MainActivity.this, "You Are In Home", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.drawer_setting:
+                Intent intentSetting = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intentSetting);
+                break;
+
+
+            case R.id.drawer_logout:
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                firebaseAuth.signOut();
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                if (firebaseUser == null)
+                    startActivity(new Intent(MainActivity.this, Login.class));
+                break;
+
+
+        }
+        return false;
+    }
+
 
     public static class SearchViweHolder extends RecyclerView.ViewHolder {
         View mViwe;
@@ -278,12 +369,67 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intentCreate);
                 break;
 
-            case R.id.nav_profile:
-                Intent intentprofile = new Intent(MainActivity.this, ProfileActivity.class);
-                startActivity(intentprofile);
-                break;
+
 
         }
+
+    }
+
+    public void UpdateAdminHeader(){
+        NavigationView navigationView =findViewById(R.id.nav22);
+        View header=navigationView.getHeaderView(0);
+        final TextView AdminName = header.findViewById(R.id.adminmname);
+        final TextView HospitalName = header.findViewById(R.id.hosname);
+        final CircleImageView image=header.findViewById(R.id.hosimg);
+
+        admins.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String firstname,lastname,username,hos;
+                if (dataSnapshot.exists()){
+                    firstname = dataSnapshot.child(currentUserid).child("FirstName").getValue().toString();
+                    lastname=dataSnapshot.child(currentUserid).child("LastName").getValue().toString();
+                    username=firstname+' '+lastname;
+                    hos=dataSnapshot.child(currentUserid).child("Hospital").getValue().toString();
+
+                    AdminName.setText(username);
+
+
+                    href=FirebaseDatabase.getInstance().getReference().child("Hospitals").child(hos);
+                    href.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String hospital;
+                            hospital=dataSnapshot.child("Name").getValue().toString();
+
+                            HospitalName.setText(hospital);
+                            String imge=dataSnapshot.child("Image").getValue().toString();
+
+
+                            if(dataSnapshot.hasChild("Image")){
+                                Picasso.get().load(imge).into(image);
+                                // Glide.with(getApplicationContext()).load(imge).into(userImage);
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
     }
 

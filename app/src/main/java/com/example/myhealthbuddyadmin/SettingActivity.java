@@ -22,24 +22,23 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileActivity extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity {
 
-    private BottomNavigationView bottomnav;
+
     CircleImageView userImage;
     TextView userName;
     TextView userHos;
     private FirebaseUser Fuser;
     private FirebaseAuth mAuth;
     private DatabaseReference mRef,href;
+
+
     Button Signoutbtn;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_setting);
 
         userImage=findViewById(R.id.userimage);
         userHos=findViewById(R.id.Hospital);
@@ -57,20 +56,12 @@ public class ProfileActivity extends AppCompatActivity {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if (firebaseUser == null) {
 
-                    startActivity(new Intent(ProfileActivity.this, Login.class));
+                    startActivity(new Intent(SettingActivity.this, Login.class));
                 }
             }
         });
 
-        bottomnav=(BottomNavigationView)findViewById(R.id.bottom_navigation);
-        bottomnav.setSelectedItemId(R.id.nav_profile);
-        bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                UserMenuSelector(menuItem);
-                return false;
-            }
-        });
+
 
         mRef = FirebaseDatabase.getInstance().getReference().child("Admins").child(Fuser.getUid());
 
@@ -125,23 +116,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void UserMenuSelector(MenuItem item) {
-        switch (item.getItemId()) {
 
-
-            case R.id.nav_create:
-                Intent intentCreate = new Intent(ProfileActivity.this, CreateDoctor.class);
-                startActivity(intentCreate);
-                break;
-
-            case R.id.nav_home:
-                Intent intentprofile = new Intent(ProfileActivity.this, MainActivity.class);
-                startActivity(intentprofile);
-                break;
-
-        }
-
-    }
 }
 
 

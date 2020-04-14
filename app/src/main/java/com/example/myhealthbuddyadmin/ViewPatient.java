@@ -21,7 +21,6 @@ public class ViewPatient extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mRef;
-
     TextView patientNameT,ageT,genderT;
     String name,gender;
     int age;
