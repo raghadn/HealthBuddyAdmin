@@ -83,8 +83,8 @@ public class DoctorProfile extends AppCompatActivity {
         dref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String fName, hos;
+                        if (dataSnapshot.exists()) {
+                            String fName, hos;
                     fName = dataSnapshot.child("name").getValue().toString();
                     userName.setText(fName);
                     hos = dataSnapshot.child("hospital").getValue().toString();
