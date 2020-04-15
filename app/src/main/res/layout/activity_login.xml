@@ -4,44 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    tools:context=".Login">
 
 
     <EditText
+        android:layout_marginTop="15dp"
         android:id="@+id/AdminID"
         android:layout_width="286dp"
         android:layout_height="53dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="284dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:background="@drawable/login_style"
         android:ems="10"
         android:hint="ID"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <EditText
+        android:layout_marginTop="15dp"
         android:id="@+id/Adminpassword"
         android:layout_width="286dp"
         android:layout_height="53dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:background="@drawable/login_style"
         android:cursorVisible="false"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/AdminID" />
 
@@ -49,16 +39,11 @@
         android:id="@+id/ForgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="300dp"
-        android:text="Forgot your password?"
-        android:textColor="#3D51B8"
+        android:text="Forgot password?"
+        android:textColor="@color/blue"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.254"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Adminpassword"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="@+id/Adminpassword"
+        app:layout_constraintTop_toBottomOf="@+id/Adminpassword" />
 
     <Button
         android:id="@+id/AdminLoginbutton"
@@ -66,26 +51,23 @@
         android:layout_height="53dp"
         android:background="@drawable/login_btn"
         android:text="Login"
-        android:textAllCaps="true"
+        android:layout_marginTop="15dp"
+        android:textAllCaps="false"
         android:textColor="#ffffff"
         android:textSize="18dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Adminpassword"
-        app:layout_constraintVertical_bias="0.231" />
+        app:layout_constraintTop_toBottomOf="@+id/ForgotPassword" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="179dp"
+        android:layout_width="wrap_content"
         android:layout_height="66dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/AdminID"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
 
         <RadioButton
             android:id="@+id/providerrButton"
@@ -102,7 +84,7 @@
             android:id="@+id/adminrButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Health facility admin"
+            android:text="Health Facility Admin"
             tools:layout_conversion_absoluteHeight="32dp"
             tools:layout_conversion_absoluteWidth="162dp"
             tools:layout_editor_absoluteX="26dp"
@@ -111,14 +93,12 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="253dp"
-        android:layout_height="104dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="145dp"
+        android:layout_height="145dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.43"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.044"
-        app:srcCompat="@drawable/gplogo" />
+        app:srcCompat="@drawable/logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

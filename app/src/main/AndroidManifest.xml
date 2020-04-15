@@ -12,6 +12,7 @@
         <activity android:name=".AdminDrawer" />
         <activity android:name=".PhoneAuth" />
         <activity android:name=".WritePrescription" />
+        <activity android:name=".WriteBloodTest" />
         <activity android:name=".Prescriptions" />
         <activity android:name=".ViewPrescription" />
         <activity android:name=".ViewPatient" />

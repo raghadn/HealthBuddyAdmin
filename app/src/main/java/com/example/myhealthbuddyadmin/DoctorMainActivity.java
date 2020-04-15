@@ -144,10 +144,11 @@ public class DoctorMainActivity extends AppCompatActivity {
                                         String recordID = getRef(i).getKey();
                                         Intent intent = new Intent(DoctorMainActivity.this, ViewPrescription.class);
                                         intent.putExtra("recordID", recordID);
-                                        intent.putExtra("hospitalName", HospitalName);
+                                        intent.putExtra("hospitalName", HospitalName); //for view record only not write!
                                         startActivity(intent);
                                     }
                                 });
+
                                 break;
                         }
                     }

@@ -159,8 +159,11 @@
                 android:id="@+id/createaccount"
                 android:layout_width="300dp"
                 android:layout_height="49dp"
+                android:background="@drawable/buttonshape"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp"
                 android:layout_margin="7dp"
-                android:background="#C98DCF"
                 android:text="Create Account" />
 
 

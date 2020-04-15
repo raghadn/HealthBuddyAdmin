@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -48,37 +49,27 @@ import java.util.Random;
 public class WritePrescription extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String currentuser;
-    private DatabaseReference patientRef, doctorRef,recordRef,hospitalRef;
+    private DatabaseReference patientRef, doctorRef,recordRef;
 
-    TextView medicationT,doseT,everyT,durationT,timeT,noteT;
+    TextView medicationT,doseT,everyT,durationT,timeT,noteT,patientN,patientID;
     String medication,dose,every,duration,time,note, patientName,hospitalName;
     String type,pid;
     Button submitRecord,cancelRecord,addAttachment;
-    ImageButton deleteAttachment;
-
-    ImageButton attachmentView;
-
-    private StorageTask uploadTask;
+    Button attachmentView, deleteAttachment, b0,b1;
     private Uri fileUri;
     private String myUrl="";//store the file
     private ProgressDialog loadingBar;
     private String savecurrentdate,savecurrenttime;
-
-
     private static final int Gallerypick=1;
-
-
     StorageReference storageReference;
     String recordIDٍ;
 
-    /*
-     * id patient
-     * id file
-     * id record*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_prescripition);
+
+        type="Prescription";
 
         medicationT=findViewById(R.id.medication);
         doseT=findViewById(R.id.dose);
@@ -86,13 +77,20 @@ public class WritePrescription extends AppCompatActivity {
         durationT=findViewById(R.id.duration);
         timeT=findViewById(R.id.time);
         noteT=findViewById(R.id.note);
+        patientN=findViewById(R.id.patientN);
+        patientID=findViewById(R.id.patientID);
 
         addAttachment=findViewById(R.id.addAttachment);
         deleteAttachment=findViewById((R.id.deleteAttachment));
         submitRecord=findViewById(R.id.submitRecord);
         cancelRecord=findViewById(R.id.cancelRecord);
         attachmentView=findViewById(R.id.attachmentView);
+        b0=findViewById(R.id.button);
+        b1=findViewById(R.id.button0);
 
+        //underline
+        attachmentView.setPaintFlags(attachmentView.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
+        deleteAttachment.setPaintFlags(deleteAttachment.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
 
         Calendar calfordate=Calendar.getInstance();
         SimpleDateFormat currentDate=new SimpleDateFormat("dd-MMMM-yyyy");
@@ -101,39 +99,24 @@ public class WritePrescription extends AppCompatActivity {
         Calendar calfortime=Calendar.getInstance();
         SimpleDateFormat currentTime=new SimpleDateFormat("HH:mm");
         savecurrenttime=currentTime.format(calfortime.getTime());
-        recordRef= FirebaseDatabase.getInstance().getReference().child("Records");
 
-
-
-
-
-        //submit the record
-        submitRecord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                validateRecord();
-            }
-        });
-
-
-        //doctor details
-        mAuth= FirebaseAuth.getInstance();
-        currentuser=mAuth.getCurrentUser().getUid();
-
-
+        pid = getIntent().getExtras().get("PatientKey").toString();
 
         storageReference= FirebaseStorage.getInstance().getReference();
-
-        //patient details
-        //get the id from the recyclerView
-        pid = getIntent().getExtras().get("PatientKey").toString();
-        patientRef= FirebaseDatabase.getInstance().getReference().child("Patients");
+        mAuth= FirebaseAuth.getInstance();
+        currentuser=mAuth.getCurrentUser().getUid();
         doctorRef= FirebaseDatabase.getInstance().getReference().child("Doctors");
+        patientRef= FirebaseDatabase.getInstance().getReference().child("Patients");
+        recordRef= FirebaseDatabase.getInstance().getReference().child("Records");
+
 
         patientRef.child(pid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 patientName=dataSnapshot.child("name").getValue().toString();
+                patientN.setText(patientName);
+                patientID.setText(dataSnapshot.child("national_id").getValue().toString());
+
             }
 
             @Override
@@ -142,8 +125,8 @@ public class WritePrescription extends AppCompatActivity {
             }
         });
 
-        //record details
-        type="Prescription";
+
+
 
         //addAttachment
         addAttachment.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +135,14 @@ public class WritePrescription extends AppCompatActivity {
                 //what if already chosen pdf?
                 openGallery();
 
+            }
+        });
+
+        //submit the record
+        submitRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                validateRecord();
             }
         });
 
@@ -169,8 +160,6 @@ public class WritePrescription extends AppCompatActivity {
                 } catch (ActivityNotFoundException e) {
                     Toast.makeText(WritePrescription.this, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         });
 
@@ -182,12 +171,11 @@ public class WritePrescription extends AppCompatActivity {
                 myUrl=null;
                 attachmentView.setVisibility(View.INVISIBLE);
                 deleteAttachment.setVisibility(View.INVISIBLE);
+                b0.setVisibility(View.INVISIBLE);
+                b1.setVisibility(View.INVISIBLE);
+
             }
         });
-
-//
-
-
 
     }//onCreate
 
@@ -202,12 +190,10 @@ public class WritePrescription extends AppCompatActivity {
         every=everyT.getText().toString();
         duration=durationT.getText().toString();
         time=timeT.getText().toString();
-        note=noteT.getText().toString(); //mandontary field the one i am checking if empty get back to it everywhere
+        note=noteT.getText().toString();
 
         //if no file have to fill all fields
         //if there is a file then all fields are optional
-
-
         //No file OR one of fields are messing  except NOTE is optonal
         if (fileUri==null && ( medication==null || dose==null || every==null || duration==null || time==null) ){/////////////////put mand field here
             Toast.makeText(this, "الرجاء تعبئة جميع الحقول أو اضافة ملف لمشاركته...", Toast.LENGTH_SHORT).show();
@@ -254,12 +240,8 @@ public class WritePrescription extends AppCompatActivity {
         });
     }
 
-    /*
-     * This algorithm aims to generate a unique record ID for each new record in the system
-     * the record ID consists of nine digits
-     * the first digit is used to indicate the record type
-     * the next eight digits are a randomized sequence of numbers ranging from 000000000 to 99999999
-     * 99999999 records to be possibly saved in the system for each record type. */
+
+    //check if recordID already exists
     private String generateRecordID(String recordType) {
         // check recordType to be implemented on development phase
         if(recordType.equals("Prescription"))
@@ -311,7 +293,7 @@ public class WritePrescription extends AppCompatActivity {
     }
 
 
-    private void saveRecord(final String url) { //savepostinfo
+    private void saveRecord(final String url) {
 
         doctorRef.child(currentuser).addValueEventListener(new ValueEventListener() {
             @Override
@@ -327,7 +309,7 @@ public class WritePrescription extends AppCompatActivity {
                     recordMap.put("time",savecurrenttime);
                     recordMap.put("doctorSpeciality",dataSnapshot.child("specialty").getValue().toString());
                     recordMap.put("doctorName",dataSnapshot.child("name").getValue().toString());
-                    recordMap.put("hospital",getIntent().getExtras().get("hospitalName").toString());
+                   // recordMap.put("hospital",getIntent().getExtras().get("hospitalName").toString());   //wrong need to use refrence
 
                     if(medication!=null)
                     recordMap.put("medication",medication);
@@ -346,7 +328,6 @@ public class WritePrescription extends AppCompatActivity {
                     if(!TextUtils.isEmpty(url)){
                         recordMap.put("file",url);
                     }
-
                     recordRef.child(recordIDٍ).updateChildren(recordMap).addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
@@ -369,6 +350,7 @@ public class WritePrescription extends AppCompatActivity {
         });
     }
 
+    //these 2 methods together
     private void openGallery() {
         Intent galleryIntent= new Intent();
         galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
@@ -376,8 +358,7 @@ public class WritePrescription extends AppCompatActivity {
         startActivityForResult(galleryIntent,Gallerypick);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode==Gallerypick&&resultCode==RESULT_OK&&data!=null){
@@ -385,7 +366,12 @@ public class WritePrescription extends AppCompatActivity {
             fileUri = data.getData();
             attachmentView.setVisibility(View.VISIBLE);
             deleteAttachment.setVisibility(View.VISIBLE);
+            b0.setVisibility(View.VISIBLE);
+            b1.setVisibility(View.VISIBLE);
         }
     }
+
+
+
 
 }

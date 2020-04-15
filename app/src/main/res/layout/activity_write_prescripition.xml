@@ -6,147 +6,227 @@
     android:layout_height="match_parent"
     tools:context=".WritePrescription">
 
-
-    <EditText
-        android:id="@+id/every"
-        android:layout_width="214dp"
-        android:layout_height="37dp"
-        android:ems="10"
-        android:hint="كل"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dose" />
-
     <include
-        android:id="@+id/viewRequestToolbar"
+        android:id="@+id/viewHiveToolBar"
         layout="@layout/toolbar"
-        android:layout_width="413dp"
-        android:layout_height="82dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Prescription"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewHiveToolBar"
+        app:layout_constraintEnd_toEndOf="@+id/viewHiveToolBar"
+        app:layout_constraintStart_toStartOf="@+id/viewHiveToolBar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bourder"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewHiveToolBar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/patientN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/patientID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="ID"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/patientN" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </FrameLayout>
+
 
     <EditText
         android:id="@+id/medication"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="548dp"
+        android:layout_width="300dp"
+        android:layout_height="49dp"
+        android:layout_margin="7dp"
         android:ems="10"
-        android:hint="الدواء"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:hint="Medication"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewHiveToolBar" />
-
-    <EditText
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="الوقت"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/duration" />
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
     <EditText
         android:id="@+id/dose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_width="300dp"
+        android:layout_height="49dp"
+        android:layout_margin="7dp"
         android:ems="10"
-        android:hint="الجرعة"
+        android:hint="Dose"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/medication" />
 
-    <ImageButton
-        android:id="@+id/deleteAttachment"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/trash"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/attachmentView"
-        app:layout_constraintEnd_toStartOf="@+id/attachmentView"
-        app:layout_constraintTop_toTopOf="@+id/attachmentView"
-        app:layout_constraintVertical_bias="0.0" />
+    <EditText
+        android:id="@+id/time"
+        android:layout_width="300dp"
+        android:layout_height="49dp"
+        android:layout_margin="7dp"
+        android:ems="10"
+        android:hint="Time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dose" />
+
+    <EditText
+        android:id="@+id/duration"
+        android:layout_width="300dp"
+        android:layout_height="49dp"
+        android:layout_margin="7dp"
+        android:ems="10"
+        android:hint="Duration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/time" />
+
 
     <EditText
         android:id="@+id/note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="49dp"
+        android:layout_margin="7dp"
         android:ems="10"
-        android:hint="ملاحظة"
+        android:hint="Notes"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/time" />
+        app:layout_constraintTop_toBottomOf="@+id/duration" />
 
     <Button
         android:id="@+id/addAttachment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="إضافة ملف"
-        app:layout_constraintEnd_toEndOf="@+id/note"
+        android:background="?attr/selectableItemBackground"
+        android:drawableLeft="@drawable/attach"
+        android:drawablePadding="-15sp"
+        android:minHeight="1dp"
+        android:text=" Add File"
+        android:textAllCaps="false"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="@+id/note"
         app:layout_constraintTop_toBottomOf="@+id/note" />
 
-    <ImageButton
+
+    <Button
         android:id="@+id/attachmentView"
-
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentTop="true"
-
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/viewpdf"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/addAttachment"
-        app:layout_constraintEnd_toStartOf="@+id/addAttachment"
-        app:layout_constraintTop_toTopOf="@+id/addAttachment"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/duration"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="لمدة"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/every" />
+        android:layout_height="30dp"
+        android:background="?attr/selectableItemBackground"
+        android:minWidth="1dp"
+        android:text="View"
+        android:textAllCaps="false"
+        android:textColor="@color/blue"
+        android:textSize="14dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/addAttachment"
+        app:layout_constraintTop_toBottomOf="@+id/addAttachment" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="?attr/selectableItemBackground"
+        android:minWidth="1dp"
+        android:text=" or "
+        android:textAllCaps="false"
+        android:textSize="14dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/attachmentView"
+        app:layout_constraintTop_toBottomOf="@+id/addAttachment" />
+
+    <Button
+        android:id="@+id/deleteAttachment"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="?attr/selectableItemBackground"
+        android:minWidth="1dp"
+        android:text="delete"
+        android:textAllCaps="false"
+        android:textColor="@color/red"
+        android:textSize="14dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/addAttachment" />
+
+    <Button
+        android:id="@+id/button0"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="?attr/selectableItemBackground"
+        android:minWidth="1dp"
+        android:text=" file."
+        android:textAllCaps="false"
+        android:textSize="14dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/deleteAttachment"
+        app:layout_constraintTop_toBottomOf="@+id/addAttachment" />
 
     <Button
         android:id="@+id/submitRecord"
-        android:layout_width="330dp"
+
+        android:layout_width="300dp"
         android:layout_height="49dp"
-        android:layout_marginTop="416dp"
-        android:background="#C98DCF"
-        android:text="Create "
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        android:background="@drawable/buttonshape"
+        android:text="Create"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+
+        android:textStyle="normal"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/medication" />
+        app:layout_constraintTop_toBottomOf="@+id/button0" />
 
     <Button
         android:id="@+id/cancelRecord"
-        android:layout_width="330dp"
+
+        android:layout_width="300dp"
         android:layout_height="49dp"
-        android:layout_marginBottom="52dp"
-        android:background="#C98DCF"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/buttonshape"
         android:text="Cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+
+        android:textSize="18sp"
+        android:textStyle="normal"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/submitRecord"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/submitRecord" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,7 +24,7 @@ public class ViewPatient extends AppCompatActivity {
     TextView patientNameT,ageT,genderT;
     String name,gender;
     int age;
-    Button prescriptions;
+    Button prescriptions,bloodTest;
 
 
 
@@ -39,7 +39,7 @@ public class ViewPatient extends AppCompatActivity {
         ageT=findViewById(R.id.Age);
         genderT=findViewById(R.id.Gender);
         prescriptions=findViewById(R.id.prescription);
-
+        bloodTest=findViewById(R.id.bloodTest);
 
         //get the id from the recyclerView
         final String id = getIntent().getExtras().get("PatientKey").toString();
@@ -69,6 +69,17 @@ public class ViewPatient extends AppCompatActivity {
             public void onClick(View v) {
                 Intent redirect = new Intent(ViewPatient.this,Prescriptions.class);
                 redirect.putExtra("PatientKey",id);
+                redirect.putExtra("patientName",name);
+                startActivity(redirect);
+            }
+        });
+
+        bloodTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent redirect = new Intent(ViewPatient.this,WriteBloodTest.class);
+                redirect.putExtra("PatientKey",id);
+                redirect.putExtra("patientName",name);
                 startActivity(redirect);
             }
         });

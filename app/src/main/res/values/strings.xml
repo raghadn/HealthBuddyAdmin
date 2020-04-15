@@ -3,5 +3,5 @@
     <string name="Open">Open</string>
     <string name="Close">Close</string>
 
-
+    <string name="underline"> <u>underlined</u> </string>
 </resources>
