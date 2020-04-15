@@ -51,14 +51,13 @@ public class WritePrescription extends AppCompatActivity {
     private String currentuser;
     private DatabaseReference patientRef, doctorRef,recordRef;
 
-    TextView medicationT,doseT,everyT,durationT,timeT,noteT,patientN,patientID;
-    String medication,dose,every,duration,time,note, patientName,hospitalName;
+    TextView medicationT,doseT,durationT,timeT,noteT,patientN,patientID;
+    String medication,dose,duration,time,note, patientName,hospitalName;
     String type,pid;
     Button submitRecord,cancelRecord,addAttachment;
     Button attachmentView, deleteAttachment, b0,b1;
     private Uri fileUri;
     private String myUrl="";//store the file
-    private ProgressDialog loadingBar;
     private String savecurrentdate,savecurrenttime;
     private static final int Gallerypick=1;
     StorageReference storageReference;
@@ -73,7 +72,6 @@ public class WritePrescription extends AppCompatActivity {
 
         medicationT=findViewById(R.id.medication);
         doseT=findViewById(R.id.dose);
-        everyT=findViewById(R.id.every);
         durationT=findViewById(R.id.duration);
         timeT=findViewById(R.id.time);
         noteT=findViewById(R.id.note);
@@ -187,7 +185,6 @@ public class WritePrescription extends AppCompatActivity {
 
         medication=medicationT.getText().toString();
         dose=doseT.getText().toString();
-        every=everyT.getText().toString();
         duration=durationT.getText().toString();
         time=timeT.getText().toString();
         note=noteT.getText().toString();
@@ -195,7 +192,7 @@ public class WritePrescription extends AppCompatActivity {
         //if no file have to fill all fields
         //if there is a file then all fields are optional
         //No file OR one of fields are messing  except NOTE is optonal
-        if (fileUri==null && ( medication==null || dose==null || every==null || duration==null || time==null) ){/////////////////put mand field here
+        if (fileUri==null && ( medication==null || dose==null || duration==null || time==null) ){/////////////////put mand field here
             Toast.makeText(this, "الرجاء تعبئة جميع الحقول أو اضافة ملف لمشاركته...", Toast.LENGTH_SHORT).show();
         }
         else
@@ -309,14 +306,12 @@ public class WritePrescription extends AppCompatActivity {
                     recordMap.put("time",savecurrenttime);
                     recordMap.put("doctorSpeciality",dataSnapshot.child("specialty").getValue().toString());
                     recordMap.put("doctorName",dataSnapshot.child("name").getValue().toString());
-                   // recordMap.put("hospital",getIntent().getExtras().get("hospitalName").toString());   //wrong need to use refrence
+                    recordMap.put("hospital","hospital name");   //wrong need to use refrence
 
                     if(medication!=null)
                     recordMap.put("medication",medication);
                     if(dose!=null)
                     recordMap.put("dose",dose);
-                    if(every!=null)
-                    recordMap.put("every",every);
                     if(duration!=null)
                     recordMap.put("duration",duration);
                     if(time!=null)

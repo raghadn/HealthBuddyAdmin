@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".AdminDrawer" />
         <activity android:name=".PhoneAuth" />
         <activity android:name=".WritePrescription" />
@@ -23,7 +24,8 @@
         <activity android:name=".CreateDoctor" />
         <activity android:name=".Forgotpassword" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".SearchForPatient" />
+        <activity android:name=".SearchForPatient"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".Notifications" />
         <activity android:name=".Login">
             <intent-filter>

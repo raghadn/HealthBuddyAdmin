@@ -198,36 +198,40 @@
 
         android:layout_width="300dp"
         android:layout_height="49dp"
-        android:layout_marginBottom="5dp"
         android:background="@drawable/buttonshape"
         android:text="Create"
         android:textAllCaps="false"
 
         android:textColor="@color/white"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/cancel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deleteAttachment" />
 
 
     <Button
         android:id="@+id/cancel"
         android:layout_width="300dp"
         android:layout_height="49dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/buttonshape"
         android:text="Cancel"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submitRecord" />
 
     <androidx.recyclerview.widget.RecyclerView
+
         android:id="@+id/recy"
+
         android:layout_width="match_parent"
-        android:layout_height="235dp"
+        android:layout_height="250dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/test" />
 </androidx.constraintlayout.widget.ConstraintLayout>

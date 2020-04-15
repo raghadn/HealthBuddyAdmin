@@ -48,10 +48,11 @@ public class WriteBloodTest extends AppCompatActivity {
 
     EditText testT,unitT,resultT,normalT,noteT;
     String test,unit,result,normal,note;
-
+    TextView patientN,patientID;
     Button submitRecord,cancel,addAttachment;
     Button attachmentView, deleteAttachment, b0,b1;
-ImageButton add;
+    ImageButton add;
+
     String savecurrentdate,savecurrenttime;
 
     String recordIDٍ, type,pid,patientName;
@@ -87,6 +88,8 @@ ImageButton add;
         resultT=findViewById(R.id.result);
         normalT=findViewById(R.id.normal);
         noteT=findViewById(R.id.note);
+        patientN=findViewById(R.id.patientN);
+        patientID=findViewById(R.id.patientID);
 
 
         Calendar calfordate=Calendar.getInstance();
@@ -105,6 +108,22 @@ ImageButton add;
         currentuser=mAuth.getCurrentUser().getUid();
 
         type="BloodTest";
+
+        patientRef= FirebaseDatabase.getInstance().getReference().child("Patients");
+        patientRef.child(pid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                patientName=dataSnapshot.child("name").getValue().toString();
+                patientN.setText(patientName);
+                patientID.setText(dataSnapshot.child("national_id").getValue().toString());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
 
@@ -278,8 +297,8 @@ ImageButton add;
                             @Override
                             public void onClick(View v) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
-                                builder.setTitle("تنبيه!");
-                                builder.setMessage("هل انت متأكد من حذف التعليق؟");
+                                builder.setTitle("Delete bloodtest!");
+                                builder.setMessage("Are you sure?");
 
 
 
@@ -300,10 +319,10 @@ ImageButton add;
                                     }
                                 };
                                 // Set the alert dialog yes button click listener
-                                builder.setPositiveButton("نعم", dialogClickListener);
+                                builder.setPositiveButton("Yes", dialogClickListener);
 
                                 // Set the alert dialog no button click listener
-                                builder.setNegativeButton("لا",dialogClickListener);
+                                builder.setNegativeButton("No",dialogClickListener);
 
                                 AlertDialog dialog = builder.create();
                                 // Display the alert dialog on interface
