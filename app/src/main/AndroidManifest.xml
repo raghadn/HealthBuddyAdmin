@@ -27,12 +27,10 @@
         <activity android:name=".SearchForPatient"
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".Notifications" />
-        <activity android:name=".WriteBloodTest" />
         <activity android:name=".ReadActivity" />
         <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -9,19 +9,24 @@ public class item_record {
     public String rid;
     public String time;
     public int type;
+    public String doctorName;
+    public String patientName;
 
 
     public item_record() {
 
     }
 
-    public item_record(String date, String did, String file, String pid, String rid, String time) {
+    public item_record(String date, String did, String file, String pid, String rid, String time,int type,String patientName,String doctorName) {
         this.date = date;
         this.did = did;
         this.file = file;
         this.pid = pid;
         this.rid = rid;
         this.time = time;
+        this.type=type;
+        this.doctorName=doctorName;
+        this.patientName=patientName;
     }
     public int getType() {
         return type;
@@ -73,5 +78,23 @@ public class item_record {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public void setType(int type) { this.type = type; }
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
+    }
+
+    public String getPatientName() {
+        return patientName;
+    }
+
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
     }
 }
