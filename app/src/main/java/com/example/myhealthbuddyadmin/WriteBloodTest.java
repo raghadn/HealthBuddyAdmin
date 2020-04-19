@@ -275,6 +275,7 @@ public class WriteBloodTest extends AppCompatActivity {
                         loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
                         loadingbar.show();
 
+                        recordRef.child(recordIDٍ).child("testDate").setValue(date);
 
                         //save file
                         if(fileUri!=null&&!fileUri.equals(Uri.EMPTY)){
