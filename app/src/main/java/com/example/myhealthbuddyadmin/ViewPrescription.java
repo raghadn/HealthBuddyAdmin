@@ -3,18 +3,13 @@ package com.example.myhealthbuddyadmin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.google.android.gms.common.util.IOUtils;
@@ -30,7 +25,6 @@ import java.io.InputStream;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
-import javax.security.auth.callback.Callback;
 
 public class ViewPrescription extends AppCompatActivity {
     String recordID;
@@ -56,12 +50,12 @@ public class ViewPrescription extends AppCompatActivity {
         patientNameT=findViewById(R.id.patientName);
         hospitalNameT=findViewById(R.id.hospitalName);
 
-        medicationT=findViewById(R.id.medication);
-        doseT=findViewById(R.id.dose);
+        medicationT=findViewById(R.id.med);
+        doseT=findViewById(R.id.findings);
         everyT=findViewById(R.id.every);
-        durationT=findViewById(R.id.duration);
-        timeT=findViewById(R.id.time);
-        noteT=findViewById(R.id.note);
+        durationT=findViewById(R.id.note);
+        timeT=findViewById(R.id.impression);
+        noteT=findViewById(R.id.rrrr);
 
 
 

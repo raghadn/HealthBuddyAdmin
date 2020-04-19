@@ -66,10 +66,42 @@
 
 
     </FrameLayout>
+    <TextView
+        android:id="@+id/dd"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        android:ems="10"
+        android:text="Exam Date"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
+    <ImageButton
+        android:id="@+id/cal"
+        android:layout_width="28dp"
+        android:layout_height="25dp"
+        android:layout_margin="7dp"
+        android:background="@drawable/calendar"
+        app:layout_constraintStart_toStartOf="@+id/dd"
+        app:layout_constraintTop_toBottomOf="@+id/dd" />
+
+
+    <TextView
+        android:id="@+id/dateV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:ems="10"
+        android:hint="Select Date"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/cal"
+        app:layout_constraintStart_toEndOf="@+id/cal"
+        app:layout_constraintTop_toTopOf="@+id/cal" />
 
     <EditText
-        android:id="@+id/medication"
+        android:id="@+id/med"
         android:layout_width="300dp"
         android:layout_height="49dp"
         android:layout_margin="7dp"
@@ -78,10 +110,10 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/cal" />
 
     <EditText
-        android:id="@+id/dose"
+        android:id="@+id/findings"
         android:layout_width="300dp"
         android:layout_height="49dp"
         android:layout_margin="7dp"
@@ -89,10 +121,10 @@
         android:hint="Dose"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/medication" />
+        app:layout_constraintTop_toBottomOf="@+id/med" />
 
     <EditText
-        android:id="@+id/time"
+        android:id="@+id/impression"
         android:layout_width="300dp"
         android:layout_height="49dp"
         android:layout_margin="7dp"
@@ -100,19 +132,7 @@
         android:hint="Time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dose" />
-
-    <EditText
-        android:id="@+id/duration"
-        android:layout_width="300dp"
-        android:layout_height="49dp"
-        android:layout_margin="7dp"
-        android:ems="10"
-        android:hint="Duration"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/time" />
-
+        app:layout_constraintTop_toBottomOf="@+id/findings" />
 
     <EditText
         android:id="@+id/note"
@@ -120,10 +140,22 @@
         android:layout_height="49dp"
         android:layout_margin="7dp"
         android:ems="10"
+        android:hint="Duration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/impression" />
+
+
+    <EditText
+        android:id="@+id/rrrr"
+        android:layout_width="300dp"
+        android:layout_height="49dp"
+        android:layout_margin="7dp"
+        android:ems="10"
         android:hint="Notes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/duration" />
+        app:layout_constraintTop_toBottomOf="@+id/note" />
 
     <Button
         android:id="@+id/addAttachment"
@@ -136,8 +168,8 @@
         android:text=" Add File"
         android:textAllCaps="false"
         android:textSize="14dp"
-        app:layout_constraintStart_toStartOf="@+id/note"
-        app:layout_constraintTop_toBottomOf="@+id/note" />
+        app:layout_constraintStart_toStartOf="@+id/rrrr"
+        app:layout_constraintTop_toBottomOf="@+id/rrrr" />
 
 
     <Button

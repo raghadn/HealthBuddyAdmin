@@ -24,7 +24,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,14 +44,17 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Random;
 
-public class WritePrescription extends AppCompatActivity {
+public class WriteRecord extends AppCompatActivity {
+
     private FirebaseAuth mAuth;
     private String currentuser;
     private DatabaseReference patientRef, doctorRef,recordRef;
+    TextView dateV,patientN,patientID;
 
-    EditText medicationT,doseT,durationT,timeT,noteT;
-    TextView patientN,patientID,dateV;
-    String medication,dose,duration,time,note, patientName,hospitalName;
+    EditText noteT;
+    String note;
+
+    String patientName,hospitalName;
     String type,pid;
     Button submitRecord,cancelRecord,addAttachment;
     Button attachmentView, deleteAttachment, b0,b1;
@@ -62,29 +64,45 @@ public class WritePrescription extends AppCompatActivity {
     private static final int Gallerypick=1;
     StorageReference storageReference;
     String recordIDٍ;
-
     ImageButton cal;
     String date;
     private DatePickerDialog.OnDateSetListener mDatasetListner;
-
     ProgressDialog loadingbar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_write_prescripition);
+        setContentView(R.layout.activity_write_record);
+
         loadingbar = new ProgressDialog(this);
 
-        type="Prescription";
+        type="Record";
+        noteT=findViewById(R.id.note);
 
-        medicationT=findViewById(R.id.med);
-        doseT=findViewById(R.id.findings);
-        durationT=findViewById(R.id.note);
-        timeT=findViewById(R.id.impression);
-        noteT=findViewById(R.id.rrrr);
-        patientN=findViewById(R.id.patientN);
-        patientID=findViewById(R.id.patientID);
+        cal=findViewById(R.id.cal);
+        dateV=findViewById(R.id.dateV);
+        cal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal=Calendar.getInstance();
+                int year=cal.get(Calendar.YEAR);
+                int month=cal.get(Calendar.MONTH);
+                int day=cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog=new DatePickerDialog(WriteRecord.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDatasetListner,year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDatasetListner=new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month=month+1;
+                date=dayOfMonth+"/"+month+"/"+year;
+                dateV.setText(date);
+            }
+        };
 
         addAttachment=findViewById(R.id.addAttachment);
         deleteAttachment=findViewById((R.id.deleteAttachment));
@@ -93,6 +111,8 @@ public class WritePrescription extends AppCompatActivity {
         attachmentView=findViewById(R.id.attachmentView);
         b0=findViewById(R.id.button);
         b1=findViewById(R.id.button0);
+        patientN=findViewById(R.id.patientN);
+        patientID=findViewById(R.id.patientID);
 
         //underline
         attachmentView.setPaintFlags(attachmentView.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
@@ -131,33 +151,6 @@ public class WritePrescription extends AppCompatActivity {
             }
         });
 
-        cal=findViewById(R.id.cal);
-        dateV=findViewById(R.id.dateV);
-        cal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar cal=Calendar.getInstance();
-                int year=cal.get(Calendar.YEAR);
-                int month=cal.get(Calendar.MONTH);
-                int day=cal.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialog=new DatePickerDialog(WritePrescription.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDatasetListner,year,month,day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-            }
-        });
-
-        mDatasetListner=new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month=month+1;
-                date=dayOfMonth+"/"+month+"/"+year;
-                dateV.setText(date);
-            }
-        };
-
-
-
         //addAttachment
         addAttachment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,7 +180,7 @@ public class WritePrescription extends AppCompatActivity {
                 try {
                     startActivity(pdfIntent);
                 } catch (ActivityNotFoundException e) {
-                    Toast.makeText(WritePrescription.this, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WriteRecord.this, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -241,75 +234,87 @@ public class WritePrescription extends AppCompatActivity {
 
             }
         });
-
-    }//onCreate
-
-
-
+    }
 
     private void validateRecord() {
-        medication = medicationT.getText().toString();
-        dose = doseT.getText().toString();
-        duration = durationT.getText().toString();
-        time = timeT.getText().toString();
-        note = noteT.getText().toString();
 
-        // date is mandatory either ways.
-        // no file have to fill all fields
+
+        note=noteT.getText().toString();
+
+        //if no file have to fill all fields
         //if there is a file then all fields are optional
         //No file OR one of fields are messing  except NOTE is optional
         if (date == null) {
             Toast.makeText(this, "Please add test date", Toast.LENGTH_SHORT).show();
-        } else {
+        }else{
+            if (fileUri==null){
+                Toast.makeText(this, "Please attach a file. ", Toast.LENGTH_SHORT).show();
+            }
+            else
+            if(fileUri!=null&&!fileUri.equals(Uri.EMPTY)){
+                recordIDٍ=generateRecordID(type);
+                StoreFile();
+            }
+        }
 
-            if (fileUri == null && (medication.isEmpty() || dose.isEmpty() || duration.isEmpty() || time.isEmpty())) {/////////////////put mand field here
-                Toast.makeText(this, "Please fill all fields or add a file.", Toast.LENGTH_SHORT).show();
-            } else {
-                if (fileUri != null && !fileUri.equals(Uri.EMPTY)) {
-                    recordIDٍ = generateRecordID(type);
-                    StoreFile();
-                } else {
-                    recordIDٍ = generateRecordID(type);
-                    saveRecord("");
+    }
+
+
+    private void saveRecord(final String url) {
+
+        doctorRef.child(currentuser).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+
+                    loadingbar.setTitle("Uploading Record");
+                    loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
+                    loadingbar.show();
+
+                    final HashMap recordMap=new HashMap();
+                    recordMap.put("type",5);
+                    recordMap.put("did",currentuser);
+                    recordMap.put("pid",pid);
+                    recordMap.put("patientName",patientName);
+                    recordMap.put("date",savecurrentdate);
+                    recordMap.put("time",savecurrenttime);
+                    recordMap.put("doctorSpeciality",dataSnapshot.child("specialty").getValue().toString());
+                    recordMap.put("doctorName",dataSnapshot.child("name").getValue().toString());
+                    recordMap.put("hospital","hospital name");   //wrong need to use refrence
+                    recordMap.put("testDate",date);
+
+                    if(note!=null)
+                        recordMap.put("note",note);
+
+                    //file
+                    if(!TextUtils.isEmpty(url)){
+                        recordMap.put("file",url);
+                    }
+                    recordRef.child(recordIDٍ).updateChildren(recordMap).addOnCompleteListener(new OnCompleteListener() {
+                        @Override
+                        public void onComplete(@NonNull Task task) {
+                            if(task.isSuccessful()){
+                                finish();
+                                Toast.makeText(WriteRecord.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(WriteRecord.this, "Error", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
             }
 
-        }
-    }
-
-    private void StoreFile() {
-
-        final StorageReference filepath=storageReference.child("RecordsFiles").child(recordIDٍ+".pdf");
-
-        filepath.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        String url=String.valueOf(uri);
-                        myUrl=url;
-                        saveRecord(url);
-
-                    }
-                });
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
     }
 
 
-    //check if recordID already exists
+
+    //done but need to check whether id exist
     private String generateRecordID(String recordType) {
         // check recordType to be implemented on development phase
         if(recordType.equals("Prescription"))
@@ -326,6 +331,8 @@ public class WritePrescription extends AppCompatActivity {
 
         if(recordType.equals("Record"))
             recordType="5";
+
+
 
         //String ID
         String StrId = "";
@@ -372,78 +379,48 @@ public class WritePrescription extends AppCompatActivity {
         return StrId;
     }
 
+    private void showMessage(String message) {
 
-    private void saveRecord(final String url) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+    }
 
-        doctorRef.child(currentuser).addValueEventListener(new ValueEventListener() {
+    private void StoreFile() {
+
+        final StorageReference filepath=storageReference.child("RecordsFiles").child(recordIDٍ+".pdf");
+
+        filepath.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    loadingbar.setTitle("Uploading Record");
-                    loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
-                    loadingbar.show();
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String url=String.valueOf(uri);
+                        myUrl=url;
+                        saveRecord(url);
 
-                    final HashMap recordMap=new HashMap();
-                    recordMap.put("type",1);
-                    recordMap.put("did",currentuser);
-                    recordMap.put("pid",pid);
-                    recordMap.put("patientName",patientName);
-                    recordMap.put("date",savecurrentdate);
-                    recordMap.put("time",savecurrenttime);
-                    recordMap.put("doctorSpeciality",dataSnapshot.child("specialty").getValue().toString());
-                    recordMap.put("doctorName",dataSnapshot.child("name").getValue().toString());
-                    recordMap.put("hospital","hospital name");   //wrong need to use refrence
-
-                    recordMap.put("testDate",date);
-
-                    if(medication!=null)
-                    recordMap.put("medication",medication);
-                    if(dose!=null)
-                    recordMap.put("dose",dose);
-                    if(duration!=null)
-                    recordMap.put("duration",duration);
-                    if(time!=null)
-                    recordMap.put("timeOfPrescription",time);
-                    if(note!=null)
-                    recordMap.put("note",note);
-
-                    //file
-                    if(!TextUtils.isEmpty(url)){
-                        recordMap.put("file",url);
                     }
-                    recordRef.child(recordIDٍ).updateChildren(recordMap).addOnCompleteListener(new OnCompleteListener() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(WritePrescription.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
-                                loadingbar.dismiss();
-                                finish();
-                            }
-                            else {
-                                Toast.makeText(WritePrescription.this, "Error", Toast.LENGTH_SHORT).show();
-                                loadingbar.dismiss();
-                                finish();
-                            }
-                        }
-                    });
-                }
-            }
+                });
 
+            }
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
 
             }
         });
     }
 
-    //these 2 methods together
     private void openGallery() {
         Intent galleryIntent= new Intent();
         galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("application/pdf");
         startActivityForResult(galleryIntent,Gallerypick);
     }
-
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -456,8 +433,6 @@ public class WritePrescription extends AppCompatActivity {
             b1.setVisibility(View.VISIBLE);
         }
     }
-
-
-
-
 }
+
+

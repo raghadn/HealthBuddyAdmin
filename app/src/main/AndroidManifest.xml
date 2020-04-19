@@ -9,7 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".VitalSigns"></activity>
+        <activity android:name=".Record" />
+        <activity android:name=".XRay" />
+        <activity android:name=".BloodTest" />
+        <activity android:name=".WriteRecord" />
+        <activity android:name=".WriteVitalSigns" />
+        <activity android:name=".WriteXRay" />
         <activity android:name=".AdminDrawer" />
         <activity android:name=".PhoneAuth" />
         <activity android:name=".WritePrescription" />
@@ -24,8 +30,9 @@
         <activity android:name=".CreateDoctor" />
         <activity android:name=".Forgotpassword" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".SearchForPatient"
-            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".SearchForPatient"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Notifications" />
         <activity android:name=".ReadActivity" />
         <activity android:name=".Login">

@@ -23,8 +23,8 @@
         android:layout_marginLeft="16dp"
         android:text="Record"
         android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/medication"
-        app:layout_constraintEnd_toStartOf="@+id/medication"
+        app:layout_constraintBottom_toBottomOf="@+id/med"
+        app:layout_constraintEnd_toStartOf="@+id/med"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -109,7 +109,7 @@
     <!-- medication,dose,every,duration,time,note; -->
 
     <TextView
-        android:id="@+id/medication"
+        android:id="@+id/med"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="medication"
@@ -118,13 +118,13 @@
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <TextView
-        android:id="@+id/dose"
+        android:id="@+id/findings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="dose"
         android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@+id/medication"
-        app:layout_constraintTop_toBottomOf="@+id/medication" />
+        app:layout_constraintStart_toStartOf="@+id/med"
+        app:layout_constraintTop_toBottomOf="@+id/med" />
 
     <TextView
         android:id="@+id/every"
@@ -132,11 +132,11 @@
         android:layout_height="wrap_content"
         android:text="every"
         android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@+id/dose"
-        app:layout_constraintTop_toBottomOf="@+id/dose" />
+        app:layout_constraintStart_toStartOf="@+id/findings"
+        app:layout_constraintTop_toBottomOf="@+id/findings" />
 
     <TextView
-        android:id="@+id/duration"
+        android:id="@+id/note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="duration"
@@ -145,23 +145,23 @@
         app:layout_constraintTop_toBottomOf="@+id/every" />
 
     <TextView
-        android:id="@+id/time"
+        android:id="@+id/impression"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="time"
         android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@+id/duration"
-        app:layout_constraintTop_toBottomOf="@+id/duration" />
+        app:layout_constraintStart_toStartOf="@+id/note"
+        app:layout_constraintTop_toBottomOf="@+id/note" />
 
     <TextView
-        android:id="@+id/note"
+        android:id="@+id/rrrr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="note"
         android:textSize="20dp"
 
-        app:layout_constraintStart_toStartOf="@+id/time"
-        app:layout_constraintTop_toBottomOf="@+id/time" />
+        app:layout_constraintStart_toStartOf="@+id/impression"
+        app:layout_constraintTop_toBottomOf="@+id/impression" />
 
     <ImageButton
         android:id="@+id/attachmentView"

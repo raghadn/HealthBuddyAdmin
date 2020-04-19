@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WriteBloodTest">
+    tools:context=".WriteXRay">
 
     <include
         android:id="@+id/viewHiveToolBar"
@@ -15,12 +15,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add XRay"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewHiveToolBar"
+        app:layout_constraintEnd_toEndOf="@+id/viewHiveToolBar"
+        app:layout_constraintStart_toStartOf="@+id/viewHiveToolBar"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="370dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/bourder"
         android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,13 +67,14 @@
 
     </FrameLayout>
 
+
     <TextView
-        android:id="@+id/dd"
+        android:id="@+id/med"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_margin="7dp"
         android:ems="10"
-        android:text="Bloodtest Date"
+        android:text="Exam Date"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,86 +86,55 @@
         android:layout_height="25dp"
         android:layout_margin="7dp"
         android:background="@drawable/calendar"
-        app:layout_constraintStart_toStartOf="@+id/dd"
-        app:layout_constraintTop_toBottomOf="@+id/dd" />
+        app:layout_constraintStart_toStartOf="@+id/med"
+        app:layout_constraintTop_toBottomOf="@+id/med" />
 
 
     <TextView
         android:id="@+id/dateV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
         android:ems="10"
+        android:layout_marginLeft="5dp"
         android:hint="Select Date"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="@+id/cal"
         app:layout_constraintStart_toEndOf="@+id/cal"
         app:layout_constraintTop_toTopOf="@+id/cal" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Bloodtest"
-        android:textColor="@color/white"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/viewHiveToolBar"
-        app:layout_constraintEnd_toEndOf="@+id/viewHiveToolBar"
-        app:layout_constraintStart_toStartOf="@+id/viewHiveToolBar"
-        app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/findings"
+        android:layout_width="300dp"
+        android:layout_height="49dp"
+        android:layout_margin="7dp"
+
+        android:ems="10"
+        android:hint="findings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cal" />
 
     <EditText
-        android:id="@+id/test"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:hint="Test"
-        app:layout_constraintStart_toStartOf="@+id/frameLayout"
-        app:layout_constraintTop_toBottomOf="@+id/attachmentView" />
-
-    <EditText
-        android:id="@+id/unit"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:hint="Unit"
-        app:layout_constraintStart_toEndOf="@+id/test"
-        app:layout_constraintTop_toTopOf="@+id/test" />
-
-    <EditText
-        android:id="@+id/result"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:hint="Result"
-        app:layout_constraintStart_toEndOf="@+id/unit"
-        app:layout_constraintTop_toTopOf="@+id/unit" />
-
-    <EditText
-        android:id="@+id/normal"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:hint="Normal"
-        app:layout_constraintStart_toEndOf="@+id/result"
-        app:layout_constraintTop_toTopOf="@+id/result" />
-
-    <EditText
-        android:id="@+id/rrrr"
-        android:layout_width="370dp"
+        android:id="@+id/impression"
+        android:layout_width="300dp"
         android:layout_height="49dp"
         android:layout_margin="7dp"
         android:ems="10"
-        android:hint="Notes"
+        android:hint="impression"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateV" />
+        app:layout_constraintTop_toBottomOf="@+id/findings" />
 
-    <ImageButton
-        android:id="@+id/add"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginLeft="3dp"
-        android:background="@drawable/pluscircle"
-        app:layout_constraintBottom_toBottomOf="@+id/normal"
-        app:layout_constraintStart_toEndOf="@+id/normal"
-        app:layout_constraintTop_toTopOf="@+id/normal" />
+    <EditText
+        android:id="@+id/note"
+        android:layout_width="300dp"
+        android:layout_height="49dp"
+        android:layout_margin="7dp"
+        android:ems="10"
+        android:hint="note"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/impression" />
 
 
     <Button
@@ -167,8 +148,9 @@
         android:text=" Add File"
         android:textAllCaps="false"
         android:textSize="14dp"
-        app:layout_constraintStart_toStartOf="@+id/rrrr"
-        app:layout_constraintTop_toBottomOf="@+id/rrrr" />
+        app:layout_constraintStart_toStartOf="@+id/note"
+        app:layout_constraintTop_toBottomOf="@+id/note" />
+
 
     <Button
         android:id="@+id/attachmentView"
@@ -180,7 +162,7 @@
         android:textAllCaps="false"
         android:textColor="@color/blue"
         android:textSize="14dp"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@+id/addAttachment"
         app:layout_constraintTop_toBottomOf="@+id/addAttachment" />
 
@@ -195,7 +177,7 @@
         android:textSize="14dp"
         android:visibility="invisible"
         app:layout_constraintStart_toEndOf="@+id/attachmentView"
-        app:layout_constraintTop_toTopOf="@+id/attachmentView" />
+        app:layout_constraintTop_toBottomOf="@+id/addAttachment" />
 
     <Button
         android:id="@+id/deleteAttachment"
@@ -209,7 +191,7 @@
         android:textSize="14dp"
         android:visibility="invisible"
         app:layout_constraintStart_toEndOf="@+id/button"
-        app:layout_constraintTop_toTopOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/addAttachment" />
 
     <Button
         android:id="@+id/button0"
@@ -222,8 +204,7 @@
         android:textSize="14dp"
         android:visibility="invisible"
         app:layout_constraintStart_toEndOf="@+id/deleteAttachment"
-        app:layout_constraintTop_toTopOf="@+id/deleteAttachment" />
-
+        app:layout_constraintTop_toBottomOf="@+id/addAttachment" />
 
     <Button
         android:id="@+id/submitRecord"
@@ -233,16 +214,18 @@
         android:background="@drawable/buttonshape"
         android:text="Create"
         android:textAllCaps="false"
-
         android:textColor="@color/white"
         android:textSize="18sp"
+
+        android:textStyle="normal"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recy" />
-
+        app:layout_constraintTop_toBottomOf="@+id/button0" />
 
     <Button
-        android:id="@+id/cancel"
+        android:id="@+id/cancelRecord"
+
         android:layout_width="300dp"
         android:layout_height="49dp"
         android:layout_marginTop="5dp"
@@ -250,20 +233,12 @@
         android:text="Cancel"
         android:textAllCaps="false"
         android:textColor="@color/white"
+
         android:textSize="18sp"
         android:textStyle="normal"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/submitRecord" />
-
-
-    <androidx.recyclerview.widget.RecyclerView
-
-        android:id="@+id/recy"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/test" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

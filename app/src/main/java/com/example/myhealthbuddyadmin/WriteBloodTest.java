@@ -3,20 +3,24 @@ package com.example.myhealthbuddyadmin;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -48,7 +52,7 @@ public class WriteBloodTest extends AppCompatActivity {
 
     EditText testT,unitT,resultT,normalT,noteT;
     String test,unit,result,normal,note;
-    TextView patientN,patientID;
+    TextView patientN,patientID,dateV;
     Button submitRecord,cancel,addAttachment;
     Button attachmentView, deleteAttachment, b0,b1;
     ImageButton add;
@@ -66,10 +70,16 @@ public class WriteBloodTest extends AppCompatActivity {
     private String currentuser;
     private DatabaseReference patientRef, doctorRef,recordRef;
 
+    ImageButton cal;
+    String date;
+    private DatePickerDialog.OnDateSetListener mDatasetListner;
+    ProgressDialog loadingbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_blood_test);
+        loadingbar = new ProgressDialog(this);
 
         addAttachment=findViewById(R.id.addAttachment);
         deleteAttachment=findViewById((R.id.deleteAttachment));
@@ -87,7 +97,7 @@ public class WriteBloodTest extends AppCompatActivity {
         unitT=findViewById((R.id.unit));
         resultT=findViewById(R.id.result);
         normalT=findViewById(R.id.normal);
-        noteT=findViewById(R.id.note);
+        noteT=findViewById(R.id.rrrr);
         patientN=findViewById(R.id.patientN);
         patientID=findViewById(R.id.patientID);
 
@@ -149,7 +159,7 @@ public class WriteBloodTest extends AppCompatActivity {
 
 
 
-                if (test==null || unit==null || result==null || normal==null) {
+                if (test.isEmpty() || unit.isEmpty() || result.isEmpty() || normal.isEmpty()) {
                     showMessage("Please enter all fields..");
 
                 } else {
@@ -161,6 +171,30 @@ public class WriteBloodTest extends AppCompatActivity {
         });
 
 
+        cal=findViewById(R.id.cal);
+        dateV=findViewById(R.id.dateV);
+        cal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal=Calendar.getInstance();
+                int year=cal.get(Calendar.YEAR);
+                int month=cal.get(Calendar.MONTH);
+                int day=cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog=new DatePickerDialog(WriteBloodTest.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDatasetListner,year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDatasetListner=new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month=month+1;
+                date=dayOfMonth+"/"+month+"/"+year;
+                dateV.setText(date);
+            }
+        };
 
         //addAttachment
         addAttachment.setOnClickListener(new View.OnClickListener() {
@@ -193,7 +227,7 @@ public class WriteBloodTest extends AppCompatActivity {
             public void onClick(View v) {
                 fileUri=null;
                 myUrl=null;
-                attachmentView.setVisibility(View.INVISIBLE);
+                attachmentView.setVisibility(View.GONE);
                 deleteAttachment.setVisibility(View.INVISIBLE);
                 b0.setVisibility(View.INVISIBLE);
                 b1.setVisibility(View.INVISIBLE);
@@ -208,6 +242,7 @@ public class WriteBloodTest extends AppCompatActivity {
         recordRef.child(recordIDٍ).child("BloodTest").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 if (dataSnapshot.getValue() == null) {
                     hasBT=true;
                 }else{
@@ -230,21 +265,30 @@ public class WriteBloodTest extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (hasBT && fileUri==null){
-                    showMessage("Please add blood tests or a file");
-                }else {
-                    //save file
-                    if(fileUri!=null&&!fileUri.equals(Uri.EMPTY)){
-                        StoreFile();
+                if (date == null) {
+                    showMessage("Please add test date");
+                }else{
+                    if (hasBT && fileUri==null){
+                        showMessage("Please add blood tests or a file");
+                    }else {
+                        loadingbar.setTitle("Uploading Record");
+                        loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
+                        loadingbar.show();
+
+
+                        //save file
+                        if(fileUri!=null&&!fileUri.equals(Uri.EMPTY)){
+                            StoreFile();
+                        }
+                        //add note
+                        note=noteT.getText().toString();
+                        noteT.getText().clear();
+                        if(note!=null){
+                            recordRef.child(recordIDٍ).child("note").setValue(note);
+                        }
+                        finish();
+                        Toast.makeText(WriteBloodTest.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
                     }
-                    //add note
-                    note=noteT.getText().toString();
-                    noteT.getText().clear();
-                    if(note!=null){
-                        recordRef.child(recordIDٍ).child("note").setValue(note);
-                    }
-                    //redirect and show message
-                    showMessage("done");
                 }
 
             }
@@ -255,8 +299,34 @@ public class WriteBloodTest extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recordRef.child(recordIDٍ).removeValue();
-                //redirect
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
+                builder.setTitle("Cancel Record");
+                builder.setMessage("Are you sure you want to cancel?");
+                // Set click listener for alert dialog buttons
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch(which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                recordRef.child(recordIDٍ).removeValue();
+                                finish();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                // User clicked the no button
+                                break;
+                        }
+                    }
+                };
+                // Set the alert dialog yes button click listener
+                builder.setPositiveButton("Yes", dialogClickListener);
+
+                // Set the alert dialog no button click listener
+                builder.setNegativeButton("No",dialogClickListener);
+
+                AlertDialog dialog = builder.create();
+                // Display the alert dialog on interface
+                dialog.show();
 
             }
         });
@@ -297,7 +367,7 @@ public class WriteBloodTest extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
-                                builder.setTitle("Delete bloodtest!");
+                                builder.setTitle("Delete Test!");
                                 builder.setMessage("Are you sure?");
 
 
@@ -330,9 +400,6 @@ public class WriteBloodTest extends AppCompatActivity {
                             }
 
                         });//delete onclicklistener
-
-
-
                     }
 
                     public void deleteItem(int position){
@@ -342,17 +409,17 @@ public class WriteBloodTest extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()){
-
-                                            Toast.makeText(WriteBloodTest.this, "تم حدف تعليقك...", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(WriteBloodTest.this, "Test deleted.", Toast.LENGTH_SHORT).show();
                                         }
                                         else {
-                                            Toast.makeText(WriteBloodTest.this, "حدث خطأ...", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(WriteBloodTest.this, "Test not deleted.", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 
                                 });
                     }
                 };
+
 
         recyclerV.setAdapter(firebaseRecyclerAdapter);
 
@@ -418,24 +485,14 @@ public class WriteBloodTest extends AppCompatActivity {
                     recordMap.put("type",2);
                     recordMap.put("did",currentuser);
                     recordMap.put("pid",pid);
-                    patientName=getIntent().getExtras().get("patientName").toString();
                     recordMap.put("patientName",patientName);
                     recordMap.put("date",savecurrentdate);
                     recordMap.put("time",savecurrenttime);
                     recordMap.put("doctorSpeciality",dataSnapshot.child("specialty").getValue().toString());
                     recordMap.put("doctorName",dataSnapshot.child("name").getValue().toString());
                     recordMap.put("hospital","get back to this");
-                    recordRef.child(recordIDٍ).updateChildren(recordMap).addOnCompleteListener(new OnCompleteListener() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(WriteBloodTest.this, "Created empty record add blood test now", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-
-                            }
-                        }
-                    });
+                    recordMap.put("testDate",date);
+                    recordRef.child(recordIDٍ).updateChildren(recordMap);
 
                 }
             }
@@ -455,6 +512,17 @@ public class WriteBloodTest extends AppCompatActivity {
 
         if(recordType.equals("BloodTest"))
             recordType="2";
+
+        if(recordType.equals("XRay"))
+            recordType="3";
+
+        if(recordType.equals("VitalSigns"))
+            recordType="4";
+
+        if(recordType.equals("Record"))
+            recordType="5";
+
+
 
         //String ID
         String StrId = "";
@@ -517,7 +585,6 @@ public class WriteBloodTest extends AppCompatActivity {
                     @Override
                     public void onSuccess(Uri uri) {
                         String url=String.valueOf(uri);
-                        Toast.makeText(WriteBloodTest.this, "تم حفظ الملف...", Toast.LENGTH_SHORT).show();
                         myUrl=url;
                         recordRef.child(recordIDٍ).child("file").setValue(myUrl);
 

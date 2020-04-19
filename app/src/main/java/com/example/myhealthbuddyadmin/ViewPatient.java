@@ -24,7 +24,7 @@ public class ViewPatient extends AppCompatActivity {
     TextView patientNameT,ageT,genderT;
     String name,gender;
     int age;
-    Button prescriptions,bloodTest;
+    Button prescriptions,bloodTest,Xray,VitalSigns,Records;
 
 
 
@@ -38,8 +38,15 @@ public class ViewPatient extends AppCompatActivity {
         patientNameT=findViewById(R.id.patientName);
         ageT=findViewById(R.id.Age);
         genderT=findViewById(R.id.Gender);
+
+
         prescriptions=findViewById(R.id.prescription);
         bloodTest=findViewById(R.id.bloodTest);
+        Xray=findViewById(R.id.Xray);
+        VitalSigns=findViewById(R.id.VitalSigns);
+        Records=findViewById(R.id.Records);
+
+
 
         //get the id from the recyclerView
         final String id = getIntent().getExtras().get("PatientKey").toString();
@@ -77,12 +84,43 @@ public class ViewPatient extends AppCompatActivity {
         bloodTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent redirect = new Intent(ViewPatient.this,WriteBloodTest.class);
+                Intent redirect = new Intent(ViewPatient.this,BloodTest.class);
                 redirect.putExtra("PatientKey",id);
                 redirect.putExtra("patientName",name);
                 startActivity(redirect);
             }
         });
+
+        Xray.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent redirect = new Intent(ViewPatient.this,XRay.class);
+                redirect.putExtra("PatientKey",id);
+                redirect.putExtra("patientName",name);
+                startActivity(redirect);
+            }
+        });
+
+        Records.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent redirect = new Intent(ViewPatient.this,Record.class);
+                redirect.putExtra("PatientKey",id);
+                redirect.putExtra("patientName",name);
+                startActivity(redirect);
+            }
+        });
+
+        VitalSigns.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent redirect = new Intent(ViewPatient.this,VitalSigns.class);
+                redirect.putExtra("PatientKey",id);
+                redirect.putExtra("patientName",name);
+                startActivity(redirect);
+            }
+        });
+
     }
 }
 
