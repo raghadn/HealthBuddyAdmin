@@ -2,13 +2,17 @@ package com.example.myhealthbuddyadmin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,17 +36,21 @@ public class SettingActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mRef,href;
 
-
-    Button Signoutbtn;
+    Dialog myDialog;
+    CardView Signoutbtn , deActive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
+
+        myDialog = new Dialog(this);
+
         userImage=findViewById(R.id.userimage);
         userHos=findViewById(R.id.Hospital);
         userName=findViewById(R.id.Name);
+        deActive=findViewById(R.id.deactivebtn);
 
         mAuth = FirebaseAuth.getInstance();
         Fuser =mAuth.getCurrentUser();
@@ -60,6 +68,10 @@ public class SettingActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
+
 
 
 
@@ -114,9 +126,30 @@ public class SettingActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
+
+        // To DeActivate the Admin
+        deActive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog();
+                FirebaseDatabase.getInstance().getReference().child("AdminIDs").child("DeActive").child(Fuser.getUid()).setValue("Deactive");
+                Toast.makeText(getApplicationContext(), "Your Admin Acount is deactive",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
+    public void openDialog() {
 
+
+                myDialog.setContentView(R.layout.dialog);
+                TextView txtclose = myDialog.findViewById(R.id.username);
+                txtclose.setText("Are You sure you want to deActivate your account ?");
+
+                myDialog.show();
+
+
+    }
 }
 
 

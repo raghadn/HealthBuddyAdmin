@@ -2,6 +2,7 @@ package com.example.myhealthbuddyadmin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,10 +22,10 @@ public class ViewPatient extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mRef;
-    TextView patientNameT,ageT,genderT;
-    String name,gender;
+    TextView patientNameT,natIDT,genderT;
+    String name,gender, nationalId;
     int age;
-    Button prescriptions,bloodTest,Xray,VitalSigns,Records;
+    CardView prescriptions,bloodTest,Xray,VitalSigns,Records;
 
 
 
@@ -36,8 +37,8 @@ public class ViewPatient extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         patientNameT=findViewById(R.id.patientName);
-        ageT=findViewById(R.id.Age);
-        genderT=findViewById(R.id.Gender);
+        natIDT=findViewById(R.id.nid);
+        genderT=findViewById(R.id.gender);
 
 
         prescriptions=findViewById(R.id.prescription);
@@ -59,7 +60,11 @@ public class ViewPatient extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 name=dataSnapshot.child("name").getValue().toString();
+                //gender=dataSnapshot.child("gender").getValue().toString();
+                nationalId=dataSnapshot.child("national_id").getValue().toString();
                 patientNameT.setText(name);
+                //genderT.setText(gender);
+                natIDT.setText(nationalId);
 
             }
 
@@ -120,7 +125,6 @@ public class ViewPatient extends AppCompatActivity {
                 startActivity(redirect);
             }
         });
-
     }
 }
 

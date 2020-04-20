@@ -128,7 +128,7 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/pills" />
+                    android:src="@drawable/pills1" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -162,7 +162,7 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/blood" />
+                    android:src="@drawable/blood1" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -196,12 +196,12 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/cardiogram" />
+                    android:src="@drawable/heartbeat" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="blod"
+                    android:text="Vital Signs"
                     android:textAlignment="center" />
             </LinearLayout>
 
@@ -230,12 +230,12 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/nuclear" />
+                    android:src="@drawable/skeleton" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="blod"
+                    android:text="X-ray"
                     android:textAlignment="center" />
             </LinearLayout>
 
@@ -264,12 +264,12 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/report" />
+                    android:src="@drawable/medicalhistory1" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="blod"
+                    android:text="Medical History"
                     android:textAlignment="center" />
             </LinearLayout>
 

@@ -16,156 +16,245 @@
         tools:layout_editor_absoluteX="-2dp"
         tools:layout_editor_absoluteY="-1dp" />
 
-    <Button
-        android:id="@+id/singout"
-        android:layout_width="385dp"
-        android:gravity="center_vertical"
-        android:layout_height="60dp"
-        android:text="Sign Out"
-        android:background="#00FFFFFF"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.617" />
-
-    <Button
-        android:id="@+id/support"
-        android:layout_width="385dp"
-        android:layout_height="60dp"
-        android:text="Support"
-        android:background="#00FFFFFF"
-        android:gravity="center_vertical"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.459" />
-
-    <Button
-        android:id="@+id/deactive"
-        android:layout_width="385dp"
-        android:layout_height="60dp"
-        android:text="DeActivate"
-        android:gravity="center_vertical"
-        android:background="#00FFFFFF"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.539" />
-
-    <View
-        android:id="@+id/view1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#A3757575"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Hospital"
-        app:layout_constraintVertical_bias="0.167" />
-
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#A3757575"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Hospital"
-        app:layout_constraintVertical_bias="0.272" />
-
-    <View
-        android:id="@+id/view3"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#A3757575"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Hospital"
-        app:layout_constraintVertical_bias="0.377" />
-
-    <View
-        android:id="@+id/view4"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#A3757575"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Hospital"
-        app:layout_constraintVertical_bias="0.497" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/userimage"
-        android:layout_width="100dp"
-        android:layout_height="98dp"
-        android:layout_marginTop="108dp"
-        android:src="@drawable/doctoricon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.054"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.003" />
-
-    <TextView
-        android:id="@+id/Hospital"
-        android:layout_width="258dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="116dp"
-        android:layout_marginLeft="116dp"
-        android:gravity="start"
-        android:text="Hospital Name"
-        android:textColor="#030303"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Name"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/Name"
-        android:layout_width="257dp"
-        android:layout_height="49dp"
-        android:layout_marginBottom="544dp"
-        android:gravity="start"
-        android:text="Admin Name"
-        android:textColor="#0A0505"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.882"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/viewHiveToolBar"
-        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Setting"
-        android:textColor="#FFFFFF"
+        android:textColor="#794D71"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/viewRequestToolbar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.126"
         app:layout_constraintStart_toStartOf="@+id/viewRequestToolbar"
         app:layout_constraintTop_toTopOf="@+id/viewRequestToolbar"
-        app:layout_constraintVertical_bias="0.531" />
+        app:layout_constraintVertical_bias="0.6" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="350dp"
+        android:layout_height="55dp"
+        app:cardBackgroundColor="#A6B1ACB4"
+        app:cardCornerRadius="10dp"
+        app:contentPadding="1dp"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.519"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.428">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:cardCornerRadius="10dp"
+            app:contentPadding="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffffff"
+            android:padding="2dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="72dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:padding="10dp"
+                android:src="@drawable/settings1" />
+
+            <TextView
+                android:layout_width="177dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="Support"
+                android:textColor="#BC000000"
+                android:textSize="20sp" />
+        </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/deactivebtn"
+        android:layout_width="350dp"
+        android:layout_height="55dp"
+        app:cardBackgroundColor="#A6B1ACB4"
+        app:cardCornerRadius="10dp"
+        app:contentPadding="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.519"
+        app:layout_constraintVertical_bias="0.528"
+        app:layout_constraintTop_toTopOf="@+id/viewRequestToolbar">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:cardCornerRadius="10dp"
+        app:contentPadding="5dp">
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffffff"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="72dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:padding="10dp"
+                android:src="@drawable/trash1"/>
+
+            <TextView
+                android:layout_width="177dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="Deactivate"
+                android:textColor="#BC000000"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/singout"
+        android:layout_width="350dp"
+        android:layout_height="55dp"
+        app:cardBackgroundColor="#A6B1ACB4"
+        app:contentPadding="1dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.519"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.628">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:cardCornerRadius="10dp"
+        app:contentPadding="5dp">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffffff"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="72dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:padding="10dp"
+                android:src="@drawable/signout1" />
+
+            <TextView
+                android:layout_width="177dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="Sign Out"
+                android:textColor="#BC000000"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/adminprofile"
+        android:layout_width="350dp"
+        android:layout_height="150dp"
+        app:cardBackgroundColor="#A6B1ACB4"
+        app:contentPadding="1dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.519"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.180">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:cardCornerRadius="10dp"
+            app:contentPadding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffffff"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/userimage"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:padding="10dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/doctoricon" />
+
+                    <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:orientation="vertical"
+                      android:layout_marginTop="25dp"
+                      android:layout_gravity="center_horizontal|center_vertical">
+
+                        <TextView
+                            android:id="@+id/Name"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:text="Admin Name"
+                            android:textColor="#99000000"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:id="@+id/Hospital"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Hospital Name"
+                            android:textColor="#99000000"
+                            android:textSize="18sp" />
+
+                     </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+    <!--<View
+      android:id="@+id/view1"
+      android:layout_width="match_parent"
+      android:layout_height="1dp"
+      android:background="#A3757575"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/Hospital"
+      app:layout_constraintVertical_bias="0.064" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -65,8 +66,6 @@ public class Login extends AppCompatActivity {
                     if(radioID==R.id.providerrButton) {
                         loginProvider();
                     }
-
-
             }
         });
 
@@ -97,7 +96,7 @@ public class Login extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
 
-                              //  if (mAuth.getCurrentUser().isEmailVerified()) {
+                              // if (mAuth.getCurrentUser().isEmailVerified()) {
                                     if (password.equals(ID)) {
                                         mAuth.sendPasswordResetEmail(Email).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
@@ -141,13 +140,13 @@ public class Login extends AppCompatActivity {
 
 
     public void loginAdmin() {
+
         final String ID = adminID.getText().toString();
         final String password = adminPassword.getText().toString();
 
         if (ID.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please Enter Your ID", Toast.LENGTH_LONG).show();
-        }
-        else
+        } else
         if (password.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please Enter Your password", Toast.LENGTH_LONG).show();
         } else {
@@ -156,24 +155,35 @@ public class Login extends AppCompatActivity {
                 DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
 
 
-            firebaseRef.child("AdminIDs").child(ID)
+
+            firebaseRef.child("AdminIDs")
                     .addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if(dataSnapshot.exists()){
-                                    final String Email =  dataSnapshot.getValue(String.class);
-                                    mAuth.signInWithEmailAndPassword(Email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()) {
+
+                                        final String Email = dataSnapshot.child(ID).getValue(String.class);
+
+
+                                    mAuth.signInWithEmailAndPassword(Email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
-                                            if(task.isSuccessful()) {
-                                                sendUserToMainActivity(Email,password);
-                                                Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
+                                            if (task.isSuccessful()) {
+                                                String adminuser=mAuth.getCurrentUser().getUid();
+                                                if(!dataSnapshot.child("DeActive").hasChild(adminuser)) {
+
+                                                    sendUserToMainActivity(Email, password);
+                                                    Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
+                                                }else{
+                                                    Toast.makeText(getApplicationContext(), "Your Account has been deactivated", Toast.LENGTH_LONG).show();
+                                                }
+
                                             } else
                                                 Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                                         }
                                     });
 
-                                } else
+                               } else
                                     Toast.makeText(getApplicationContext(), "ID does not exist", Toast.LENGTH_LONG).show();
 
                             }
@@ -202,6 +212,37 @@ public class Login extends AppCompatActivity {
     private void sendUserToForgotPassword(){
         Intent loginIntent=new Intent(Login.this,Forgotpassword.class);
         startActivity(loginIntent);
+    }
+
+    public Boolean IsDeactive(){
+        final Boolean[] IsDeactive = {false};
+
+        String adminuser =mAuth.getCurrentUser().getUid();
+        DatabaseReference Admin = FirebaseDatabase.getInstance().getReference().child("Admins").child(adminuser).child("uu");
+
+        /*if(Admin.child("DeActive")){
+            Toast.makeText(getApplicationContext(), "Yees", Toast.LENGTH_LONG).show();
+            return true;
+        }*/
+
+        Admin.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child("DeActive").equals("Yes")){
+
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        return IsDeactive[0];
     }
 
 }

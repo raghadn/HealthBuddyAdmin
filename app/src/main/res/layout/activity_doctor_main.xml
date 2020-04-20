@@ -9,7 +9,7 @@
     <include
         android:id="@+id/viewRequestToolbar"
         layout="@layout/toolbar"
-        android:layout_width="413dp"
+        android:layout_width="393dp"
         android:layout_height="82dp" />
 
 

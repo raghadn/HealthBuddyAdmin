@@ -86,7 +86,9 @@ public class PhoneAuth extends AppCompatActivity {
 
 
                     // send Email Verification
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     user.sendEmailVerification();
+
                     Toast.makeText(getApplicationContext(), "Please Check your email", Toast.LENGTH_LONG).show();
                     String u=user.getUid().toString();
                     Toast.makeText(getApplicationContext(), "user ="+u, Toast.LENGTH_LONG).show();

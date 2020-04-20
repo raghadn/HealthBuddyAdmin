@@ -47,18 +47,8 @@ public class CreateDoctor extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_doctor);
 
-      /*  bottomnav=findViewById(R.id.bottom_navigation);
-        bottomnav.setSelectedItemId(R.id.nav_create);
-        bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                UserMenuSelector(menuItem);
-                return false;
-            }
-        });*/
 
         Group=findViewById(R.id.radiogender);
-
         ID= findViewById(R.id.idd);
         name=findViewById(R.id.name);
         emaill=findViewById(R.id.email);
@@ -89,10 +79,10 @@ public class CreateDoctor extends AppCompatActivity {
                 String Uemail = emaill.getText().toString();
                 String Uphone = phone.getText().toString();
                 String Uspecialty = specialty.getText().toString();
-               // String Ugender = gender.getText().toString();
+             // String Ugender = gender.getText().toString();
                 String Ulicense = password.getText().toString();
                 if(Uid.isEmpty()|| Uname.isEmpty()|| Uemail.isEmpty()|| Uphone.isEmpty()|| Uspecialty.isEmpty()|| Ulicense.isEmpty())
-                    showMessage("الرجاء اكمال البيانات");
+                    showMessage("Please Verify All Fields");
                 else
                     CreateHealthcareProviderAccount(Uemail,Ulicense ,Uid,Uname,Uphone,Gender,Uspecialty);
             }
@@ -150,37 +140,41 @@ public class CreateDoctor extends AppCompatActivity {
     // method adding thr created account to database
     private void CreateHealthcareProviderAccount(final String email , final String license, final String ID , final String Name , final String Phone, final String Gender, final String Specialty) {
 
-        FirebaseAuth mAuth;
-        mAuth = FirebaseAuth.getInstance();
-        mAuth.createUserWithEmailAndPassword(email,license).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    String userid = user.getUid().toString();
+        if(Phone.length()<10){
+            showMessage("Please enter a valid phone number");
+        }
+                else {
 
-                    // save the doctor's data in real time database
-                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid);
-                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("email").setValue(email);
-                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("hospital").setValue(HID);
-                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("id").setValue(ID);
-                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("name").setValue(Name);
-                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("phone").setValue(Phone);
-                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("gender").setValue(Gender);
-                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("specialty").setValue(Specialty);
-                    FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("license").setValue(license);
+            FirebaseAuth mAuth;
+            mAuth = FirebaseAuth.getInstance();
+            mAuth.createUserWithEmailAndPassword(email, license).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        String userid = user.getUid().toString();
 
-                    //For the doctors id (Login)
-                    FirebaseDatabase.getInstance().getReference().child("DoctorIDs").child(ID).setValue(email);
+                        // save the doctor's data in real time database
+                        FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid);
+                        FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("email").setValue(email);
+                        FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("hospital").setValue(HID);
+                        FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("id").setValue(ID);
+                        FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("name").setValue(Name);
+                        FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("phone").setValue(Phone);
+                        FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("gender").setValue(Gender);
+                        FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("specialty").setValue(Specialty);
+                        FirebaseDatabase.getInstance().getReference().child("Doctors").child(userid).child("license").setValue(license);
+
+                        //For the doctors id (Login)
+                        FirebaseDatabase.getInstance().getReference().child("DoctorIDs").child(ID).setValue(email);
 
 
-                }else {
-                    showMessage("حدث خطأ");
+                    } else {
+                        showMessage("Error");
+                    }
                 }
-            }
-        });
-
-
+            });
+        }
 
     }
 
@@ -190,18 +184,6 @@ public class CreateDoctor extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), message,Toast.LENGTH_LONG).show();
     }
 
-    private void UserMenuSelector(MenuItem item) {
-        switch (item.getItemId()) {
 
-
-
-            case R.id.nav_home:
-                Intent intentHome = new Intent(CreateDoctor.this, MainActivity.class);
-                startActivity(intentHome);
-                break;
-
-        }
-
-    }
 
 }
