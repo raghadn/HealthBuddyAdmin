@@ -9,7 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VitalSigns"></activity>
+        <activity android:name=".ViewRecord"></activity>
+        <activity android:name=".ViewVitalSigns" />
+        <activity android:name=".ViewBloodTest" />
+        <activity android:name=".ViewXRay" />
+        <activity android:name=".VitalSigns" />
         <activity android:name=".Record" />
         <activity android:name=".XRay" />
         <activity android:name=".BloodTest" />
@@ -38,6 +42,7 @@
         <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

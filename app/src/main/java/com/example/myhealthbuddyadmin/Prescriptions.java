@@ -51,7 +51,7 @@ public class Prescriptions extends AppCompatActivity {
                 startActivity(redirect);
             }
         });
-
+/*
 
 
             mAuth = FirebaseAuth.getInstance();
@@ -204,4 +204,6 @@ public class Prescriptions extends AppCompatActivity {
 
     }
 
-    }
+
+    */
+    }}

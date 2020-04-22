@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewPrescription">
+    tools:context=".ViewXRay">
 
     <include
         android:id="@+id/viewHiveToolBar"
@@ -19,7 +19,7 @@
         android:id="@+id/textView22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Prescription"
+        android:text="View X-ray"
         android:textColor="@color/purple"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/viewHiveToolBar"
@@ -315,7 +315,7 @@
                         android:id="@+id/testDateL"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Medication:"
+                        android:text="Test Date:"
                         android:textColor="@color/purple"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -325,7 +325,7 @@
                         android:id="@+id/testDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Medication"
+                        android:text="testDate"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -336,7 +336,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="Dose:"
+                        android:text="Findings:"
                         android:textColor="@color/purple"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -346,7 +346,7 @@
                         android:id="@+id/findings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Dose"
+                        android:text="Findings"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -357,7 +357,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="Time:"
+                        android:text="Impression:"
                         android:textColor="@color/purple"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -367,36 +367,15 @@
                         android:id="@+id/impression"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Time"
+                        android:text="Impression"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/impressionL" />
 
-                    <TextView
-                        android:id="@+id/textView55"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="Duration:"
-                        android:textColor="@color/purple"
-                        android:textSize="18sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/impression" />
 
                     <TextView
-                        android:id="@+id/duration"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Duration"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView55" />
-
-
-                    <TextView
-                        android:id="@+id/notesL"
+                        android:id="@+id/noteL"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
@@ -414,7 +393,7 @@
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/notesL" />
+                        app:layout_constraintTop_toBottomOf="@+id/noteL" />
 
                 </LinearLayout>
 
@@ -429,7 +408,6 @@
                 android:drawableLeft="@drawable/attachpurple"
                 android:minHeight="1dp"
                 android:text=" View File"
-                android:visibility="invisible"
                 android:textAllCaps="false"
                 android:textColor="@color/grey"
                 android:textSize="16sp"

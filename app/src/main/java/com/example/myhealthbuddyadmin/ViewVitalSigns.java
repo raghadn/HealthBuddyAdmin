@@ -18,12 +18,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class ViewPrescription extends AppCompatActivity {
+public class ViewVitalSigns extends AppCompatActivity {
 
     String recordID,hid,pid;
-    TextView doctorNameT,doctorsSpecialtyT, patientNameT,hospitalNameT,creationDate,creationTime;
+    TextView doctorNameT,doctorsSpecialtyT, patientNameT,hospitalNameT,creationDate,creationTime,patientN,patientID,patientG;
     DatabaseReference recordRef, patientRef ,hospitalRef;
-    TextView medicationT,doseT,durationT,timeT,noteT,patientN,patientID,patientG;;
+    TextView testDateT,noteT;
+    TextView findingsT,impressionT,durationT;
     Button attachmentView,done;
     BottomNavigationView Doctorbottomnav;
 
@@ -32,7 +33,7 @@ public class ViewPrescription extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_prescription);
+        setContentView(R.layout.activity_view_vital_signs);
 
         Doctorbottomnav=findViewById(R.id.d_bottom_navigation);
         Doctorbottomnav.setSelectedItemId(R.id.d_nav_home);
@@ -50,14 +51,11 @@ public class ViewPrescription extends AppCompatActivity {
         doctorsSpecialtyT=findViewById(R.id.doctorsSpecialty);
         patientNameT=findViewById(R.id.patientName);
         hospitalNameT=findViewById(R.id.hospitalName);
-
-        medicationT=findViewById(R.id.testDate);
-        doseT=findViewById(R.id.findings);
-        timeT=findViewById(R.id.impression);
-        durationT=findViewById(R.id.duration);
-        noteT=findViewById(R.id.note);
         creationDate=findViewById(R.id.creationDate);
         creationTime=findViewById(R.id.creationTime);
+        patientN=findViewById(R.id.patientName);
+        patientID=findViewById(R.id.patientID);
+        patientG=findViewById(R.id.gender);
 
         done=findViewById(R.id.done);
         done.setOnClickListener(new View.OnClickListener() {
@@ -67,11 +65,12 @@ public class ViewPrescription extends AppCompatActivity {
             }
         });
 
-        patientN=findViewById(R.id.patientName);
-        patientID=findViewById(R.id.patientID);
-        patientG=findViewById(R.id.gender);
+        testDateT=findViewById(R.id.testDate);
+        noteT=findViewById(R.id.note);
 
-
+        findingsT=findViewById(R.id.findings);
+        impressionT=findViewById(R.id.impression);
+        durationT=findViewById(R.id.duration);
 
         recordRef = FirebaseDatabase.getInstance().getReference().child("Records").child(recordID);
         recordRef.addValueEventListener(new ValueEventListener() {
@@ -79,43 +78,23 @@ public class ViewPrescription extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 //record info
-                String medication,dose,every,duration,time,note;
-                if(dataSnapshot.hasChild("medication")){
-                    medication=dataSnapshot.child("medication").getValue().toString();
-                    medicationT.setText(medication);
-                }
+                String medication,impression,note;
 
-                if(dataSnapshot.hasChild("dose")){
-                    dose=dataSnapshot.child("dose").getValue().toString();
-                    doseT.setText(dose);
-                }else{
-                    doseT.setVisibility(View.GONE);
-                    findViewById(R.id.findingsL).setVisibility(View.GONE);
-                }
+                medication=dataSnapshot.child("findings").getValue().toString();
+                findingsT.setText(medication);
 
-                if(dataSnapshot.hasChild("duration")){
-                    duration=dataSnapshot.child("duration").getValue().toString();
-                    durationT.setText(duration);
-                }else{
-                    durationT.setVisibility(View.GONE);
-                    findViewById(R.id.textView55).setVisibility(View.GONE);
-                }
+                impression=dataSnapshot.child("impression").getValue().toString();
+                impressionT.setText(impression);
 
-                if(dataSnapshot.hasChild("timeOfPrescription")){
-                    time=dataSnapshot.child("timeOfPrescription").getValue().toString();
-                    timeT.setText(time);
-                }else{
-                    timeT.setVisibility(View.GONE);
-                    findViewById(R.id.impressionL).setVisibility(View.GONE);
-                }
 
                 if(dataSnapshot.hasChild("note")){
                     note=dataSnapshot.child("note").getValue().toString();
                     noteT.setText(note);
                 }else{
                     noteT.setVisibility(View.GONE);
-                    findViewById(R.id.notesL).setVisibility(View.GONE);
+                    findViewById(R.id.noteL).setVisibility(View.GONE);
                 }
+
 
                 //doctor who wrote this record
                 String doctorName, doctorsSpecialty;
@@ -130,6 +109,7 @@ public class ViewPrescription extends AppCompatActivity {
                 creationTime.setText(dataSnapshot.child("timeCreated").getValue().toString());
                 hid=dataSnapshot.child("hospital").getValue().toString();
                 pid=dataSnapshot.child("pid").getValue().toString();
+
 
                 //patient
                 patientRef = FirebaseDatabase.getInstance().getReference().child("Patients").child(pid);
@@ -174,7 +154,7 @@ public class ViewPrescription extends AppCompatActivity {
                         public void onClick(View v) {
 
                             //pdfviewer
-                            Intent redirect = new Intent(ViewPrescription.this,ReadActivity.class);
+                            Intent redirect = new Intent(ViewVitalSigns.this,ReadActivity.class);
                             redirect.putExtra("url", url);
                             redirect.putExtra("recordID", recordID);
                             startActivity(redirect);
@@ -196,17 +176,17 @@ public class ViewPrescription extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.d_nav_search:
-                Intent intentSearch = new Intent(ViewPrescription.this, SearchForPatient.class);
+                Intent intentSearch = new Intent(ViewVitalSigns.this, SearchForPatient.class);
                 startActivity(intentSearch);
                 break;
 
             case R.id.d_nav_profile:
-                Intent intentProfile = new Intent(ViewPrescription.this, DoctorProfile.class);
+                Intent intentProfile = new Intent(ViewVitalSigns.this, DoctorProfile.class);
                 startActivity(intentProfile);
                 break;
 
             case R.id.d_nav_notification:
-                Intent intentNotifications = new Intent(ViewPrescription.this, Notifications.class);
+                Intent intentNotifications = new Intent(ViewVitalSigns.this, Notifications.class);
                 startActivity(intentNotifications);
                 break;
 

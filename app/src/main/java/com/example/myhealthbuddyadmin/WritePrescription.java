@@ -5,22 +5,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,21 +46,18 @@ public class WritePrescription extends AppCompatActivity {
     private DatabaseReference patientRef, doctorRef,recordRef;
 
     EditText medicationT,doseT,durationT,timeT,noteT;
-    TextView patientN,patientID,dateV;
-    String medication,dose,duration,time,note, patientName,hospitalName;
+    TextView patientN,patientID,patientG;
+    String medication,dose,duration,time,note, patientName;
     String type,pid;
     Button submitRecord,cancelRecord,addAttachment;
     Button attachmentView, deleteAttachment, b0,b1;
     private Uri fileUri;
-    private String myUrl="";//store the file
+    private String myUrl="";//store the file don't delete it! assigned inside methods
     private String savecurrentdate,savecurrenttime;
     private static final int Gallerypick=1;
     StorageReference storageReference;
     String recordIDٍ;
 
-    ImageButton cal;
-    String date;
-    private DatePickerDialog.OnDateSetListener mDatasetListner;
 
     ProgressDialog loadingbar;
 
@@ -78,13 +70,14 @@ public class WritePrescription extends AppCompatActivity {
 
         type="Prescription";
 
-        medicationT=findViewById(R.id.med);
+        medicationT=findViewById(R.id.testDate);
         doseT=findViewById(R.id.findings);
         durationT=findViewById(R.id.note);
         timeT=findViewById(R.id.impression);
         noteT=findViewById(R.id.rrrr);
-        patientN=findViewById(R.id.patientN);
+        patientN=findViewById(R.id.patientName);
         patientID=findViewById(R.id.patientID);
+        patientG=findViewById(R.id.gender);
 
         addAttachment=findViewById(R.id.addAttachment);
         deleteAttachment=findViewById((R.id.deleteAttachment));
@@ -122,7 +115,7 @@ public class WritePrescription extends AppCompatActivity {
                 patientName=dataSnapshot.child("name").getValue().toString();
                 patientN.setText(patientName);
                 patientID.setText(dataSnapshot.child("national_id").getValue().toString());
-
+                //patientG.setText(dataSnapshot.child("").getValue().toString());
             }
 
             @Override
@@ -131,30 +124,7 @@ public class WritePrescription extends AppCompatActivity {
             }
         });
 
-        cal=findViewById(R.id.cal);
-        dateV=findViewById(R.id.dateV);
-        cal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar cal=Calendar.getInstance();
-                int year=cal.get(Calendar.YEAR);
-                int month=cal.get(Calendar.MONTH);
-                int day=cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog=new DatePickerDialog(WritePrescription.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDatasetListner,year,month,day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-            }
-        });
-
-        mDatasetListner=new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month=month+1;
-                date=dayOfMonth+"/"+month+"/"+year;
-                dateV.setText(date);
-            }
-        };
 
 
 
@@ -244,9 +214,6 @@ public class WritePrescription extends AppCompatActivity {
 
     }//onCreate
 
-
-
-
     private void validateRecord() {
         medication = medicationT.getText().toString();
         dose = doseT.getText().toString();
@@ -254,16 +221,14 @@ public class WritePrescription extends AppCompatActivity {
         time = timeT.getText().toString();
         note = noteT.getText().toString();
 
-        // date is mandatory either ways.
         // no file have to fill all fields
         //if there is a file then all fields are optional
         //No file OR one of fields are messing  except NOTE is optional
-        if (date == null) {
-            Toast.makeText(this, "Please add test date", Toast.LENGTH_SHORT).show();
-        } else {
-
-            if (fileUri == null && (medication.isEmpty() || dose.isEmpty() || duration.isEmpty() || time.isEmpty())) {/////////////////put mand field here
-                Toast.makeText(this, "Please fill all fields or add a file.", Toast.LENGTH_SHORT).show();
+        if(medication.isEmpty()){
+            Toast.makeText(this, "Medication is mandatory", Toast.LENGTH_SHORT).show();
+        }else{
+            if (fileUri == null && (dose.isEmpty() || duration.isEmpty() || time.isEmpty())) {/////////////////put mand field here
+                Toast.makeText(this, "No file provided, all fields must be filled", Toast.LENGTH_SHORT).show();
             } else {
                 if (fileUri != null && !fileUri.equals(Uri.EMPTY)) {
                     recordIDٍ = generateRecordID(type);
@@ -273,7 +238,6 @@ public class WritePrescription extends AppCompatActivity {
                     saveRecord("");
                 }
             }
-
         }
     }
 
@@ -290,7 +254,6 @@ public class WritePrescription extends AppCompatActivity {
                         String url=String.valueOf(uri);
                         myUrl=url;
                         saveRecord(url);
-
                     }
                 });
 
@@ -387,24 +350,21 @@ public class WritePrescription extends AppCompatActivity {
                     recordMap.put("type",1);
                     recordMap.put("did",currentuser);
                     recordMap.put("pid",pid);
-                    recordMap.put("patientName",patientName);
-                    recordMap.put("date",savecurrentdate);
-                    recordMap.put("time",savecurrenttime);
+                    recordMap.put("dateCreated",savecurrentdate);
+                    recordMap.put("timeCreated",savecurrenttime);
                     recordMap.put("doctorSpeciality",dataSnapshot.child("specialty").getValue().toString());
                     recordMap.put("doctorName",dataSnapshot.child("name").getValue().toString());
-                    recordMap.put("hospital","hospital name");   //wrong need to use refrence
+                    recordMap.put("hospital",dataSnapshot.child("hospital").getValue().toString());
 
-                    recordMap.put("testDate",date);
-
-                    if(medication!=null)
+                    if(!medication.isEmpty())
                     recordMap.put("medication",medication);
-                    if(dose!=null)
+                    if(!dose.isEmpty())
                     recordMap.put("dose",dose);
-                    if(duration!=null)
+                    if(!duration.isEmpty())
                     recordMap.put("duration",duration);
-                    if(time!=null)
+                    if(!time.isEmpty())
                     recordMap.put("timeOfPrescription",time);
-                    if(note!=null)
+                    if(!note.isEmpty())
                     recordMap.put("note",note);
 
                     //file
@@ -456,8 +416,5 @@ public class WritePrescription extends AppCompatActivity {
             b1.setVisibility(View.VISIBLE);
         }
     }
-
-
-
 
 }

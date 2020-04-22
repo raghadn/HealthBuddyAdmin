@@ -18,7 +18,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -79,6 +78,8 @@ public class WriteBloodTest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_blood_test);
+        /*
+
         loadingbar = new ProgressDialog(this);
 
         addAttachment=findViewById(R.id.addAttachment);
@@ -98,7 +99,7 @@ public class WriteBloodTest extends AppCompatActivity {
         resultT=findViewById(R.id.result);
         normalT=findViewById(R.id.normal);
         noteT=findViewById(R.id.rrrr);
-        patientN=findViewById(R.id.patientN);
+        patientN=findViewById(R.id.patientName);
         patientID=findViewById(R.id.patientID);
 
 
@@ -171,8 +172,8 @@ public class WriteBloodTest extends AppCompatActivity {
         });
 
 
-        cal=findViewById(R.id.cal);
-        dateV=findViewById(R.id.dateV);
+        cal=findViewById(R.id.testDateL);
+        dateV=findViewById(R.id.testDate);
         cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -344,7 +345,7 @@ public class WriteBloodTest extends AppCompatActivity {
         displayBloodTests();
 
 
-
+*/
     }//onc
 
     private void displayBloodTests() {

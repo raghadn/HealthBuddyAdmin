@@ -66,7 +66,9 @@ public class WriteVitalSigns extends AppCompatActivity {
     String recordIDٍ;
     ImageButton cal;
     String date;
+
     private DatePickerDialog.OnDateSetListener mDatasetListner;
+
     ProgressDialog loadingbar;
 
     @Override
@@ -74,14 +76,16 @@ public class WriteVitalSigns extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_vital_signs);
 
-        type="VitalSigns";
         loadingbar = new ProgressDialog(this);
+
+        type="VitalSigns";
 
         noteT=findViewById(R.id.note);
         findingsT=findViewById(R.id.findings);
+        impressionT=findViewById(R.id.impression);
 
-        cal=findViewById(R.id.cal);
-        dateV=findViewById(R.id.dateV);
+        cal=findViewById(R.id.testDateL);
+        dateV=findViewById(R.id.exdate);
         cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +116,7 @@ public class WriteVitalSigns extends AppCompatActivity {
         attachmentView=findViewById(R.id.attachmentView);
         b0=findViewById(R.id.button);
         b1=findViewById(R.id.button0);
-        patientN=findViewById(R.id.patientN);
+        patientN=findViewById(R.id.patientName);
         patientID=findViewById(R.id.patientID);
 
         //underline
@@ -242,31 +246,22 @@ public class WriteVitalSigns extends AppCompatActivity {
 
 
         findings=findingsT.getText().toString();
+        impression=impressionT.getText().toString();
         note=noteT.getText().toString();
 
         //if no file have to fill all fields
         //if there is a file then all fields are optional
         //No file OR one of fields are messing  except NOTE is optional
-        if (date == null) {
-            Toast.makeText(this, "Please add test date", Toast.LENGTH_SHORT).show();
-        }else{
 
-            if (fileUri==null && ( findings.isEmpty() ) ){
-                Toast.makeText(this, "Please fill all fields or attach a file. ", Toast.LENGTH_SHORT).show();
-            }
-            else
-            if(fileUri!=null&&!fileUri.equals(Uri.EMPTY)){
-                recordIDٍ=generateRecordID(type);
-                StoreFile();}
-            else{
-                recordIDٍ=generateRecordID(type);
-                saveRecord("");
-            }
-
+        if (fileUri==null ||  findings.isEmpty() || impression.isEmpty() || date == null) {
+            Toast.makeText(this, "Please make sure all fields are filled and attach a file.", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            recordIDٍ=generateRecordID(type);
+            StoreFile();
         }
 
     }
-
 
     private void saveRecord(final String url) {
 
@@ -274,7 +269,6 @@ public class WriteVitalSigns extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
-
                     loadingbar.setTitle("Uploading Record");
                     loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
                     loadingbar.show();
@@ -283,19 +277,17 @@ public class WriteVitalSigns extends AppCompatActivity {
                     recordMap.put("type",4);
                     recordMap.put("did",currentuser);
                     recordMap.put("pid",pid);
-                    recordMap.put("patientName",patientName);
-                    recordMap.put("date",savecurrentdate);
-                    recordMap.put("time",savecurrenttime);
+                    recordMap.put("dateCreated",savecurrentdate);
+                    recordMap.put("timeCreated",savecurrenttime);
                     recordMap.put("doctorSpeciality",dataSnapshot.child("specialty").getValue().toString());
                     recordMap.put("doctorName",dataSnapshot.child("name").getValue().toString());
-                    recordMap.put("hospital","hospital name");   //wrong need to use refrence
-
+                    recordMap.put("hospital",dataSnapshot.child("hospital").getValue().toString());
                     recordMap.put("testDate",date);
 
-
                     recordMap.put("findings",findings);
+                    recordMap.put("impression",impression);
 
-                    if(note!=null)
+                    if(!note.isEmpty())
                         recordMap.put("note",note);
 
                     //file
@@ -306,11 +298,14 @@ public class WriteVitalSigns extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if(task.isSuccessful()){
-                                finish();
                                 Toast.makeText(WriteVitalSigns.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
+                                loadingbar.dismiss();
+                                finish();
                             }
                             else {
                                 Toast.makeText(WriteVitalSigns.this, "Error", Toast.LENGTH_SHORT).show();
+                                loadingbar.dismiss();
+                                finish();
                             }
                         }
                     });
@@ -409,7 +404,7 @@ public class WriteVitalSigns extends AppCompatActivity {
                         String url=String.valueOf(uri);
                         myUrl=url;
                         recordRef.child(recordIDٍ).child("file").setValue(myUrl);
-
+                        saveRecord(url);
                     }
                 });
             }

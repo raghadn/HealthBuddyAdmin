@@ -66,7 +66,9 @@ public class WriteRecord extends AppCompatActivity {
     String recordIDٍ;
     ImageButton cal;
     String date;
+
     private DatePickerDialog.OnDateSetListener mDatasetListner;
+
     ProgressDialog loadingbar;
 
     @Override
@@ -77,10 +79,11 @@ public class WriteRecord extends AppCompatActivity {
         loadingbar = new ProgressDialog(this);
 
         type="Record";
+
         noteT=findViewById(R.id.note);
 
-        cal=findViewById(R.id.cal);
-        dateV=findViewById(R.id.dateV);
+        cal=findViewById(R.id.testDateL);
+        dateV=findViewById(R.id.exdate);
         cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,7 +114,7 @@ public class WriteRecord extends AppCompatActivity {
         attachmentView=findViewById(R.id.attachmentView);
         b0=findViewById(R.id.button);
         b1=findViewById(R.id.button0);
-        patientN=findViewById(R.id.patientN);
+        patientN=findViewById(R.id.patientName);
         patientID=findViewById(R.id.patientID);
 
         //underline
@@ -234,31 +237,25 @@ public class WriteRecord extends AppCompatActivity {
 
             }
         });
+
     }
 
     private void validateRecord() {
-
-
         note=noteT.getText().toString();
 
         //if no file have to fill all fields
         //if there is a file then all fields are optional
         //No file OR one of fields are messing  except NOTE is optional
-        if (date == null) {
-            Toast.makeText(this, "Please add test date", Toast.LENGTH_SHORT).show();
-        }else{
-            if (fileUri==null){
-                Toast.makeText(this, "Please attach a file. ", Toast.LENGTH_SHORT).show();
-            }
-            else
-            if(fileUri!=null&&!fileUri.equals(Uri.EMPTY)){
-                recordIDٍ=generateRecordID(type);
-                StoreFile();
-            }
+
+        if (fileUri==null || date == null) {
+            Toast.makeText(this, "Please add test date and attach a file.", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            recordIDٍ=generateRecordID(type);
+            StoreFile();
         }
 
     }
-
 
     private void saveRecord(final String url) {
 
@@ -266,7 +263,6 @@ public class WriteRecord extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
-
                     loadingbar.setTitle("Uploading Record");
                     loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
                     loadingbar.show();
@@ -275,15 +271,14 @@ public class WriteRecord extends AppCompatActivity {
                     recordMap.put("type",5);
                     recordMap.put("did",currentuser);
                     recordMap.put("pid",pid);
-                    recordMap.put("patientName",patientName);
-                    recordMap.put("date",savecurrentdate);
-                    recordMap.put("time",savecurrenttime);
+                    recordMap.put("dateCreated",savecurrentdate);
+                    recordMap.put("timeCreated",savecurrenttime);
                     recordMap.put("doctorSpeciality",dataSnapshot.child("specialty").getValue().toString());
                     recordMap.put("doctorName",dataSnapshot.child("name").getValue().toString());
-                    recordMap.put("hospital","hospital name");   //wrong need to use refrence
+                    recordMap.put("hospital",dataSnapshot.child("hospital").getValue().toString());
                     recordMap.put("testDate",date);
 
-                    if(note!=null)
+                    if(!note.isEmpty())
                         recordMap.put("note",note);
 
                     //file
@@ -294,11 +289,14 @@ public class WriteRecord extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if(task.isSuccessful()){
-                                finish();
                                 Toast.makeText(WriteRecord.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
+                                loadingbar.dismiss();
+                                finish();
                             }
                             else {
                                 Toast.makeText(WriteRecord.this, "Error", Toast.LENGTH_SHORT).show();
+                                loadingbar.dismiss();
+                                finish();
                             }
                         }
                     });
@@ -396,11 +394,10 @@ public class WriteRecord extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         String url=String.valueOf(uri);
                         myUrl=url;
+                        recordRef.child(recordIDٍ).child("file").setValue(myUrl);
                         saveRecord(url);
-
                     }
                 });
-
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

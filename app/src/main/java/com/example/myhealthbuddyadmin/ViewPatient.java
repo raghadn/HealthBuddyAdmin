@@ -6,10 +6,12 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,9 +25,9 @@ public class ViewPatient extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mRef;
     TextView patientNameT,natIDT,genderT;
-    String name,gender, nationalId;
-    int age;
+    String name, nationalId;
     CardView prescriptions,bloodTest,Xray,VitalSigns,Records;
+    BottomNavigationView Doctorbottomnav;
 
 
 
@@ -34,6 +36,15 @@ public class ViewPatient extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_patient);
 
+        Doctorbottomnav=findViewById(R.id.d_bottom_navigation);
+        Doctorbottomnav.setSelectedItemId(R.id.d_nav_home);
+        Doctorbottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                DoctorMenuSelector(menuItem);
+                return false;
+            }
+        });
         mAuth = FirebaseAuth.getInstance();
 
         patientNameT=findViewById(R.id.patientName);
@@ -81,7 +92,6 @@ public class ViewPatient extends AppCompatActivity {
             public void onClick(View v) {
                 Intent redirect = new Intent(ViewPatient.this,Prescriptions.class);
                 redirect.putExtra("PatientKey",id);
-                redirect.putExtra("patientName",name);
                 startActivity(redirect);
             }
         });
@@ -91,7 +101,6 @@ public class ViewPatient extends AppCompatActivity {
             public void onClick(View v) {
                 Intent redirect = new Intent(ViewPatient.this,BloodTest.class);
                 redirect.putExtra("PatientKey",id);
-                redirect.putExtra("patientName",name);
                 startActivity(redirect);
             }
         });
@@ -101,7 +110,6 @@ public class ViewPatient extends AppCompatActivity {
             public void onClick(View v) {
                 Intent redirect = new Intent(ViewPatient.this,XRay.class);
                 redirect.putExtra("PatientKey",id);
-                redirect.putExtra("patientName",name);
                 startActivity(redirect);
             }
         });
@@ -111,7 +119,6 @@ public class ViewPatient extends AppCompatActivity {
             public void onClick(View v) {
                 Intent redirect = new Intent(ViewPatient.this,Record.class);
                 redirect.putExtra("PatientKey",id);
-                redirect.putExtra("patientName",name);
                 startActivity(redirect);
             }
         });
@@ -121,10 +128,32 @@ public class ViewPatient extends AppCompatActivity {
             public void onClick(View v) {
                 Intent redirect = new Intent(ViewPatient.this,VitalSigns.class);
                 redirect.putExtra("PatientKey",id);
-                redirect.putExtra("patientName",name);
                 startActivity(redirect);
             }
         });
+    }
+
+    private void DoctorMenuSelector(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.d_nav_search:
+                Intent intentSearch = new Intent(ViewPatient.this, SearchForPatient.class);
+                startActivity(intentSearch);
+                break;
+
+            case R.id.d_nav_profile:
+                Intent intentProfile = new Intent(ViewPatient.this, DoctorProfile.class);
+                startActivity(intentProfile);
+                break;
+
+            case R.id.d_nav_notification:
+                Intent intentNotifications = new Intent(ViewPatient.this, Notifications.class);
+                startActivity(intentNotifications);
+                break;
+
+
+        }
+
     }
 }
 

@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Record"
-        android:textColor="@color/white"
+        android:textColor="@color/purple"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/viewHiveToolBar"
         app:layout_constraintEnd_toEndOf="@+id/viewHiveToolBar"
@@ -42,76 +42,129 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/patientN"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Name"
-                android:textSize="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/patientID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="ID"
-                android:textSize="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/patientN" />
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name:"
+                    android:textColor="@color/purple"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/patientName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="Name"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toEndOf="@+id/textView21"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="National ID: "
+                    android:textColor="@color/purple"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+                <TextView
+                    android:id="@+id/patientID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ID"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/patientName"
+                    app:layout_constraintTop_toTopOf="@+id/textView21" />
+
+                <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Gender:"
+                    android:textColor="@color/purple"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+                <TextView
+                    android:id="@+id/gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/patientID"
+                    app:layout_constraintTop_toTopOf="@+id/textView27" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </FrameLayout>
 
+
     <TextView
-        android:id="@+id/med"
-        android:layout_width="300dp"
+        android:id="@+id/testDate"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="7dp"
-        android:ems="10"
-        android:text="Exam Date"
+        android:layout_marginStart="62dp"
+        android:layout_marginLeft="62dp"
+        android:layout_marginTop="7dp"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Test Date:"
+        android:textColor="@color/purple"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
     <ImageButton
-        android:id="@+id/cal"
+        android:id="@+id/testDateL"
+        android:layout_marginTop="3dp"
         android:layout_width="28dp"
         android:layout_height="25dp"
-        android:layout_margin="7dp"
         android:background="@drawable/calendar"
-        app:layout_constraintStart_toStartOf="@+id/med"
-        app:layout_constraintTop_toBottomOf="@+id/med" />
-
+        app:layout_constraintStart_toStartOf="@+id/testDate"
+        app:layout_constraintTop_toBottomOf="@+id/testDate" />
 
     <TextView
-        android:id="@+id/dateV"
+        android:id="@+id/exdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:ems="10"
-        android:hint="Select Date"
+        android:textColor="@color/black"
+        android:hint="When was the test conducted?"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="@+id/cal"
-        app:layout_constraintStart_toEndOf="@+id/cal"
-        app:layout_constraintTop_toTopOf="@+id/cal" />
+        app:layout_constraintBottom_toBottomOf="@+id/testDateL"
+        app:layout_constraintStart_toEndOf="@+id/testDateL"
+        app:layout_constraintTop_toTopOf="@+id/testDateL" />
 
 
     <EditText
         android:id="@+id/note"
-        android:layout_width="300dp"
+        android:layout_width="288dp"
         android:layout_height="49dp"
         android:layout_margin="7dp"
         android:ems="10"
-        android:hint="note"
+        android:hint="Additional notes?"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cal" />
+        app:layout_constraintTop_toBottomOf="@+id/testDateL" />
 
 
     <Button
@@ -186,7 +239,7 @@
     <Button
         android:id="@+id/submitRecord"
 
-        android:layout_width="300dp"
+        android:layout_width="288dp"
         android:layout_height="49dp"
         android:background="@drawable/buttonshape"
         android:text="Create"
@@ -203,10 +256,10 @@
     <Button
         android:id="@+id/cancelRecord"
 
-        android:layout_width="300dp"
+        android:layout_width="288dp"
         android:layout_height="49dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/buttonshape"
+        android:background="@drawable/cancelbutton"
         android:text="Cancel"
         android:textAllCaps="false"
         android:textColor="@color/white"
@@ -217,5 +270,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/submitRecord" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
