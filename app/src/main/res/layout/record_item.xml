@@ -54,6 +54,7 @@
             android:layout_marginRight="37dp"
             android:layout_marginBottom="104dp"
             android:text="Hospital Name"
+            android:gravity="left"
             android:textColor="#020101"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -117,6 +118,7 @@
             android:layout_marginRight="35dp"
             android:layout_marginBottom="52dp"
             android:text="Doctor Name"
+            android:gravity="left"
             android:textColor="#000000"
             android:textSize="14sp" />
 
@@ -157,6 +159,7 @@
             android:layout_marginRight="35dp"
             android:layout_marginBottom="29dp"
             android:text="Record Type"
+            android:gravity="left"
             android:textColor="#000000"
             android:textSize="14sp" />
 
@@ -196,6 +199,7 @@
             android:layout_marginRight="24dp"
             android:layout_marginBottom="77dp"
             android:text="Patient Name"
+            android:gravity="left"
             android:textColor="#050000"
             android:textSize="14sp" />
 
@@ -203,7 +207,7 @@
             android:id="@+id/button3"
             android:layout_width="10dp"
             android:layout_height="match_parent"
-            android:background="#C98DCF"
+            android:background="#794D71"
             android:clickable="false" />
 
         <TextView
@@ -244,6 +248,7 @@
             android:layout_marginEnd="9dp"
             android:layout_marginRight="9dp"
             android:layout_marginBottom="98dp"
+
             android:text="____________________________________________________"
             android:textColor="#A4949191"
             android:textSize="12sp" />

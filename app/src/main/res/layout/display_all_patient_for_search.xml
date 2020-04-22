@@ -10,13 +10,19 @@
     app:cardElevation="10dp">
 
 
-
     <RelativeLayout
-        android:layout_width="370dp"
-        android:layout_height="116dp"
+        android:layout_width="wrap_content"
+        android:layout_height="58dp"
         android:layout_margin="5dp"
         android:orientation="vertical">
 
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:background="#794D71"
+            android:clickable="false" />
 
         <TextView
             android:id="@+id/all_patient_profile_name"
@@ -25,18 +31,17 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="right"
-            android:layout_marginStart="1dp"
-            android:layout_marginLeft="1dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="3dp"
             android:layout_marginTop="6dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginEnd="11dp"
+            android:layout_marginRight="11dp"
             android:layout_marginBottom="89dp"
             android:layout_toEndOf="@+id/textView2"
             android:layout_toRightOf="@+id/textView2"
+            android:gravity="left"
             android:text="Patient Name"
-            android:textAlignment="textStart"
+            android:textAlignment="viewStart"
             android:textSize="16dp"
             android:textStyle="bold"
             tools:ignore="RtlCompat" />
@@ -51,26 +56,14 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_gravity="right"
-            android:layout_marginStart="143dp"
-            android:layout_marginLeft="143dp"
-            android:layout_marginTop="31dp"
-            android:layout_marginEnd="49dp"
-            android:layout_marginRight="49dp"
+            android:layout_marginStart="62dp"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginEnd="131dp"
+            android:layout_marginRight="131dp"
             android:text=" ID  "
             android:textSize="16dp"
             android:textStyle="bold" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/all_patient_profileImg"
-            android:layout_width="69dp"
-            android:layout_height="78dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="38dp"
-            android:src="@drawable/patienticon" />
 
         <TextView
             android:id="@+id/textView2"
@@ -79,33 +72,30 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="84dp"
-            android:layout_marginLeft="84dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginLeft="17dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="90dp"
+            android:gravity="left"
             android:text="Name: "
-            android:textColor="#131010"
+            android:textColor="@color/purple"
             android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="22dp"
+            android:layout_width="38dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="85dp"
-            android:layout_marginLeft="85dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="237dp"
-            android:layout_marginRight="237dp"
-            android:layout_marginBottom="64dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="327dp"
+            android:layout_marginRight="327dp"
             android:text="ID:"
-            android:textColor="#050101"
+            android:textColor="@color/purple"
             android:textSize="18sp" />
 
 

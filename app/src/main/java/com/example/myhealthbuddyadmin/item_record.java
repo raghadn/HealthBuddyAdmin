@@ -10,7 +10,6 @@ public class item_record  {
     public String rid;
     public String time;
     public String doctorName;
-    public boolean ck;
     public String did ;
     public String pid ;
     public String hospital;
@@ -22,13 +21,12 @@ public class item_record  {
 
     }
 
-    public item_record(String dateCreated, String file, String rid, String time,String doctorName,boolean ck,String did,String pid ,int type,String hospital) {
+    public item_record(String dateCreated, String file, String rid, String time,String doctorName,String did,String pid ,int type,String hospital) {
         this.dateCreated = dateCreated;
         this.file = file;
         this.rid = rid;
         this.time = time;
         this.doctorName=doctorName;
-        this.ck=ck;
         this.type=type;
         this.hospital=hospital;
         this.pid=pid;
@@ -77,14 +75,6 @@ public class item_record  {
         this.doctorName = doctorName;
     }
 
-
-    public boolean isCk() {
-        return ck;
-    }
-
-    public void setCk(boolean ck) {
-        this.ck = ck;
-    }
 
     public String getDid() {
         return did;

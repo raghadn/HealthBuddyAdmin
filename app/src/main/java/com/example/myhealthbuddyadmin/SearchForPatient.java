@@ -189,19 +189,6 @@ public class SearchForPatient extends AppCompatActivity {
             myID.setText(national_id);
         }
 
-        public void setImage(Context ctx, String img) {
-
-  /*CircleImageView MyImage= (CircleImageView) mViwe.findViewById(R.id.all_patient_profileImg*?);
-    Picasso.with(ctx).load(img).placeholder(R.drawable.doctoricon.Into(MyImage);
-    // Into or into
-    */
-
-            ImageView MyImage = (ImageView) mViwe.findViewById(R.id.all_patient_profileImg);
-            //  Picasso.get().load(img).into(post_image);
-            Picasso.get().load(img).into(MyImage);
-            Glide.with(ctx).load(img).into(MyImage);
-
-        }
 
     }
 

@@ -45,23 +45,11 @@
         app:layout_constraintTop_toBottomOf="@+id/viewHiveToolBar"
         android:visibility="invisible"/>
 
-    <Button
-        android:layout_marginTop="20dp"
-        android:id="@+id/writeTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint=" testttwrite"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewHiveToolBar" />
-
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/prescriptionList"
-        android:layout_width="394dp"
-        android:layout_height="498dp"
+        android:layout_width="407dp"
+        android:layout_height="546dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -70,5 +58,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.716" />
+
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Titel"
+        android:textColor="@color/purple"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/writeTest"
+        app:layout_constraintHorizontal_bias="0.477"
+        app:layout_constraintStart_toStartOf="@+id/viewRequestToolbar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/writeTest"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginBottom="60dp"
+    app:backgroundTint="@color/colorPrimary"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:srcCompat="@drawable/plussign" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

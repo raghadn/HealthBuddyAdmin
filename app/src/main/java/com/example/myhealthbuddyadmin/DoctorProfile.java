@@ -106,12 +106,6 @@ public class DoctorProfile extends AppCompatActivity {
                                 userHos.setText(hospital);
                                 String imge = dataSnapshot.child("Image").getValue().toString();
 
-
-                                if (dataSnapshot.hasChild("Image")) {
-                                    Picasso.get().load(imge).into(userImage);
-                                    // Glide.with(getApplicationContext()).load(imge).into(userImage);
-                                }
-
                             }
                         }
 

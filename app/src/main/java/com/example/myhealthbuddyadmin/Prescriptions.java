@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,14 +25,15 @@ import java.util.ArrayList;
 
 public class Prescriptions extends AppCompatActivity {
 
-    Button writeTest;
+    FloatingActionButton writeTest;
     private RecyclerView prescriptionList;
-    private DatabaseReference allSharesRef,allSRecordsRef,DoctorRef,PatientRef,HospitalRef;
+    private DatabaseReference allSharesRef,allSRecordsRef;
     private FirebaseAuth mAuth;
     BottomNavigationView Doctorbottomnav;
-    private String currentHCPuid,HospitalID,HospitalName,PatientKey;
+    private String currentHCPuid,PatientKey;
     RecordAdapter mAdapter ;
-    TextView Noresult;
+    TextView Noresult,PageTitel;
+    int type;
 
 
 
@@ -43,14 +45,36 @@ public class Prescriptions extends AppCompatActivity {
         writeTest=findViewById(R.id.writeTest);
 
         PatientKey = getIntent().getExtras().get("PatientKey").toString();
+        type=(int)getIntent().getExtras().get("type");
 
         ///////////// ---- redirect to activities ---- /////////////
         writeTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent redirect = new Intent(Prescriptions.this,WritePrescription.class);
-                redirect.putExtra("PatientKey",PatientKey);
-                startActivity(redirect);
+
+                switch(type){
+                    case 1:  Intent writePres=new Intent(Prescriptions.this, WritePrescription.class);
+                        writePres.putExtra("PatientKey",PatientKey);
+                        startActivity(writePres);
+                        break;
+                    case 2: Intent wBloodTests = new Intent(Prescriptions.this, WriteBloodTest.class);
+                        wBloodTests.putExtra("PatientKey",PatientKey);
+                        startActivity(wBloodTests);
+                        break;
+                    case 3:  Intent wx_Rays = new Intent(Prescriptions.this, WriteXRay.class);
+                        wx_Rays.putExtra("PatientKey",PatientKey);
+                        startActivity(wx_Rays);
+                        break;
+                    case 4: Intent wVital = new Intent(Prescriptions.this, WriteVitalSigns.class);
+                        wVital.putExtra("PatientKey",PatientKey);
+                        startActivity(wVital);
+                        break;
+                    case 5:Intent wRecord = new Intent(Prescriptions.this, WriteRecord.class);
+                        wRecord.putExtra("PatientKey",PatientKey);
+                        startActivity(wRecord);
+                        break;
+                }
+
             }
         });
 
@@ -73,17 +97,39 @@ public class Prescriptions extends AppCompatActivity {
 
 
             // RecyclerView
-        prescriptionList = (RecyclerView) findViewById(R.id.prescriptionList);
+        prescriptionList = findViewById(R.id.prescriptionList);
         prescriptionList.setHasFixedSize(true);
         prescriptionList.setLayoutManager(new LinearLayoutManager(this));
-            Noresult=(TextView)findViewById(R.id.Noresult);
+
+        Noresult=findViewById(R.id.Noresult);
+        PageTitel=findViewById(R.id.Title);
+
+        switch(type){
+
+            case 1: Noresult.setText("No prescriptions available  ");
+                  PageTitel.setText("Prescriptions");
+                break;
+            case 2: Noresult.setText("No blood tests available   ");
+                PageTitel.setText("Blood Tests");
+                break;
+            case 3: Noresult.setText("No X-Rays available  ");
+               PageTitel.setText("X-Rays" );
+                break;
+            case 4: Noresult.setText("No vital signs available");
+                PageTitel.setText("Vital Signs");
+
+                break;
+            case 5: Noresult.setText("No record available ");
+               PageTitel.setText("Records");
+                break;
+        }
 
 
-        BrowseShredPrescription();
+        BrowseShred();
 
     }
 
-    public void BrowseShredPrescription() {
+    public void BrowseShred() {
 
         final ArrayList<item_record>  records= new ArrayList<>();
 
@@ -104,7 +150,7 @@ public class Prescriptions extends AppCompatActivity {
 
                                 if (record.getKey().equals(share.child("record_id").getValue().toString())){
                                     item_record r = record.getValue(item_record.class);
-                                if(r.type==1) {
+                                if(r.type==type) {
                                     // item_record r = record.getValue(item_record.class);
                                     r.rid = record.getKey();
                                     records.add(r);
@@ -121,14 +167,28 @@ public class Prescriptions extends AppCompatActivity {
                             @Override
                             public void onItemClick(String Rid) {
 
-                                Toast.makeText(Prescriptions.this,"heeere "+Rid,Toast.LENGTH_LONG).show();
-
-
-                             Intent intentPrescriptionList=new Intent(Prescriptions.this, ViewPrescription.class);
-                                intentPrescriptionList.putExtra("Rid",Rid);
+                                  switch(type){
+                            case 1:  Intent intentPrescriptionList=new Intent(Prescriptions.this, ViewPrescription.class);
+                                intentPrescriptionList.putExtra("recordID",Rid);
                                 startActivity(intentPrescriptionList);
-
-
+                                break;
+                            case 2: Intent intentMyBloodTests = new Intent(Prescriptions.this, ViewBloodTest.class);
+                                intentMyBloodTests.putExtra("Rid",Rid);
+                                startActivity(intentMyBloodTests);
+                                break;
+                            case 3:  Intent intentMyx_Rays = new Intent(Prescriptions.this, ViewXRay.class);
+                                intentMyx_Rays.putExtra("Rid",Rid);
+                                startActivity(intentMyx_Rays);
+                                break;
+                            case 4: Intent intentMyVital = new Intent(Prescriptions.this, ViewVitalSigns.class);
+                                intentMyVital.putExtra("Rid",Rid);
+                                startActivity(intentMyVital);
+                                break;
+                            case 5:Intent intentRecord = new Intent(Prescriptions.this, ViewRecord.class);
+                                intentRecord.putExtra("Rid",Rid);
+                                startActivity(intentRecord);
+                                break;
+                        }
 
 
                             }

@@ -74,15 +74,27 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordView
 
         int myType =currentItem.getType();
         if(myType==1)
-            holder.mtype.setText("وصفة طبية");
+            holder.mtype.setText("Prescriptions");
         if(myType==2)
-            holder.mtype.setText(" تحليل طبي ");
+            holder.mtype.setText("Blood Test");
         if(myType==3)
-            holder.mtype.setText(" أشعة");
+            holder.mtype.setText(" X-Ray");
         if(myType==4)
-            holder.mtype.setText("علامات حيوية");
+            holder.mtype.setText(" Vital Signs");
         if(myType==5)
-            holder.mtype.setText("تقرير طبي ");
+            holder.mtype.setText(" Record");
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                listener.onItemClick(mRecorslist.get(position).getRid());
+                //Intent n = new Intent(c, .class);
+                // n.putExtra("Rid",mRecorslist );
+
+            }
+        });
     }
 
     @Override
