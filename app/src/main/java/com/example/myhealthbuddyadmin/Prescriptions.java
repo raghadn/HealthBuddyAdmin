@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -23,7 +25,7 @@ import java.util.ArrayList;
 public class Prescriptions extends AppCompatActivity {
 
     Button writeTest;
-    private RecyclerView RecordList;
+    private RecyclerView prescriptionList;
     private DatabaseReference allSharesRef,allSRecordsRef,DoctorRef,PatientRef,HospitalRef;
     private FirebaseAuth mAuth;
     BottomNavigationView Doctorbottomnav;
@@ -51,7 +53,7 @@ public class Prescriptions extends AppCompatActivity {
                 startActivity(redirect);
             }
         });
-/*
+
 
 
             mAuth = FirebaseAuth.getInstance();
@@ -71,17 +73,17 @@ public class Prescriptions extends AppCompatActivity {
 
 
             // RecyclerView
-            RecordList = (RecyclerView) findViewById(R.id.RecordsList);
-            RecordList.setHasFixedSize(true);
-            RecordList.setLayoutManager(new LinearLayoutManager(this));
+        prescriptionList = (RecyclerView) findViewById(R.id.prescriptionList);
+        prescriptionList.setHasFixedSize(true);
+        prescriptionList.setLayoutManager(new LinearLayoutManager(this));
             Noresult=(TextView)findViewById(R.id.Noresult);
 
 
-        Browse();
+        BrowseShredPrescription();
 
     }
 
-    public void Browse() {
+    public void BrowseShredPrescription() {
 
         final ArrayList<item_record>  records= new ArrayList<>();
 
@@ -101,12 +103,12 @@ public class Prescriptions extends AppCompatActivity {
                             for (DataSnapshot share : dataSnapshot2.getChildren()) {
 
                                 if (record.getKey().equals(share.child("record_id").getValue().toString())){
-                                //
                                     item_record r = record.getValue(item_record.class);
-                                    r.rid=record.getKey();
-                                    GetHospitalName(record.getKey());
+                                if(r.type==1) {
+                                    // item_record r = record.getValue(item_record.class);
+                                    r.rid = record.getKey();
                                     records.add(r);
-
+                                }
 
                                 }
                             }
@@ -114,7 +116,23 @@ public class Prescriptions extends AppCompatActivity {
                         }
 
                         mAdapter= new RecordAdapter(Prescriptions.this,records);
-                        RecordList.setAdapter(mAdapter);
+                        prescriptionList.setAdapter(mAdapter);
+                        mAdapter.setOnItemClickListener(new RecordAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(String Rid) {
+
+                                Toast.makeText(Prescriptions.this,"heeere "+Rid,Toast.LENGTH_LONG).show();
+
+
+                             Intent intentPrescriptionList=new Intent(Prescriptions.this, ViewPrescription.class);
+                                intentPrescriptionList.putExtra("Rid",Rid);
+                                startActivity(intentPrescriptionList);
+
+
+
+
+                            }
+                        });
                         if(records.size()==0){
                             Noresult.setVisibility(View.VISIBLE);
 
@@ -136,56 +154,6 @@ public class Prescriptions extends AppCompatActivity {
         });
     }
 
-    public String GetHospitalName(String rid){
-
-
-
-        DoctorRef= FirebaseDatabase.getInstance().getReference().child("Records").child(rid);
-        DoctorRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HospitalID=  dataSnapshot.child("did").getValue().toString();
-
-                PatientRef=FirebaseDatabase.getInstance().getReference().child("Doctors").child(HospitalID);
-                PatientRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        HospitalID=dataSnapshot.child("hospital").getValue().toString();
-
-
-
-                        HospitalRef= FirebaseDatabase.getInstance().getReference().child("Hospitals").child(HospitalID);
-                        HospitalRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                HospitalName =dataSnapshot.child("Name").getValue().toString();
-                                // recordViweHolder.setHospitalName(HospitalName);
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        return HospitalName;
-    }
 
 
     private void DoctorMenuSelector (MenuItem item){
@@ -205,5 +173,4 @@ public class Prescriptions extends AppCompatActivity {
     }
 
 
-    */
-    }}
+    }

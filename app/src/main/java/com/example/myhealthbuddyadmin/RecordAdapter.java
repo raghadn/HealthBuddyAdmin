@@ -11,6 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordViewHolder> {
@@ -37,26 +43,46 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordView
 
         item_record currentItem = mRecorslist.get(position);
         //the same as
-        holder.mdate.setText(mRecorslist.get(position).getDate());
+        holder.mdate.setText(mRecorslist.get(position).getDateCreated());
         holder.mdoctorName.setText(currentItem.getDoctorName());
-        holder.mpatientName.setText(currentItem.getPatientName());
         holder.mrid.setText(currentItem.getRid());
+        DatabaseReference name= FirebaseDatabase.getInstance().getReference().child("Patients");
+        name.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                holder.mpatientName.setText(dataSnapshot.child(mRecorslist.get(position).getPid()).child("name").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference Hospital= FirebaseDatabase.getInstance().getReference().child("Hospitals");
+        Hospital.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                holder.mhname.setText(dataSnapshot.child(mRecorslist.get(position).getHospital()).child("Name").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         int myType =currentItem.getType();
         if(myType==1)
-            holder.mtype.setText("Prescription");
+            holder.mtype.setText("وصفة طبية");
         if(myType==2)
-            holder.mtype.setText("Blood Test");
+            holder.mtype.setText(" تحليل طبي ");
         if(myType==3)
-            holder.mtype.setText("X-Ray");
+            holder.mtype.setText(" أشعة");
         if(myType==4)
-            holder.mtype.setText("Vital Signs");
+            holder.mtype.setText("علامات حيوية");
         if(myType==5)
-            holder.mtype.setText("Records");
-
-
-        //holder.mhname.setText(currentItem.getHname());
-
+            holder.mtype.setText("تقرير طبي ");
     }
 
     @Override
@@ -91,7 +117,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordView
         }
     }
     public interface OnItemClickListener {
-        void onItemClick(ArrayList<String> mRecorslist);
+        void onItemClick(String rid);
 
     }
     public void setOnItemClickListener (OnItemClickListener listener){

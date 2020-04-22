@@ -107,7 +107,7 @@ public class DoctorMainActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(final DoctorMainActivity.RecordViweHolder recordViweHolder, final item_record module, final int i) {
 
-                recordViweHolder.setDate(module.getDate());
+                recordViweHolder.setDate(module.getDateCreated());
 
                 DoctorRef = FirebaseDatabase.getInstance().getReference().child("Doctors").child(currentDoctorid);
                 DoctorRef.addValueEventListener(new ValueEventListener() {

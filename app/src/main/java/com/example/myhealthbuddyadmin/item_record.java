@@ -1,51 +1,47 @@
 package com.example.myhealthbuddyadmin;
 
-public class item_record {
 
-    public String date;
-    public String did;
+import java.security.PublicKey;
+
+public class item_record  {
+
+    public String dateCreated;
     public String file;
-    public String pid;
     public String rid;
     public String time;
-    public int type;
     public String doctorName;
-    public String patientName;
+    public boolean ck;
+    public String did ;
+    public String pid ;
+    public String hospital;
+    public int type;
+
 
 
     public item_record() {
 
     }
 
-    public item_record(String date, String did, String file, String pid, String rid, String time,int type,String patientName,String doctorName) {
-        this.date = date;
-        this.did = did;
+    public item_record(String dateCreated, String file, String rid, String time,String doctorName,boolean ck,String did,String pid ,int type,String hospital) {
+        this.dateCreated = dateCreated;
         this.file = file;
-        this.pid = pid;
         this.rid = rid;
         this.time = time;
-        this.type=type;
         this.doctorName=doctorName;
-        this.patientName=patientName;
-    }
-    public int getType() {
-        return type;
+        this.ck=ck;
+        this.type=type;
+        this.hospital=hospital;
+        this.pid=pid;
+        this.did=did;
+
     }
 
-    public String getDate() {
-        return date;
+    public String getDateCreated() {
+        return dateCreated;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getDid() {
-        return did;
-    }
-
-    public void setDid(String did) {
-        this.did = did;
+    public void setDateCreated(String date) {
+        this.dateCreated = dateCreated;
     }
 
     public String getFile() {
@@ -54,14 +50,6 @@ public class item_record {
 
     public void setFile(String file) {
         this.file = file;
-    }
-
-    public String getPid() {
-        return pid;
-    }
-
-    public void setPid(String pid) {
-        this.pid = pid;
     }
 
     public String getRid() {
@@ -80,7 +68,6 @@ public class item_record {
         this.time = time;
     }
 
-    public void setType(int type) { this.type = type; }
 
     public String getDoctorName() {
         return doctorName;
@@ -90,11 +77,44 @@ public class item_record {
         this.doctorName = doctorName;
     }
 
-    public String getPatientName() {
-        return patientName;
+
+    public boolean isCk() {
+        return ck;
     }
 
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
+    public void setCk(boolean ck) {
+        this.ck = ck;
+    }
+
+    public String getDid() {
+        return did;
+    }
+
+    public void setDid(String did) {
+        this.did = did;
+    }
+
+    public String getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(String hname) {
+        this.hospital = hname;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String puid) {
+        this.pid = puid;
     }
 }
