@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.onesignal.OneSignal;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -37,6 +38,8 @@ public class DoctorProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_profile);
+
+
 
         Doctorbottomnav=findViewById(R.id.d_bottom_navigation);
         Doctorbottomnav.setSelectedItemId(R.id.d_nav_profile);
@@ -68,6 +71,8 @@ public class DoctorProfile extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         Fuser =mAuth.getCurrentUser();
+
+
 
         bottomnav =  findViewById(R.id.d_bottom_navigation);
         bottomnav.setSelectedItemId(R.id.d_nav_profile);

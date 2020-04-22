@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.onesignal.OneSignal;
 
 public class Login extends AppCompatActivity {
     private Button adminLoginButton;
@@ -38,6 +39,12 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // OneSignal Initialization
+        OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .init();
 
 
 
@@ -103,6 +110,7 @@ public class Login extends AppCompatActivity {
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful()){
                                                     Toast.makeText(getApplicationContext(), "We send an Email to reset your password", Toast.LENGTH_LONG).show();
+                                                    OneSignal.sendTag("User_uid",mAuth.getUid().toString());
                                                 }
                                                 else {
                                                     String Error = task.getException().getMessage();

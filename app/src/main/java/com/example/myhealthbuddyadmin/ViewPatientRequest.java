@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
@@ -22,8 +25,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Scanner;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -45,7 +52,7 @@ public class ViewPatientRequest extends AppCompatActivity {
         setSupportActionBar(mtoolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Request");
+        getSupportActionBar().setTitle("Patient Request");
 
 
 
@@ -144,22 +151,31 @@ public class ViewPatientRequest extends AppCompatActivity {
         SimpleDateFormat currentTime=new SimpleDateFormat("HH:mm");
         String savecurrenttime=currentTime.format(calfortime.getTime());
 
+
+        Calendar calfordecDec=Calendar.getInstance();
+        SimpleDateFormat decTime=new SimpleDateFormat("dd/MM/yyyy");
+        final String Datecreated=decTime.format(calfordecDec.getTime());
+
         final String randomname=savecurrentdate+savecurrenttime;
         AlertDialog.Builder altb= new AlertDialog.Builder(ViewPatientRequest.this);
         altb.setMessage("Are you sure you want to cancel and delete the request?").setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        pendingRequest.child("declined_date").setValue(Datecreated);
                         pendingRequest.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                                 declinedRequest.child(RequestKey+randomname).setValue(dataSnapshot.getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
+                                            String puid=dataSnapshot.child("patient_uid").getValue().toString();
                                         pendingRequest.removeValue();
                                         Toast.makeText(getApplicationContext(), "Request canceled", Toast.LENGTH_LONG).show();
+                                            sendNotification(puid);
+                                            sendUserToNotificationPage();
+
                                         }
                                         else
                                             Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
@@ -190,5 +206,83 @@ public class ViewPatientRequest extends AppCompatActivity {
         alertDialog.show();
 
 
+    }
+
+    private void sendUserToNotificationPage(){
+        Intent intentProfile = new Intent(ViewPatientRequest.this, Notifications.class);
+        startActivity(intentProfile);
+        finish();
+    }
+
+    private void sendNotification(final String puid) {
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                int SDK_INT = android.os.Build.VERSION.SDK_INT;
+                if (SDK_INT > 8) {
+                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                            .permitAll().build();
+                    StrictMode.setThreadPolicy(policy);
+                    String send_email;
+
+
+                    //This is a Simple Logic to Send Notification different Device Programmatically....
+
+                    send_email =puid ;
+
+
+                    try {
+                        String jsonResponse;
+
+                        URL url = new URL("https://onesignal.com/api/v1/notifications");
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                        con.setUseCaches(false);
+                        con.setDoOutput(true);
+                        con.setDoInput(true);
+
+                        con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                        con.setRequestProperty("Authorization", "Basic MWMzMDk5YzgtMTBjMC00N2U4LTgzNjAtNjk2Yjk3NjgxOTRm");
+                        con.setRequestMethod("POST");
+
+                        String strJsonBody = "{"
+                                + "\"app_id\": \"8feeee1a-0ae6-4662-af58-51550ce5b903\","
+
+                                + "\"filters\": [{\"field\": \"tag\", \"key\": \"User_uid\", \"relation\": \"=\", \"value\": \"" + send_email + "\"}],"
+
+                                + "\"data\": {\"foo\": \"bar\"},"
+                                + "\"contents\": {\"en\": \"رفض طلب، الرجاء تسجيل الدخول للتفاصيل...\"}"
+                                + "}";
+
+
+                        System.out.println("strJsonBody:\n" + strJsonBody);
+
+                        byte[] sendBytes = strJsonBody.getBytes("UTF-8");
+                        con.setFixedLengthStreamingMode(sendBytes.length);
+
+                        OutputStream outputStream = con.getOutputStream();
+                        outputStream.write(sendBytes);
+
+                        int httpResponse = con.getResponseCode();
+                        System.out.println("httpResponse: " + httpResponse);
+
+                        if (httpResponse >= HttpURLConnection.HTTP_OK
+                                && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
+                            Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");
+                            jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                            scanner.close();
+                        } else {
+                            Scanner scanner = new Scanner(con.getErrorStream(), "UTF-8");
+                            jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                            scanner.close();
+                        }
+                        System.out.println("jsonResponse:\n" + jsonResponse);
+
+                    } catch (Throwable t) {
+                        t.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 }
