@@ -85,12 +85,14 @@ public class ViewPatient extends AppCompatActivity {
             }
         });
 
+
+        ///////////// ---- redirect to activities ---- /////////////
         final Intent redirect = new Intent(ViewPatient.this,Prescriptions.class);
         redirect.putExtra("PatientKey",id);
-        ///////////// ---- redirect to activities ---- /////////////
         prescriptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 redirect.putExtra("type",1);
                 startActivity(redirect);
             }
@@ -116,15 +118,15 @@ public class ViewPatient extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 redirect.putExtra("type",5);
-                startActivity(redirect);
+               startActivity(redirect);
             }
         });
 
         VitalSigns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                redirect.putExtra("type",4);
-                startActivity(redirect);
+               redirect.putExtra("type",4);
+               startActivity(redirect);
             }
         });
     }

@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -52,7 +53,8 @@ public class Prescriptions extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                switch(type){
+
+               switch(type){
                     case 1:  Intent writePres=new Intent(Prescriptions.this, WritePrescription.class);
                         writePres.putExtra("PatientKey",PatientKey);
                         startActivity(writePres);
@@ -104,7 +106,7 @@ public class Prescriptions extends AppCompatActivity {
         Noresult=findViewById(R.id.Noresult);
         PageTitel=findViewById(R.id.Title);
 
-        switch(type){
+       switch(type){
 
             case 1: Noresult.setText("No prescriptions available  ");
                   PageTitel.setText("Prescriptions");
@@ -134,23 +136,22 @@ public class Prescriptions extends AppCompatActivity {
         final ArrayList<item_record>  records= new ArrayList<>();
 
 
-        allSRecordsRef.orderByChild("pid").startAt(PatientKey).endAt(PatientKey+"\uf8ff");
-        allSRecordsRef.addValueEventListener(new ValueEventListener() {
+        Query Patientrecord =allSRecordsRef.orderByChild("pid").equalTo(PatientKey+"\uf8ff");
+        Patientrecord.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull final DataSnapshot dataSnapshot1) {
 
 
-                allSharesRef.orderByChild("hcp_uid").startAt(currentHCPuid).endAt(currentHCPuid+"\uf8ff");
-                allSharesRef.addValueEventListener(new ValueEventListener() {
+                Query shreWithMe= allSharesRef.orderByChild("hcp_uid").equalTo(currentHCPuid+"\uf8ff");
+                shreWithMe.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
 
-                        for(DataSnapshot record:dataSnapshot1.getChildren()) {
-                            for (DataSnapshot share : dataSnapshot2.getChildren()) {
-
+                        for (DataSnapshot share : dataSnapshot2.getChildren()) {
+                            for(DataSnapshot record:dataSnapshot1.getChildren()) {
                                 if (record.getKey().equals(share.child("record_id").getValue().toString())){
                                     item_record r = record.getValue(item_record.class);
-                                if(r.type==type) {
+                                if(r.type==1) {
                                     // item_record r = record.getValue(item_record.class);
                                     r.rid = record.getKey();
                                     records.add(r);
