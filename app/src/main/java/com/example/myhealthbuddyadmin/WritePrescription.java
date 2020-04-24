@@ -510,7 +510,7 @@ public class WritePrescription extends AppCompatActivity {
                                 + "\"filters\": [{\"field\": \"tag\", \"key\": \"User_uid\", \"relation\": \"=\", \"value\": \"" + send_email + "\"}],"
 
                                 + "\"data\": {\"foo\": \"bar\"},"
-                                + "\"contents\": {\"en\": \"تمت اضافة ملف جديد\"}"
+                                + "\"contents\": {\"en\": \"تم اضافة ملف جديد\"}"
                                 + "}";
 
 

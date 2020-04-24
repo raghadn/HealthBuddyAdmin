@@ -57,22 +57,27 @@ public class Prescriptions extends AppCompatActivity {
                switch(type){
                     case 1:  Intent writePres=new Intent(Prescriptions.this, WritePrescription.class);
                         writePres.putExtra("PatientKey",PatientKey);
+                        writePres.putExtra("Request","N");
                         startActivity(writePres);
                         break;
                     case 2: Intent wBloodTests = new Intent(Prescriptions.this, WriteBloodTest.class);
                         wBloodTests.putExtra("PatientKey",PatientKey);
+                        wBloodTests.putExtra("Request","N");
                         startActivity(wBloodTests);
                         break;
                     case 3:  Intent wx_Rays = new Intent(Prescriptions.this, WriteXRay.class);
                         wx_Rays.putExtra("PatientKey",PatientKey);
+                        wx_Rays.putExtra("Request","N");
                         startActivity(wx_Rays);
                         break;
                     case 4: Intent wVital = new Intent(Prescriptions.this, WriteVitalSigns.class);
                         wVital.putExtra("PatientKey",PatientKey);
+                        wVital.putExtra("Request","N");
                         startActivity(wVital);
                         break;
                     case 5:Intent wRecord = new Intent(Prescriptions.this, WriteRecord.class);
                         wRecord.putExtra("PatientKey",PatientKey);
+                        wRecord.putExtra("Request","N");
                         startActivity(wRecord);
                         break;
                 }
