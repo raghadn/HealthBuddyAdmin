@@ -41,6 +41,7 @@ public class Notifications extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
 
+
         Doctorbottomnav=findViewById(R.id.d_bottom_navigation);
         Doctorbottomnav.setSelectedItemId(R.id.d_nav_home);
         Doctorbottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -56,12 +57,7 @@ public class Notifications extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         uid=mAuth.getCurrentUser().getUid().toString();
 
-        notificationList=(RecyclerView)findViewById(R.id.NotificationList);
-        notificationList.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-        notificationList.setLayoutManager(linearLayoutManager);
+
 
         docRef=FirebaseDatabase.getInstance().getReference().child("Doctors");
         docRef.child(uid).addValueEventListener(new ValueEventListener() {
@@ -81,6 +77,15 @@ public class Notifications extends AppCompatActivity {
     }
 
     private void displayNotifications(String currentDoctorid) {
+
+        notificationList=(RecyclerView)findViewById(R.id.NotificationList);
+        notificationList.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        notificationList.setLayoutManager(linearLayoutManager);
+
+
         Query query =requestsRef.child("PendingRequests").orderByChild("doctor_id").startAt(currentDoctorid).endAt(currentDoctorid+"\uf8ff");
 
         FirebaseRecyclerAdapter<DoctorRequests,NotificationsViewHolder> firebaseRecyclerAdapter =
@@ -142,16 +147,16 @@ public class Notifications extends AppCompatActivity {
             TextView t=(TextView)mView.findViewById(R.id.display_request_type);
             t.setText(type);
             if(type.equals("Medical Report")){
-                imageView.setImageResource(R.drawable.report);
+                imageView.setImageResource(R.drawable.medicalhistory1);
             }
             if(type.equals("Radiology Report")){
-                imageView.setImageResource(R.drawable.nuclear);
+                imageView.setImageResource(R.drawable.skeleton);
             }
             if(type.equals("Prescription")){
-                imageView.setImageResource(R.drawable.pills);
+                imageView.setImageResource(R.drawable.pills1);
             }
             if(type.equals("Vital Signs")){
-                imageView.setImageResource(R.drawable.cardiogram);
+                imageView.setImageResource(R.drawable.heartbeat);
             }
 
 
