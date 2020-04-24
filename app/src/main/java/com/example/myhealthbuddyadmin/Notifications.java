@@ -56,6 +56,13 @@ public class Notifications extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         uid=mAuth.getCurrentUser().getUid().toString();
 
+        notificationList=(RecyclerView)findViewById(R.id.NotificationList);
+        notificationList.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        notificationList.setLayoutManager(linearLayoutManager);
+
         docRef=FirebaseDatabase.getInstance().getReference().child("Doctors");
         docRef.child(uid).addValueEventListener(new ValueEventListener() {
             @Override
@@ -69,17 +76,6 @@ public class Notifications extends AppCompatActivity {
 
             }
         });
-
-
-
-
-        notificationList=(RecyclerView)findViewById(R.id.NotificationList);
-        notificationList.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-        notificationList.setLayoutManager(linearLayoutManager);
-
 
 
     }

@@ -27,6 +27,7 @@ public class XRay extends AppCompatActivity {
             public void onClick(View v) {
                 Intent redirect = new Intent(XRay.this,WriteXRay.class);
                 redirect.putExtra("PatientKey",PatientKey);
+                redirect.putExtra("Request","N");
                 startActivity(redirect);
             }
         });

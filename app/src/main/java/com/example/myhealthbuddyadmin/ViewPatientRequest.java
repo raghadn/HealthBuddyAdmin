@@ -40,7 +40,7 @@ public class ViewPatientRequest extends AppCompatActivity {
     TextView PatientNameText,PatientIDText,RequestTypeText,AppointmentDateText,NoteText,RDate;
     Button WriteRecordbtn,CancelRequestBtn;
     ImageView RequestPic;
-    String RequestKey;
+    String RequestKey,PatientKey,type;
     DatabaseReference pendingRequest,PatientsRef,declinedRequest;
 
     @Override
@@ -85,7 +85,7 @@ public class ViewPatientRequest extends AppCompatActivity {
                     PatientIDText.setText(pid);
                     String reqdate=dataSnapshot.child("request_date").getValue().toString();
                     RDate.setText(reqdate);
-                    String type=dataSnapshot.child("type").getValue().toString();
+                    type=dataSnapshot.child("type").getValue().toString();
                     RequestTypeText.setText(type);
                     String apDate=dataSnapshot.child("date").getValue().toString();
                     AppointmentDateText.setText(apDate);
@@ -94,6 +94,11 @@ public class ViewPatientRequest extends AppCompatActivity {
                         NoteText.setText(note);}
                     else
                         NoteText.setText("None");
+
+
+                    PatientKey=dataSnapshot.child("patient_uid").getValue().toString();
+
+
 
 
                     if(type.equals("Medical Report")){
@@ -136,6 +141,58 @@ public class ViewPatientRequest extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DeleteRequest();
+            }
+        });
+
+        WriteRecordbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(type.equals("Medical Report")){
+                    Intent intentwritemed = new Intent(ViewPatientRequest.this, WriteRecord.class);
+                    intentwritemed.putExtra("PatientKey",PatientKey);
+                    intentwritemed.putExtra("Request","Y");
+                    intentwritemed.putExtra("RequestKey",RequestKey);
+                    startActivity(intentwritemed);
+                    finish();
+
+                }
+                if(type.equals("Radiology Report")){
+                    Intent intentwriterad = new Intent(ViewPatientRequest.this, WriteXRay.class);
+                    intentwriterad.putExtra("PatientKey",PatientKey);
+                    intentwriterad.putExtra("Request","Y");
+                    intentwriterad.putExtra("RequestKey",RequestKey);
+                    startActivity(intentwriterad);
+                    finish();
+                }
+                if(type.equals("Prescription")){
+                    Intent intentwritepres = new Intent(ViewPatientRequest.this, WritePrescription.class);
+                    intentwritepres.putExtra("PatientKey",PatientKey);
+                    intentwritepres.putExtra("Request","Y");
+                    intentwritepres.putExtra("RequestKey",RequestKey);
+                    startActivity(intentwritepres);
+                    finish();
+                }
+                if(type.equals("Vital Signs")){
+                    Intent intentwritevs = new Intent(ViewPatientRequest.this, WriteVitalSigns.class);
+                    intentwritevs.putExtra("PatientKey",PatientKey);
+                    intentwritevs.putExtra("Request","Y");
+                    intentwritevs.putExtra("RequestKey",RequestKey);
+                    startActivity(intentwritevs);
+                    finish();
+
+                }
+                if(type.equals("Lab Report")){
+                    Intent intentwritelab = new Intent(ViewPatientRequest.this, WriteBloodTest.class);
+                    intentwritelab.putExtra("PatientKey",PatientKey);
+                    intentwritelab.putExtra("Request","Y");
+                    intentwritelab.putExtra("RequestKey",RequestKey);
+                    startActivity(intentwritelab);
+                    finish();
+
+                }
+
+
+
             }
         });
 

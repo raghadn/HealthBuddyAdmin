@@ -27,6 +27,7 @@ public class Record extends AppCompatActivity {
             public void onClick(View v) {
                 Intent redirect = new Intent(Record.this,WriteRecord.class);
                 redirect.putExtra("PatientKey",PatientKey);
+                redirect.putExtra("Request","N");
                 startActivity(redirect);
             }
         });

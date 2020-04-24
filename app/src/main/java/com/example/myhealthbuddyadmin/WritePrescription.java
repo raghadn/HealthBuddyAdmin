@@ -11,7 +11,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -35,10 +37,14 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Scanner;
 
 public class WritePrescription extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -47,7 +53,7 @@ public class WritePrescription extends AppCompatActivity {
 
     EditText medicationT,doseT,durationT,timeT,noteT;
     TextView patientN,patientID,patientG;
-    String medication,dose,duration,time,note, patientName;
+    String medication,dose,duration,time,note, patientName,req,requestKey;
     String type,pid;
     Button submitRecord,cancelRecord,addAttachment;
     Button attachmentView, deleteAttachment, b0,b1;
@@ -100,6 +106,7 @@ public class WritePrescription extends AppCompatActivity {
         savecurrenttime=currentTime.format(calfortime.getTime());
 
         pid = getIntent().getExtras().get("PatientKey").toString();
+        req=getIntent().getExtras().get("Request").toString();
 
         storageReference= FirebaseStorage.getInstance().getReference();
         mAuth= FirebaseAuth.getInstance();
@@ -375,6 +382,11 @@ public class WritePrescription extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if(task.isSuccessful()){
+                                if(req.equals("Y")){
+                                    requestKey=getIntent().getExtras().get("RequestKey").toString();
+                                    completeRequest(requestKey);
+                                }
+                                sendNotification(pid);
                                 Toast.makeText(WritePrescription.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
                                 finish();
@@ -387,6 +399,51 @@ public class WritePrescription extends AppCompatActivity {
                         }
                     });
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void completeRequest(final String requestKey){
+        Calendar calfordate=Calendar.getInstance();
+        SimpleDateFormat currentDate=new SimpleDateFormat("dd-MMMM-yyyy");
+        String savecurrentdate=currentDate.format(calfordate.getTime());
+
+        Calendar calfortime=Calendar.getInstance();
+        SimpleDateFormat currentTime=new SimpleDateFormat("HH:mm");
+        String savecurrenttime=currentTime.format(calfortime.getTime());
+
+
+        Calendar calfordecDec=Calendar.getInstance();
+        SimpleDateFormat decTime=new SimpleDateFormat("dd/MM/yyyy");
+        final String Datecreated=decTime.format(calfordecDec.getTime());
+
+        final String randomname=savecurrentdate+savecurrenttime;
+
+        final DatabaseReference pendingRequest= FirebaseDatabase.getInstance().getReference().child("Requests").child("PendingRequests").child(requestKey);
+        final DatabaseReference completedRequest=FirebaseDatabase.getInstance().getReference().child("Requests").child("CompletedRequests");
+        pendingRequest.child("completion_date").setValue(Datecreated);
+        pendingRequest.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                completedRequest.child(requestKey+randomname).setValue(dataSnapshot.getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            pendingRequest.removeValue();
+                            Toast.makeText(getApplicationContext(), "Request completed", Toast.LENGTH_LONG).show();
+
+                        }
+                        else
+                            Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
             }
 
             @Override
@@ -415,6 +472,77 @@ public class WritePrescription extends AppCompatActivity {
             b0.setVisibility(View.VISIBLE);
             b1.setVisibility(View.VISIBLE);
         }
+    }
+    private void sendNotification(final String puid) {
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                int SDK_INT = android.os.Build.VERSION.SDK_INT;
+                if (SDK_INT > 8) {
+                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                            .permitAll().build();
+                    StrictMode.setThreadPolicy(policy);
+                    String send_email;
+
+
+                    //This is a Simple Logic to Send Notification different Device Programmatically....
+
+                    send_email =puid ;
+
+
+                    try {
+                        String jsonResponse;
+
+                        URL url = new URL("https://onesignal.com/api/v1/notifications");
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                        con.setUseCaches(false);
+                        con.setDoOutput(true);
+                        con.setDoInput(true);
+
+                        con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                        con.setRequestProperty("Authorization", "Basic MWMzMDk5YzgtMTBjMC00N2U4LTgzNjAtNjk2Yjk3NjgxOTRm");
+                        con.setRequestMethod("POST");
+
+                        String strJsonBody = "{"
+                                + "\"app_id\": \"8feeee1a-0ae6-4662-af58-51550ce5b903\","
+
+                                + "\"filters\": [{\"field\": \"tag\", \"key\": \"User_uid\", \"relation\": \"=\", \"value\": \"" + send_email + "\"}],"
+
+                                + "\"data\": {\"foo\": \"bar\"},"
+                                + "\"contents\": {\"en\": \"تمت اضافة ملف جديد\"}"
+                                + "}";
+
+
+                        System.out.println("strJsonBody:\n" + strJsonBody);
+
+                        byte[] sendBytes = strJsonBody.getBytes("UTF-8");
+                        con.setFixedLengthStreamingMode(sendBytes.length);
+
+                        OutputStream outputStream = con.getOutputStream();
+                        outputStream.write(sendBytes);
+
+                        int httpResponse = con.getResponseCode();
+                        System.out.println("httpResponse: " + httpResponse);
+
+                        if (httpResponse >= HttpURLConnection.HTTP_OK
+                                && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
+                            Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");
+                            jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                            scanner.close();
+                        } else {
+                            Scanner scanner = new Scanner(con.getErrorStream(), "UTF-8");
+                            jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                            scanner.close();
+                        }
+                        System.out.println("jsonResponse:\n" + jsonResponse);
+
+                    } catch (Throwable t) {
+                        t.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
 }

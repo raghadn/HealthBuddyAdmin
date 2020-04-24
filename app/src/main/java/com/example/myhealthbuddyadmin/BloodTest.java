@@ -27,6 +27,7 @@ public class BloodTest extends AppCompatActivity {
             public void onClick(View v) {
                 Intent redirect = new Intent(BloodTest.this,WriteBloodTest.class);
                 redirect.putExtra("PatientKey",PatientKey);
+                redirect.putExtra("Request","N");
                 startActivity(redirect);
             }
         });
