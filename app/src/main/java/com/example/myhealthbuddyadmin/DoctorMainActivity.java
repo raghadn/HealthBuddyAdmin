@@ -79,7 +79,7 @@ public class DoctorMainActivity extends AppCompatActivity {
         RecordList.setLayoutManager(new LinearLayoutManager(this));
         //Toast.makeText(this, HID, Toast.LENGTH_LONG).show();
 
-         
+
 
         mAuth = FirebaseAuth.getInstance();
 
