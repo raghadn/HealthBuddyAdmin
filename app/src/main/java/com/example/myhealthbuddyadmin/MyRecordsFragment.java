@@ -19,7 +19,7 @@ public class MyRecordsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_shared_records,container,false);
+        View view=inflater.inflate(R.layout.fragment_my_records,container,false);
 
         //here the code
 
