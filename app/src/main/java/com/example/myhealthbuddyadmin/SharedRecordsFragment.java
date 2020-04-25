@@ -62,8 +62,6 @@ public class SharedRecordsFragment extends Fragment {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         prescriptionList.setLayoutManager(linearLayoutManager);
-
-
        // BrowseShare();
 
         return view;
