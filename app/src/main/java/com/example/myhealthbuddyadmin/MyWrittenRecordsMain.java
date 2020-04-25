@@ -20,6 +20,8 @@ public class MyWrittenRecordsMain extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_shared_records,container,false);
 
+
+        /////////
         //here
 
 
