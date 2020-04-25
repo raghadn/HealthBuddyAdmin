@@ -87,12 +87,12 @@ public class ViewPatient extends AppCompatActivity {
 
 
         ///////////// ---- redirect to activities ---- /////////////
-        final Intent redirect = new Intent(ViewPatient.this,Prescriptions.class);
+        final Intent redirect = new Intent(ViewPatient.this,ViewRecordsTabbed.class);
         redirect.putExtra("PatientKey",id);
+
         prescriptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 redirect.putExtra("type",1);
                 startActivity(redirect);
             }

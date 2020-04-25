@@ -28,7 +28,7 @@ public class Prescriptions extends AppCompatActivity {
 
     FloatingActionButton writeTest;
     private RecyclerView prescriptionList;
-    private DatabaseReference allSharesRef,allSRecordsRef;
+    private DatabaseReference allSharesRef,allRecordsRef;
     private FirebaseAuth mAuth;
     BottomNavigationView Doctorbottomnav;
     private String currentHCPuid,PatientKey;
@@ -90,7 +90,7 @@ public class Prescriptions extends AppCompatActivity {
             mAuth = FirebaseAuth.getInstance();
             currentHCPuid= mAuth.getCurrentUser().getUid();
             allSharesRef = FirebaseDatabase.getInstance().getReference().child("Share");
-            allSRecordsRef = FirebaseDatabase.getInstance().getReference().child("Records");
+            allRecordsRef = FirebaseDatabase.getInstance().getReference().child("Records");
 
             Doctorbottomnav = findViewById(R.id.d_bottom_navigation);
             Doctorbottomnav.setSelectedItemId(R.id.d_nav_search);
@@ -133,6 +133,81 @@ public class Prescriptions extends AppCompatActivity {
 
 
         BrowseShred();
+       //BrowseWrite();
+
+    }
+
+    private void BrowseWrite() {
+        final ArrayList<item_record>  records= new ArrayList<>();
+
+
+         allRecordsRef.orderByChild("pid").equalTo(PatientKey+"\uf8ff");
+         allRecordsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot1) {
+
+                for (DataSnapshot record : dataSnapshot1.getChildren()) {
+                    Toast.makeText(Prescriptions.this, "here" + currentHCPuid, Toast.LENGTH_LONG).show();
+                    if (record.child("did").getValue().toString().equals(currentHCPuid)) {
+                        item_record r = record.getValue(item_record.class);
+                        if (r.type == type) {
+                            r.rid = record.getKey();
+                            records.add(r);
+                        }
+
+                    }
+                }
+
+                mAdapter = new RecordAdapter(Prescriptions.this, records);
+                prescriptionList.setAdapter(mAdapter);
+                mAdapter.setOnItemClickListener(new RecordAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(String Rid) {
+
+                        switch (type) {
+                            case 1:
+                                Intent intentPrescriptionList = new Intent(Prescriptions.this, ViewPrescription.class);
+                                intentPrescriptionList.putExtra("recordID", Rid);
+                                startActivity(intentPrescriptionList);
+                                break;
+                            case 2:
+                                Intent intentMyBloodTests = new Intent(Prescriptions.this, ViewBloodTest.class);
+                                intentMyBloodTests.putExtra("Rid", Rid);
+                                startActivity(intentMyBloodTests);
+                                break;
+                            case 3:
+                                Intent intentMyx_Rays = new Intent(Prescriptions.this, ViewXRay.class);
+                                intentMyx_Rays.putExtra("Rid", Rid);
+                                startActivity(intentMyx_Rays);
+                                break;
+                            case 4:
+                                Intent intentMyVital = new Intent(Prescriptions.this, ViewVitalSigns.class);
+                                intentMyVital.putExtra("Rid", Rid);
+                                startActivity(intentMyVital);
+                                break;
+                            case 5:
+                                Intent intentRecord = new Intent(Prescriptions.this, ViewRecord.class);
+                                intentRecord.putExtra("Rid", Rid);
+                                startActivity(intentRecord);
+                                break;
+                        }
+
+
+                    }
+                });
+                if (records.size() == 0) {
+                    Noresult.setVisibility(View.VISIBLE);
+
+                } else Noresult.setVisibility(View.INVISIBLE);
+            }
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
 
     }
 
@@ -141,68 +216,75 @@ public class Prescriptions extends AppCompatActivity {
         final ArrayList<item_record>  records= new ArrayList<>();
 
 
-        Query Patientrecord =allSRecordsRef.orderByChild("pid").equalTo(PatientKey+"\uf8ff");
-        Patientrecord.addValueEventListener(new ValueEventListener() {
+       Query pAllRecord= allRecordsRef.orderByChild("pid").startAt(PatientKey+"\uf8ff").endAt(PatientKey+"\uf8ff");
+        pAllRecord.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull final DataSnapshot dataSnapshot1) {
 
 
-                Query shreWithMe= allSharesRef.orderByChild("hcp_uid").equalTo(currentHCPuid+"\uf8ff");
-                shreWithMe.addValueEventListener(new ValueEventListener() {
+                Query shared =allSharesRef.orderByChild("hcp_uid").equalTo(currentHCPuid+"\uf8ff");
+                shared.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
+                        if(dataSnapshot2.exists()) {
 
-                        for (DataSnapshot share : dataSnapshot2.getChildren()) {
-                            for(DataSnapshot record:dataSnapshot1.getChildren()) {
-                                if (record.getKey().equals(share.child("record_id").getValue().toString())){
-                                    item_record r = record.getValue(item_record.class);
-                                if(r.type==1) {
-                                    // item_record r = record.getValue(item_record.class);
-                                    r.rid = record.getKey();
-                                    records.add(r);
+                            for (DataSnapshot record : dataSnapshot1.getChildren()) {
+                                for (DataSnapshot share : dataSnapshot2.getChildren()) {
+                                    if (record.getKey().equals(share.child("record_id").getValue().toString())){
+                                        if (record.child("type").getValue().toString().equals((type))){
+                                            item_record r = record.getValue(item_record.class);
+                                            r.rid = record.getKey();
+                                            records.add(r);
+                                        }
+
+                                    }
                                 }
 
+                            }
+
+                            mAdapter = new RecordAdapter(Prescriptions.this, records);
+                            prescriptionList.setAdapter(mAdapter);
+                            mAdapter.setOnItemClickListener(new RecordAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(String Rid) {
+
+                                    switch (type) {
+                                        case 1:
+                                            Intent intentPrescriptionList = new Intent(Prescriptions.this, ViewPrescription.class);
+                                            intentPrescriptionList.putExtra("recordID", Rid);
+                                            startActivity(intentPrescriptionList);
+                                            break;
+                                        case 2:
+                                            Intent intentMyBloodTests = new Intent(Prescriptions.this, ViewBloodTest.class);
+                                            intentMyBloodTests.putExtra("Rid", Rid);
+                                            startActivity(intentMyBloodTests);
+                                            break;
+                                        case 3:
+                                            Intent intentMyx_Rays = new Intent(Prescriptions.this, ViewXRay.class);
+                                            intentMyx_Rays.putExtra("Rid", Rid);
+                                            startActivity(intentMyx_Rays);
+                                            break;
+                                        case 4:
+                                            Intent intentMyVital = new Intent(Prescriptions.this, ViewVitalSigns.class);
+                                            intentMyVital.putExtra("Rid", Rid);
+                                            startActivity(intentMyVital);
+                                            break;
+                                        case 5:
+                                            Intent intentRecord = new Intent(Prescriptions.this, ViewRecord.class);
+                                            intentRecord.putExtra("Rid", Rid);
+                                            startActivity(intentRecord);
+                                            break;
+                                    }
+
+
                                 }
-                            }
-
+                            });
                         }
+                            if (records.size() == 0) {
+                                Noresult.setVisibility(View.VISIBLE);
 
-                        mAdapter= new RecordAdapter(Prescriptions.this,records);
-                        prescriptionList.setAdapter(mAdapter);
-                        mAdapter.setOnItemClickListener(new RecordAdapter.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(String Rid) {
+                            } else Noresult.setVisibility(View.INVISIBLE);
 
-                                  switch(type){
-                            case 1:  Intent intentPrescriptionList=new Intent(Prescriptions.this, ViewPrescription.class);
-                                intentPrescriptionList.putExtra("recordID",Rid);
-                                startActivity(intentPrescriptionList);
-                                break;
-                            case 2: Intent intentMyBloodTests = new Intent(Prescriptions.this, ViewBloodTest.class);
-                                intentMyBloodTests.putExtra("Rid",Rid);
-                                startActivity(intentMyBloodTests);
-                                break;
-                            case 3:  Intent intentMyx_Rays = new Intent(Prescriptions.this, ViewXRay.class);
-                                intentMyx_Rays.putExtra("Rid",Rid);
-                                startActivity(intentMyx_Rays);
-                                break;
-                            case 4: Intent intentMyVital = new Intent(Prescriptions.this, ViewVitalSigns.class);
-                                intentMyVital.putExtra("Rid",Rid);
-                                startActivity(intentMyVital);
-                                break;
-                            case 5:Intent intentRecord = new Intent(Prescriptions.this, ViewRecord.class);
-                                intentRecord.putExtra("Rid",Rid);
-                                startActivity(intentRecord);
-                                break;
-                        }
-
-
-                            }
-                        });
-                        if(records.size()==0){
-                            Noresult.setVisibility(View.VISIBLE);
-
-                        }else Noresult.setVisibility(View.INVISIBLE);
 
                     }
 

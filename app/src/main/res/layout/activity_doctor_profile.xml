@@ -32,6 +32,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.49" />
 
+    <ImageView
+        android:id="@+id/logoutbtndoctor"
+        android:layout_width="26dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.604"
+        app:layout_constraintStart_toEndOf="@+id/doctorName"
+        app:layout_constraintTop_toTopOf="@+id/viewRequestToolbar"
+        app:srcCompat="@drawable/logout" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/doctorimage"
         android:layout_width="74dp"
@@ -270,16 +281,7 @@
         </androidx.cardview.widget.CardView>
     </GridLayout>
 
-    <ImageView
-        android:id="@+id/logoutbtndoctor"
-        android:layout_width="26dp"
-        android:layout_height="29dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.604"
-        app:layout_constraintStart_toEndOf="@+id/doctorName"
-        app:layout_constraintTop_toTopOf="@+id/viewRequestToolbar"
-        app:srcCompat="@drawable/logout" />
+
 
     <!-- <FrameLayout
          android:id="@+id/frameLayout"

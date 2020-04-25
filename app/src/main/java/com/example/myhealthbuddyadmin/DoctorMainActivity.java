@@ -92,7 +92,7 @@ public class DoctorMainActivity extends AppCompatActivity {
 
 
 
-        Browse();
+        //Browse();
     }
 
     public void Browse() {
