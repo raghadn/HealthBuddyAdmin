@@ -17,9 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".DoctorTabbed"
+            android:label="@string/title_activity_doctor_tabbed"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".ViewRecordsTabbed"
             android:label="@string/title_activity_view_records_tabbed"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ViewRecord" />
         <activity android:name=".ViewVitalSigns" />
         <activity android:name=".ViewBloodTest" />

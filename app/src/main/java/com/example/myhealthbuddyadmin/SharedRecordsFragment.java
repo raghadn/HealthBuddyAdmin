@@ -55,21 +55,21 @@ public class SharedRecordsFragment extends Fragment {
         allRecordsRef = FirebaseDatabase.getInstance().getReference().child("Records");
 
         // RecyclerView
-        prescriptionList = view.findViewById(R.id.ByMe);
+        prescriptionList = view.findViewById(R.id.shared);
         prescriptionList.setHasFixedSize(true);
         prescriptionList.setLayoutManager(new LinearLayoutManager(SharedRecordsFragment.this.getActivity()));
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(view.getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         prescriptionList.setLayoutManager(linearLayoutManager);
-       // BrowseShare();
+        BrowseShare();
 
         return view;
 
     }
 
     private void BrowseShare() {
-       /* final ArrayList<item_record> records= new ArrayList<>();
+        final ArrayList<item_record> records= new ArrayList<>();
 
         allRecordsRef.orderByChild("did").equalTo(PatientKey+"\uf8ff").addValueEventListener(new ValueEventListener() {
             @Override
@@ -136,7 +136,7 @@ public class SharedRecordsFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });*/
+        });
 
 
     }
