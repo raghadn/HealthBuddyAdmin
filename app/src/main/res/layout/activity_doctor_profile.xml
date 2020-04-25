@@ -7,23 +7,11 @@
     tools:context=".DoctorProfile"
     android:background="#ffffff">
 
-    <Button
-        android:id="@+id/signoutD"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign Out"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.947"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.893" />
-
     <include
         android:id="@+id/viewRequestToolbar"
         layout="@layout/toolbar"
-        android:layout_width="396dp"
-        android:layout_height="224dp" />
+        android:layout_width="411dp"
+        android:layout_height="225dp" />
 
 
     <TextView
@@ -281,6 +269,17 @@
 
         </androidx.cardview.widget.CardView>
     </GridLayout>
+
+    <ImageView
+        android:id="@+id/logoutbtndoctor"
+        android:layout_width="26dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.604"
+        app:layout_constraintStart_toEndOf="@+id/doctorName"
+        app:layout_constraintTop_toTopOf="@+id/viewRequestToolbar"
+        app:srcCompat="@drawable/logout" />
 
     <!-- <FrameLayout
          android:id="@+id/frameLayout"

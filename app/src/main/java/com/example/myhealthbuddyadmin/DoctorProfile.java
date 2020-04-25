@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.onesignal.OneSignal;
 import com.squareup.picasso.Picasso;
 
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DoctorProfile extends AppCompatActivity {
@@ -33,6 +35,7 @@ public class DoctorProfile extends AppCompatActivity {
     private DatabaseReference dref,href;
     BottomNavigationView Doctorbottomnav;
     Button Signout;
+    ImageView logoutbtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +54,8 @@ public class DoctorProfile extends AppCompatActivity {
             }
         });
 
-
-        Signout = findViewById(R.id.signoutD);
-        Signout.setOnClickListener(new View.OnClickListener() {
+        logoutbtn=(ImageView)findViewById(R.id.logoutbtndoctor);
+        logoutbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
@@ -61,6 +63,7 @@ public class DoctorProfile extends AppCompatActivity {
                 logoIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(logoIntent);
                 finish();
+
             }
         });
 

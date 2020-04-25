@@ -71,12 +71,15 @@ public class DoctorMainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentDoctorid = mAuth.getCurrentUser().getUid();
 
+        /*
         RecordList= findViewById(R.id.recordlist);
         RecordList.setHasFixedSize(true);
         RecyclerView myRecycler = (RecyclerView) findViewById(R.id.recordlist);
         myRecycler.setLayoutManager(new LinearLayoutManager(this));
         RecordList.setLayoutManager(new LinearLayoutManager(this));
         //Toast.makeText(this, HID, Toast.LENGTH_LONG).show();
+
+         */
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -89,7 +92,7 @@ public class DoctorMainActivity extends AppCompatActivity {
 
 
 
-        Browse();
+       // Browse();
     }
 
     public void Browse() {
