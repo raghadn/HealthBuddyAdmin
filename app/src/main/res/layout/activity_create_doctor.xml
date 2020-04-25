@@ -24,7 +24,7 @@
         android:layout_marginRight="80dp"
         android:text="Create Health Care Provider"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/colorPrimary"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/viewHiveToolBar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -154,6 +154,11 @@
                 android:hint="License"
                 android:inputType="textPersonName" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
 
             <Button
                 android:id="@+id/createaccount"
@@ -166,6 +171,16 @@
                 android:layout_margin="7dp"
                 android:text="Create Account" />
 
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/createaccount"
+                    app:layout_constraintEnd_toEndOf="@+id/createaccount"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/createaccount" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

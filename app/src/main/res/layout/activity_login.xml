@@ -104,4 +104,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/AdminLoginbutton"
+        app:layout_constraintEnd_toEndOf="@+id/AdminLoginbutton"
+        app:layout_constraintStart_toStartOf="@+id/AdminLoginbutton"
+        app:layout_constraintTop_toTopOf="@+id/AdminLoginbutton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
