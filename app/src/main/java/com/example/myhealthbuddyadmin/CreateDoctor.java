@@ -167,8 +167,7 @@ public class CreateDoctor extends AppCompatActivity {
 
                         //For the doctors id (Login)
                         FirebaseDatabase.getInstance().getReference().child("DoctorIDs").child(ID).setValue(email);
-
-
+                        showMessage("The Account has been created ");
                     } else {
                         showMessage("Error");
                     }

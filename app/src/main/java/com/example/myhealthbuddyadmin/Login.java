@@ -82,6 +82,7 @@ public class Login extends AppCompatActivity {
 
     private void loginProvider() {
 
+        final String license;
         final String ID = adminID.getText().toString();
         final String password = adminPassword.getText().toString();
 
@@ -91,51 +92,66 @@ public class Login extends AppCompatActivity {
         if (password.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please Enter Your password", Toast.LENGTH_LONG).show();
         } else {
+
+
             final DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
-            firebaseRef.child("DoctorIDs").child(ID).addValueEventListener(new ValueEventListener() {
+            firebaseRef.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()){
-                    final String Email = dataSnapshot.getValue(String.class);
+                    final String Email = dataSnapshot.child("DoctorIDs").child(ID).getValue(String.class);
 
-                    mAuth.signInWithEmailAndPassword(Email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
+                        if(!dataSnapshot.child("DeActive").hasChild(ID)) {
+                            mAuth.signInWithEmailAndPassword(Email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
 
-                              // if (mAuth.getCurrentUser().isEmailVerified()) {
-                                    if (password.equals(ID)) {
-                                        mAuth.sendPasswordResetEmail(Email).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if(task.isSuccessful()){
-                                                    Toast.makeText(getApplicationContext(), "We send an Email to reset your password", Toast.LENGTH_LONG).show();
-                                                    OneSignal.sendTag("User_uid",mAuth.getUid().toString());
+                                       if (mAuth.getCurrentUser().isEmailVerified()) {
+
+                                        String docuser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                        final String license = dataSnapshot.child("Doctors").child(docuser).child("license").getValue().toString();
+                                        // Check if the doctor change the password
+                                        if (password.equals(license)) {
+
+                                            mAuth.sendPasswordResetEmail(Email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(getApplicationContext(), "We send an Email to reset your password", Toast.LENGTH_LONG).show();
+                                                        OneSignal.sendTag("User_uid", mAuth.getUid().toString());
+                                                    } else {
+                                                        String Error = task.getException().getMessage();
+                                                        Toast.makeText(getApplicationContext(), Error, Toast.LENGTH_LONG).show();
+                                                    }
                                                 }
-                                                else {
-                                                    String Error = task.getException().getMessage();
-                                                    Toast.makeText(getApplicationContext(),Error,Toast.LENGTH_LONG).show();
-                                                }
-                                            }
-                                        });
-                                    }else {
-                                        // Send user to Doctors main Activity
-                                        Intent loginIntent = new Intent(Login.this, DoctorMainActivity.class);
-                                        startActivity(loginIntent);
-                                        Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
-                                    }//}
-                             //   else {
-                              //      mAuth.getCurrentUser().sendEmailVerification();
-                                    //Phone auth
-                                   //Intent PhoneIntent = new Intent(Login.this, PhoneAuth.class);
-                                   // startActivity(PhoneIntent);
-                             //   }
+                                            });
+                                        } else {
+                                            // Send user to Doctors main Activity
+                                            Intent loginIntent = new Intent(Login.this, DoctorMainActivity.class);
+                                            startActivity(loginIntent);
+                                            Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
+                                        }
+                                        }
+                                         else {
+                                             mAuth.getCurrentUser().sendEmailVerification();
+                                          Toast.makeText(getApplicationContext(), "Please check you email", Toast.LENGTH_LONG).show();
+                                        //Phone auth
+                                        //Intent PhoneIntent = new Intent(Login.this, PhoneAuth.class);
+                                        // startActivity(PhoneIntent);
+                                         }
 
-                            } else
-                                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-                        }
-                    });
+                                    } else
+                                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }else Toast.makeText(getApplicationContext(), "Your Account has been deactivated", Toast.LENGTH_LONG).show();
+
+
                      }
+
+
+
                 }
 
                     @Override

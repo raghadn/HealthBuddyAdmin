@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -36,7 +38,7 @@ public class SettingActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mRef,href;
 
-    Dialog myDialog;
+
     CardView Signoutbtn , deActive;
 
     @Override
@@ -45,7 +47,7 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
 
 
-        myDialog = new Dialog(this);
+
 
         userImage=findViewById(R.id.userimage);
         userHos=findViewById(R.id.Hospital);
@@ -55,17 +57,12 @@ public class SettingActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         Fuser =mAuth.getCurrentUser();
 
+
         Signoutbtn = findViewById(R.id.singout);
         Signoutbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                firebaseAuth.signOut();
-                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                if (firebaseUser == null) {
-
-                    startActivity(new Intent(SettingActivity.this, Login.class));
-                }
+                SignOut();
             }
         });
 
@@ -132,24 +129,53 @@ public class SettingActivity extends AppCompatActivity {
         deActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDialog();
-                FirebaseDatabase.getInstance().getReference().child("AdminIDs").child("DeActive").child(Fuser.getUid()).setValue("Deactive");
-                Toast.makeText(getApplicationContext(), "Your Admin Acount is deactive",Toast.LENGTH_LONG).show();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
+                builder.setTitle("Cancel Record");
+                builder.setMessage("Are you sure you want to cancel?");
+                // Set click listener for alert dialog buttons
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch(which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                // User clicked the yes button
+                                FirebaseDatabase.getInstance().getReference().child("AdminIDs").child("DeActive").child(Fuser.getUid()).setValue("Deactive");
+                                Toast.makeText(getApplicationContext(), "Your Admin Acount is deactive",Toast.LENGTH_LONG).show();
+                                SignOut();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                // User clicked the no button
+                                break;
+                        }
+                    }
+                };
+                // Set the alert dialog yes button click listener
+                builder.setPositiveButton("Yes", dialogClickListener);
+
+                // Set the alert dialog no button click listener
+                builder.setNegativeButton("No",dialogClickListener);
+
+                AlertDialog dialog = builder.create();
+                // Display the alert dialog on interface
+                dialog.show();
+
             }
         });
     }
 
-    public void openDialog() {
+    private void SignOut() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signOut();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser == null) {
 
-
-                myDialog.setContentView(R.layout.dialog);
-                TextView txtclose = myDialog.findViewById(R.id.username);
-                txtclose.setText("Are You sure you want to deActivate your account ?");
-
-                myDialog.show();
-
-
+            startActivity(new Intent(SettingActivity.this, Login.class));
+        }
     }
+
+
 }
 
 

@@ -187,6 +187,7 @@ public class WritePrescription extends AppCompatActivity {
         cancelRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
                 builder.setTitle("Cancel Record");
                 builder.setMessage("Are you sure you want to cancel?");

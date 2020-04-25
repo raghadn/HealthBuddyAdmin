@@ -15,18 +15,67 @@
         android:layout_height="wrap_content">
 
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="320dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="40dp"
+            app:cardCornerRadius="5dp"
+            app:contentPadding="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.767"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tool"
+            app:layout_constraintVertical_bias="0.023">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffffff"
+                android:orientation="horizontal"
+                android:padding="2dp">
+
+
+                <EditText
+                    android:id="@+id/SearchInput"
+                    android:layout_width="264dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="#ffffffff"
+                    android:ems="10"
+                    android:hint="Search For health care provider"
+                    android:imeOptions="actionSearch"
+                    android:inputType="textPersonName"
+                    android:lines="1"
+                    android:maxLines="1" />
+
+
+                <ImageButton
+                    android:id="@+id/searchbutton"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:background="@drawable/search1"
+                    android:src="@drawable/search1" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tool"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="394dp"
+            android:layout_height="67dp"
             android:layout_alignTop="@+id/tool"
             android:layout_alignEnd="@+id/tool"
             android:layout_alignRight="@+id/tool"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:background="#C98DCF"
-            app:layout_constraintBottom_toBottomOf="@+id/bottom_navigation"
+            android:background="#f3f3f3"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +95,48 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/plussign" />
 
-        <EditText
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/Searchresult"
+            android:layout_width="364dp"
+            android:layout_height="608dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.407"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tool" />
+
+        <!--  <ImageButton
+            android:id="@+id/searchbutton"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_marginBottom="3dp"
+            android:background="@android:drawable/ic_menu_search"
+            android:src="@drawable/search"
+            app:layout_constraintBottom_toBottomOf="@+id/SearchInput"
+            app:layout_constraintEnd_toEndOf="@+id/SearchInput"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/SearchInput"
+            app:layout_constraintTop_toBottomOf="@+id/tool"
+            app:layout_constraintVertical_bias="1.0" />
+
+       <com.google.android.material.bottomnavigation.BottomNavigationView
+         android:id="@+id/bottom_navigation"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHorizontal_bias="0.0"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+         app:layout_constraintVertical_bias="1.0"
+         android:background="?android:attr/windowBackground"
+         app:menu="@menu/bottom_navigation" />
+
+
+
+            <EditText
             android:id="@+id/SearchInput"
             android:layout_width="303dp"
             android:layout_height="43dp"
@@ -66,46 +156,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tool"
             app:layout_constraintVertical_bias="0.7" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/Searchresult"
-            android:layout_width="366dp"
-            android:layout_height="563dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginBottom="56dp"
-            app:layout_constraintBottom_toBottomOf="@+id/bottom_navigation"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.407"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tool"
-            app:layout_constraintVertical_bias="0.802" />
-
-        <ImageButton
-            android:id="@+id/searchbutton"
-            android:layout_width="37dp"
-            android:layout_height="37dp"
-            android:layout_marginBottom="3dp"
-            android:background="@android:drawable/ic_menu_search"
-            android:src="@drawable/search"
-            app:layout_constraintBottom_toBottomOf="@+id/SearchInput"
-            app:layout_constraintEnd_toEndOf="@+id/SearchInput"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/SearchInput"
-            app:layout_constraintTop_toBottomOf="@+id/tool"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <!-- <com.google.android.material.bottomnavigation.BottomNavigationView
-         android:id="@+id/bottom_navigation"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_alignParentBottom="true"
-         app:layout_constraintBottom_toBottomOf="parent"
-         app:layout_constraintEnd_toEndOf="parent"
-         app:layout_constraintHorizontal_bias="0.0"
-         app:layout_constraintStart_toStartOf="parent"
-         app:layout_constraintTop_toTopOf="parent"
-         app:layout_constraintVertical_bias="1.0"
-         android:background="?android:attr/windowBackground"
-         app:menu="@menu/bottom_navigation" />-->
+         -->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

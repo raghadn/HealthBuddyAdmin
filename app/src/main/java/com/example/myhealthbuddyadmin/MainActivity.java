@@ -7,7 +7,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -18,6 +20,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
@@ -95,31 +98,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
-
-
-
-
-
-
-
-       /* bottomnav=(BottomNavigationView)findViewById(R.id.bottom_navigation);
-        bottomnav.setSelectedItemId(R.id.nav_home);
-        bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                UserMenuSelector(menuItem);
-                return false;
-            }
-        });*/
-
-       /* CreateDoctor = findViewById(R.id.CD);
-        CreateDoctor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                startActivity(new Intent(MainActivity.this, CreateDoctor.class));
-            }
-        });*/
 
 
         //For Search
@@ -243,18 +221,86 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         DisplayInfiQuere
                 ){
             @Override
-            protected void populateViewHolder(SearchViweHolder searchViweHolder, search_result module, final int i) {
+            protected void populateViewHolder(final SearchViweHolder searchViweHolder, final search_result module, final int i) {
                 DocNum++;
                 searchViweHolder.setName(module.getName());
                 searchViweHolder.setID(module.getID());
                 searchViweHolder.setSpecialty(module.getSpecialty());
                 searchViweHolder.setGender(module.getGender());
 
+                //PopupMenu popup =new PopupMenu(searchViweHolder.getContext())
+
+                searchViweHolder.TextViewOptions.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+
+                        PopupMenu popup =new PopupMenu(v.getContext(),searchViweHolder.TextViewOptions);
+                        popup.inflate(R.menu.admin_options_menu);
+                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                switch (item.getItemId()) {
+
+                                    case R.id.docdeactive:
+
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
+                                        builder.setTitle("DE Active Health Care Provider");
+                                        builder.setMessage("Are you sure you want to De active the health care provider?");
+                                        // Set click listener for alert dialog buttons
+                                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                switch(which){
+                                                    case DialogInterface.BUTTON_POSITIVE:
+                                                        // User clicked the yes button
+                                                        allUsersdatabaseRef.getParent().child("DoctorIDs").child("DeActive").child(module.getID()).setValue("Deactive");
+                                                        Toast.makeText(getApplicationContext(), "this Acount is deactive",Toast.LENGTH_LONG).show();
+                                                        break;
+
+                                                    case DialogInterface.BUTTON_NEGATIVE:
+                                                        // User clicked the no button
+                                                        break;
+                                                }
+                                            }
+                                        };
+                                        // Set the alert dialog yes button click listener
+                                        builder.setPositiveButton("Yes", dialogClickListener);
+
+                                        // Set the alert dialog no button click listener
+                                        builder.setNegativeButton("No",dialogClickListener);
+
+                                        AlertDialog dialog = builder.create();
+                                        // Display the alert dialog on interface
+                                        dialog.show();
+
+                                        return true;
+
+
+                                    case R.id.docedit:
+                                        //handle menu2 click
+                                        return true;
+
+                                    default:
+                                        return false;
+                                }
+                            }
+                        });
+                        popup.show();
+                    }
+                });
+
+
+
                 //searchViweHolder.setImage(getApplicationContext(),module.getImage());
             }
         };
         SearchResultList.setAdapter(FirebaseRecycleAdapter);
     }
+
+
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -294,16 +340,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static class SearchViweHolder extends RecyclerView.ViewHolder {
         View mViwe;
+        TextView MyName;
+        ImageView TextViewOptions;
 
 
         //defolt constroctor
         public SearchViweHolder(@NonNull View itemView) {
             super(itemView);
             mViwe = itemView;
+            //TextView MyName;
+            TextViewOptions=mViwe.findViewById(R.id.textViewOptions);
         }
 
+
+
         public void setName(String Name) {
-            TextView MyName= (TextView)mViwe.findViewById(R.id.all_HCP_profile_name);
+             MyName= (TextView)mViwe.findViewById(R.id.all_HCP_profile_name);
             MyName.setText(Name);
         }
         public void setID(String ID) {
