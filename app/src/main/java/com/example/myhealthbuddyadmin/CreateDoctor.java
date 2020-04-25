@@ -66,6 +66,8 @@ public class CreateDoctor extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                createbtn.setVisibility(View.INVISIBLE);
+
                 int radioID=Group.getCheckedRadioButtonId();
                 if(radioID==R.id.male)
                     Gender="Male";
@@ -81,8 +83,11 @@ public class CreateDoctor extends AppCompatActivity {
                 String Uspecialty = specialty.getText().toString();
              // String Ugender = gender.getText().toString();
                 String Ulicense = password.getText().toString();
-                if(Uid.isEmpty()|| Uname.isEmpty()|| Uemail.isEmpty()|| Uphone.isEmpty()|| Uspecialty.isEmpty()|| Ulicense.isEmpty())
+                if(Uid.isEmpty()|| Uname.isEmpty()|| Uemail.isEmpty()|| Uphone.isEmpty()|| Uspecialty.isEmpty()|| Ulicense.isEmpty()){
                     showMessage("Please Verify All Fields");
+                    createbtn.setVisibility(View.VISIBLE);
+                }
+
                 else
                     CreateHealthcareProviderAccount(Uemail,Ulicense ,Uid,Uname,Uphone,Gender,Uspecialty);
             }
@@ -140,8 +145,16 @@ public class CreateDoctor extends AppCompatActivity {
     // method adding thr created account to database
     private void CreateHealthcareProviderAccount(final String email , final String license, final String ID , final String Name , final String Phone, final String Gender, final String Specialty) {
 
-        if(Phone.length()<10){
+        if(Phone.length()>10 || Phone.length()<10 || !Phone.substring(0,2).equals("05")){
             showMessage("Please enter a valid phone number");
+            phone.setError("Please enter a valid phone number starts with 05 ");
+            phone.requestFocus();
+            createbtn.setVisibility(View.VISIBLE);
+        } if(license.length()>10 || license.length()<10){
+            password.setError("Please enter a valid license number ");
+            password.requestFocus();
+            createbtn.setVisibility(View.VISIBLE);
+
         }
                 else {
 
@@ -168,8 +181,10 @@ public class CreateDoctor extends AppCompatActivity {
                         //For the doctors id (Login)
                         FirebaseDatabase.getInstance().getReference().child("DoctorIDs").child(ID).setValue(email);
                         showMessage("The Account has been created ");
+                        createbtn.setVisibility(View.VISIBLE);
                     } else {
                         showMessage("Error");
+                        createbtn.setVisibility(View.VISIBLE);
                     }
                 }
             });
