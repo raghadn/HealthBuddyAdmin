@@ -7,6 +7,27 @@
     tools:context=".ViewPatientRequest"
     android:background="#ffffff">
 
+    <include
+        android:id="@+id/viewHiveToolBar"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Patient Request"
+        android:textColor="@color/purple"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewHiveToolBar"
+        app:layout_constraintEnd_toEndOf="@+id/viewHiveToolBar"
+        app:layout_constraintStart_toStartOf="@+id/viewHiveToolBar"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,15 +51,16 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.934"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/page_request_pic" />
+                tools:layout_editor_absoluteY="61dp" />
 
             <Button
                 android:id="@+id/page_request_writerecord"
                 android:layout_width="286dp"
                 android:layout_height="53dp"
                 android:layout_marginTop="28dp"
-                android:background="@drawable/login_btn"
+                android:background="@drawable/buttonshape"
                 android:text="Write Record"
                 android:textAllCaps="true"
                 android:textColor="#ffffff"
@@ -53,8 +75,8 @@
                 android:id="@+id/page_request_cancelb"
                 android:layout_width="286dp"
                 android:layout_height="53dp"
-                android:layout_marginTop="96dp"
-                android:background="@drawable/login_btn"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/cancelbutton"
                 android:text="Cancel and delete request"
                 android:textAllCaps="true"
                 android:textColor="#ffffff"
@@ -63,43 +85,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/page_request_note" />
-
-            <include
-                android:id="@+id/viewRequestToolbar"
-                layout="@layout/toolbar"
-                android:layout_width="413dp"
-                android:layout_height="82dp" />
-
-            <TextView
-                android:id="@+id/page_request_name1"
-                android:layout_width="363dp"
-                android:layout_height="49dp"
-                android:background="@drawable/login_style"
-                android:ems="10"
-                android:focusable="false"
-                android:gravity="center"
-                android:inputType="none"
-                android:text="Name"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@+id/textView14"
-                app:layout_constraintTop_toBottomOf="@+id/textView14" />
-
-            <TextView
-                android:id="@+id/page_request_ID"
-                android:layout_width="363dp"
-                android:layout_height="49dp"
-                android:background="@drawable/login_style"
-                android:ems="10"
-                android:focusable="false"
-                android:gravity="center"
-                android:inputType="none"
-                android:text="ID"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@+id/textView15"
-                app:layout_constraintTop_toBottomOf="@+id/textView15" />
+                app:layout_constraintTop_toBottomOf="@+id/page_request_writerecord" />
 
             <TextView
                 android:id="@+id/page_request_type"
@@ -148,7 +134,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
             <TextView
-                android:id="@+id/textView14"
+                android:id="@+id/textView16"
                 android:layout_width="130dp"
                 android:layout_height="25dp"
                 android:layout_alignParentTop="true"
@@ -158,45 +144,11 @@
                 android:layout_marginTop="32dp"
                 android:layout_toEndOf="@+id/display_request_image"
                 android:layout_toRightOf="@+id/display_request_image"
-                android:text="Patient Name: "
-                android:textColor="#131010"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/page_request_pic" />
-
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="130dp"
-                android:layout_height="25dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="20dp"
-                android:layout_toEndOf="@+id/display_request_image"
-                android:layout_toRightOf="@+id/display_request_image"
-                android:text="Patient ID: "
-                android:textColor="#131010"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/page_request_name1" />
-
-            <TextView
-                android:id="@+id/textView16"
-                android:layout_width="130dp"
-                android:layout_height="25dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="20dp"
-                android:layout_toEndOf="@+id/display_request_image"
-                android:layout_toRightOf="@+id/display_request_image"
                 android:text="Request Type:"
                 android:textColor="#131010"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/page_request_ID" />
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
             <TextView
                 android:id="@+id/textView18"
@@ -232,18 +184,81 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/page_request_apDate" />
 
-            <ImageView
-                android:id="@+id/page_request_pic"
-                android:layout_width="99dp"
-                android:layout_height="84dp"
-                android:layout_marginStart="152dp"
-                android:layout_marginLeft="152dp"
-                android:layout_marginTop="16dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="208dp"
+                android:layout_height="92dp"
+                android:layout_marginTop="90dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.025"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewRequestToolbar"
-                app:srcCompat="@drawable/blood" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name:"
+                    android:textColor="@color/purple"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/patientName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="Name"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toEndOf="@+id/textView21"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="National ID: "
+                    android:textColor="@color/purple"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+                <TextView
+                    android:id="@+id/patientID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ID"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/patientName"
+                    app:layout_constraintTop_toTopOf="@+id/textView21" />
+
+
+                <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Gender:"
+                    android:textColor="@color/purple"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+                <TextView
+                    android:id="@+id/gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/patientID"
+                    app:layout_constraintTop_toTopOf="@+id/textView27" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

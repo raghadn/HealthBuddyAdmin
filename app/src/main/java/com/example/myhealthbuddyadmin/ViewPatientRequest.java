@@ -37,7 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ViewPatientRequest extends AppCompatActivity {
 
     Toolbar mtoolbar;
-    TextView PatientNameText,PatientIDText,RequestTypeText,AppointmentDateText,NoteText,RDate;
+    TextView PatientNameText,PatientIDText,RequestTypeText,AppointmentDateText,NoteText,RDate,gender;
     Button WriteRecordbtn,CancelRequestBtn;
     ImageView RequestPic;
     String RequestKey,PatientKey,type;
@@ -48,20 +48,23 @@ public class ViewPatientRequest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_patient_request);
 
+        /*
         mtoolbar=(Toolbar)findViewById(R.id.viewRequestToolbar);
         setSupportActionBar(mtoolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Patient Request");
 
-
+*/
 
 
         //Page Fields
-        PatientNameText=(TextView) findViewById(R.id.page_request_name1);
-        PatientIDText=(TextView) findViewById(R.id.page_request_ID);
+        PatientNameText=(TextView) findViewById(R.id.patientName);
+        PatientIDText=(TextView) findViewById(R.id.patientID);
         RequestTypeText=(TextView)findViewById(R.id.page_request_type);
-        RequestPic=(ImageView) findViewById(R.id.page_request_pic);
+        gender=(TextView)findViewById(R.id.gender);
+
+
         AppointmentDateText=(TextView)findViewById(R.id.page_request_apDate);
         NoteText=(TextView)findViewById(R.id.page_request_note);
         RDate=(TextView)findViewById(R.id.page_request_requestdate);
@@ -101,24 +104,14 @@ public class ViewPatientRequest extends AppCompatActivity {
 
 
 
-                    if(type.equals("Medical Report")){
-                        RequestPic.setImageResource(R.drawable.report);
-                    }
-                    if(type.equals("Radiology Report")){
-                        RequestPic.setImageResource(R.drawable.nuclear);
-                    }
-                    if(type.equals("Prescription")){
-                        RequestPic.setImageResource(R.drawable.pills);
-                    }
-                    if(type.equals("Vital Signs")){
-                        RequestPic.setImageResource(R.drawable.cardiogram);
-                    }
-
                     PatientsRef.child(dataSnapshot.child("patient_uid").getValue().toString()).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String pname =dataSnapshot.child("name").getValue().toString();
                             PatientNameText.setText(pname);
+                            String gndr=dataSnapshot.child("gender").getValue().toString();
+                            gender.setText(gndr);
+
                         }
 
                         @Override
@@ -126,6 +119,8 @@ public class ViewPatientRequest extends AppCompatActivity {
 
                         }
                     });
+
+
 
                 }
             }
