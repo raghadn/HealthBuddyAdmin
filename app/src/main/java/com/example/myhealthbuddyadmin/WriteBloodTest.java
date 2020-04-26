@@ -3,11 +3,13 @@ package com.example.myhealthbuddyadmin;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -17,6 +19,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -47,16 +50,15 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Random;
 
-public class WriteBloodTest extends AppCompatActivity {
+public class WriteBloodTest extends AppCompatActivity{
 
-    EditText testT,unitT,resultT,normalT,noteT;
-    String test,unit,result,normal,note;
-    TextView patientN,patientID,dateV;
+    EditText noteT;
+    TextView patientN,patientID,dateV,testsLabel,patientG;
     Button submitRecord,cancel,addAttachment;
-    Button attachmentView, deleteAttachment, b0,b1;
-    ImageButton add;
+    Button attachmentView, deleteAttachment, b0,b1,add;
 
-    String savecurrentdate,savecurrenttime;
+
+    String savecurrentdate,savecurrenttime,note;
 
     String recordIDٍ, type,pid,patientName;
     String myUrl="";
@@ -73,19 +75,20 @@ public class WriteBloodTest extends AppCompatActivity {
     String date;
     private DatePickerDialog.OnDateSetListener mDatasetListner;
     ProgressDialog loadingbar;
+    CardView card;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_blood_test);
-        /*
+
 
         loadingbar = new ProgressDialog(this);
 
         addAttachment=findViewById(R.id.addAttachment);
         deleteAttachment=findViewById((R.id.deleteAttachment));
         submitRecord=findViewById(R.id.submitRecord);
-        cancel=findViewById(R.id.cancel);
+        cancel=findViewById(R.id.cancelRecord);
         attachmentView=findViewById(R.id.attachmentView);
         b0=findViewById(R.id.button);
         b1=findViewById(R.id.button0);
@@ -94,14 +97,11 @@ public class WriteBloodTest extends AppCompatActivity {
         attachmentView.setPaintFlags(attachmentView.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
         deleteAttachment.setPaintFlags(deleteAttachment.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
 
-        testT=findViewById(R.id.test);
-        unitT=findViewById((R.id.unit));
-        resultT=findViewById(R.id.result);
-        normalT=findViewById(R.id.normal);
+
         noteT=findViewById(R.id.rrrr);
         patientN=findViewById(R.id.patientName);
         patientID=findViewById(R.id.patientID);
-
+        patientG=findViewById(R.id.gender);
 
         Calendar calfordate=Calendar.getInstance();
         SimpleDateFormat currentDate=new SimpleDateFormat("dd-MMMM-yyyy");
@@ -118,6 +118,8 @@ public class WriteBloodTest extends AppCompatActivity {
         mAuth= FirebaseAuth.getInstance();
         currentuser=mAuth.getCurrentUser().getUid();
 
+        recyclerV=findViewById(R.id.recy);
+
         type="BloodTest";
 
         patientRef= FirebaseDatabase.getInstance().getReference().child("Patients");
@@ -127,6 +129,7 @@ public class WriteBloodTest extends AppCompatActivity {
                 patientName=dataSnapshot.child("name").getValue().toString();
                 patientN.setText(patientName);
                 patientID.setText(dataSnapshot.child("national_id").getValue().toString());
+                patientG.setText(dataSnapshot.child("gender").getValue().toString());
 
             }
 
@@ -136,44 +139,68 @@ public class WriteBloodTest extends AppCompatActivity {
             }
         });
 
-
-
         //first create record with general information
+        recordIDٍ=generateRecordID(type);
         saveRecord("");
+
 
         //add blood test
         add=findViewById(R.id.add);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                test=testT.getText().toString();
-                testT.getText().clear();
+               // openDialog();
+                final Dialog dialog = new Dialog(WriteBloodTest.this);
+                dialog.setContentView(R.layout.dialog_add_test);
+                dialog.setTitle("Add Test");
+                dialog.setCancelable(true);
 
-                unit = unitT.getText().toString();
-                unitT.getText().clear();
+                Button button = (Button) dialog.findViewById(R.id.addtest);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        EditText testT,unitT,resultT,normalminT,normalmaxT;
 
-                result = resultT.getText().toString();
-                resultT.getText().clear();
+                        testT= dialog.findViewById(R.id.test);
+                        unitT=dialog.findViewById((R.id.unit));
+                        resultT=dialog.findViewById(R.id.result);
+                        normalminT=dialog.findViewById(R.id.normalmin);
+                        normalmaxT=dialog.findViewById(R.id.normalmax);
 
-                normal = normalT.getText().toString();
-                normalT.getText().clear();
+                        String test,unit, result,normalmin,normalmax;
+
+                        test=testT.getText().toString();
+                        unit = unitT.getText().toString();
+                        result = resultT.getText().toString().trim();
+                        normalmin = normalminT.getText().toString().trim();
+                        normalmax = normalmaxT.getText().toString().trim();
+
+                        Boolean isError = true;
 
 
+                        if (((test.isEmpty() || unit.isEmpty()) || result.isEmpty()) || (normalmin.isEmpty() || normalmax.isEmpty())) {
+                            showMessage("Please fill all fields.");
+                            isError = true;
+                        } else{
 
-                if (test.isEmpty() || unit.isEmpty() || result.isEmpty() || normal.isEmpty()) {
-                    showMessage("Please enter all fields..");
+                            isError = false;
+                            AddBloodTest( test, unit, Double.parseDouble(resultT.getText().toString()),  Double.parseDouble(normalminT.getText().toString()),  Double.parseDouble(normalmaxT.getText().toString()));
 
-                } else {
+                        }
 
-                    AddBloodTest(test, unit,result,normal);
+                        if(!isError)
+                            dialog.dismiss();
 
-                }
+                    }
+                });
+
+                dialog.show();
             }
         });
 
 
         cal=findViewById(R.id.testDateL);
-        dateV=findViewById(R.id.testDate);
+        dateV=findViewById(R.id.exdate);
         cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,19 +262,26 @@ public class WriteBloodTest extends AppCompatActivity {
             }
         });
 
-
-
         //check if there is a bloodtest
-        recordIDٍ=generateRecordID(type);
+        card=findViewById(R.id.card);
+        testsLabel=findViewById(R.id.textView6);
         hasBT=false;
         recordRef.child(recordIDٍ).child("BloodTest").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if (dataSnapshot.getValue() == null) {
+                    //no blood tests
                     hasBT=true;
+                    card.setVisibility(View.GONE);
+                    recyclerV.setVisibility(View.GONE);
+                    testsLabel.setVisibility(View.GONE);
+
                 }else{
                     hasBT=false;
+                    card.setVisibility(View.VISIBLE);
+                    recyclerV.setVisibility(View.VISIBLE);
+                    testsLabel.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -257,9 +291,7 @@ public class WriteBloodTest extends AppCompatActivity {
             }
         });
 
-
-        //validate here! if there is no file or bloodtests then delete the record
-
+//validate here! if there is no file or bloodtests then delete the record
         //submit button which will add the file and note
         submitRecord=findViewById(R.id.submitRecord);
         submitRecord.setOnClickListener(new View.OnClickListener() {
@@ -297,7 +329,7 @@ public class WriteBloodTest extends AppCompatActivity {
         });
 
 
-       ////////////cancel button delete the record!!!
+        ////////////cancel button delete the record!!!
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -336,17 +368,15 @@ public class WriteBloodTest extends AppCompatActivity {
 
 
         //recycler view
-        recyclerV=findViewById(R.id.recy);
         recyclerV.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         recyclerV.setLayoutManager(linearLayoutManager);
         displayBloodTests();
-
-
-*/
     }//onc
+
+
 
     private void displayBloodTests() {
         final Query query = recordRef.child(recordIDٍ).child("BloodTest");
@@ -360,10 +390,28 @@ public class WriteBloodTest extends AppCompatActivity {
                     @Override
                     protected void populateViewHolder(WriteBloodTest.viewHolder viewHolder, btinfo btinfo, final int i) {
                         //set information in each row
-                        viewHolder.setTest(btinfo.getTest());
-                        viewHolder.setUnit(btinfo.getUnit());
-                        viewHolder.setNormal(btinfo.getNormal());
-                        viewHolder.setResult(btinfo.getResult());
+                        Double min, max,res;
+                        max=btinfo.getNormalMax();
+                        min=btinfo.getNormalMin();
+                        res=btinfo.getResult();
+
+
+                        viewHolder.setTest(btinfo.getTest()+"("+btinfo.getUnit()+")");
+                        viewHolder.setNormalMax(max);
+                        viewHolder.setNormalMin(min);
+                        viewHolder.setResult(res);
+
+
+                        //in between
+                        if(res>=min && res<=max){
+                            //green
+                            viewHolder.colorbtn.setBackgroundColor(Color.parseColor("#4CAF50"));
+
+                        }else {//less or greater
+                            //red
+                            viewHolder.colorbtn.setBackgroundColor(Color.parseColor("#CA0000"));
+                        }
+
 
                         viewHolder.del.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -371,6 +419,7 @@ public class WriteBloodTest extends AppCompatActivity {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
                                 builder.setTitle("Delete Test!");
                                 builder.setMessage("Are you sure?");
+
 
 
 
@@ -426,42 +475,16 @@ public class WriteBloodTest extends AppCompatActivity {
         recyclerV.setAdapter(firebaseRecyclerAdapter);
 
     }
-    public static class viewHolder extends RecyclerView.ViewHolder{
-        View mView;
-        ImageButton del= itemView.findViewById(R.id.deleteBT);
 
-        public viewHolder(@NonNull View itemView) {
-            super(itemView);
-            mView = itemView;
-        }
-
-        public void setTest(String tn){
-            TextView title = mView.findViewById(R.id.test);
-            title.setText(tn);
-        }
-        public void setUnit(String tn){
-            TextView title = mView.findViewById(R.id.unit);
-            title.setText(tn);
-        }
-        public void setResult(String tn){
-            TextView title = mView.findViewById(R.id.result);
-            title.setText(tn);
-        }
-        public void setNormal(String tn){
-            TextView title = mView.findViewById(R.id.normal);
-            title.setText(tn);
-        }
-    }
-
-
-    private void AddBloodTest(String test, String unit, String result, String normal) {
+    private void AddBloodTest(String test,String unit,Double result, Double normalmin, Double normalmax) {
         DatabaseReference ref = recordRef.child(recordIDٍ).child("BloodTest");
         HashMap btmap = new HashMap();
 
         btmap.put("test", test);
         btmap.put("unit", unit);
         btmap.put("result", result);
-        btmap.put("normal", normal);
+        btmap.put("normalMin", normalmin);
+        btmap.put("normalMax", normalmax);
 
         ref.child(test).updateChildren(btmap).addOnCompleteListener(new OnCompleteListener() {
             @Override
@@ -477,6 +500,38 @@ public class WriteBloodTest extends AppCompatActivity {
         });
     }
 
+    public static class viewHolder extends RecyclerView.ViewHolder{
+        View mView;
+        ImageButton del= itemView.findViewById(R.id.deleteBT);
+        Button colorbtn= itemView.findViewById(R.id.button3);
+
+        public viewHolder(@NonNull View itemView) {
+            super(itemView);
+            mView = itemView;
+        }
+
+        public void setTest(String tn){
+            TextView title = mView.findViewById(R.id.test);
+            title.setText(tn);
+        }
+
+        public void setResult(Double tn){
+            TextView title = mView.findViewById(R.id.result);
+            title.setText(tn+"");
+        }
+        public void setNormalMin(Double tn){
+            TextView title = mView.findViewById(R.id.normalMin);
+            title.setText(tn+"");
+        }
+        public void setNormalMax(Double tn){
+            TextView title = mView.findViewById(R.id.normalMax);
+            title.setText(tn+"");
+        }
+    }
+
+
+
+
     private void saveRecord(final String url) {
 
         doctorRef.child(currentuser).addValueEventListener(new ValueEventListener() {
@@ -487,13 +542,13 @@ public class WriteBloodTest extends AppCompatActivity {
                     recordMap.put("type",2);
                     recordMap.put("did",currentuser);
                     recordMap.put("pid",pid);
-                    recordMap.put("patientName",patientName);
-                    recordMap.put("date",savecurrentdate);
-                    recordMap.put("time",savecurrenttime);
+                    recordMap.put("dateCreated",savecurrentdate);
+                    recordMap.put("timeCreated",savecurrenttime);
                     recordMap.put("doctorSpeciality",dataSnapshot.child("specialty").getValue().toString());
                     recordMap.put("doctorName",dataSnapshot.child("name").getValue().toString());
-                    recordMap.put("hospital","get back to this");
+                    recordMap.put("hospital",dataSnapshot.child("hospital").getValue().toString());
                     recordMap.put("testDate",date);
+
                     recordRef.child(recordIDٍ).updateChildren(recordMap);
 
                 }

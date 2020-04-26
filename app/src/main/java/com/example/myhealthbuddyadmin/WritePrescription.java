@@ -122,7 +122,7 @@ public class WritePrescription extends AppCompatActivity {
                 patientName=dataSnapshot.child("name").getValue().toString();
                 patientN.setText(patientName);
                 patientID.setText(dataSnapshot.child("national_id").getValue().toString());
-                //patientG.setText(dataSnapshot.child("").getValue().toString());
+                patientG.setText(dataSnapshot.child("gender").getValue().toString());
             }
 
             @Override
@@ -233,12 +233,16 @@ public class WritePrescription extends AppCompatActivity {
         //if there is a file then all fields are optional
         //No file OR one of fields are messing  except NOTE is optional
         if(medication.isEmpty()){
-            Toast.makeText(this, "Medication is mandatory", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please add medication name.", Toast.LENGTH_SHORT).show();
         }else{
             if (fileUri == null && (dose.isEmpty() || duration.isEmpty() || time.isEmpty())) {/////////////////put mand field here
                 Toast.makeText(this, "No file provided, all fields must be filled", Toast.LENGTH_SHORT).show();
             } else {
                 if (fileUri != null && !fileUri.equals(Uri.EMPTY)) {
+                    loadingbar.setTitle("Uploading Record");
+                    loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
+                    loadingbar.show();
+
                     recordIDٍ = generateRecordID(type);
                     StoreFile();
                 } else {
@@ -350,9 +354,6 @@ public class WritePrescription extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
-                    loadingbar.setTitle("Uploading Record");
-                    loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
-                    loadingbar.show();
 
                     final HashMap recordMap=new HashMap();
                     recordMap.put("type",1);

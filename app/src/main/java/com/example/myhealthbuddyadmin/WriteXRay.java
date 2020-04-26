@@ -55,7 +55,7 @@ public class WriteXRay extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String currentuser;
     private DatabaseReference patientRef, doctorRef,recordRef;
-    TextView dateV,patientN,patientID;
+    TextView dateV,patientN,patientID,patientG;
 
     EditText findingsT,impressionT,noteT;
     String findings,impression,note;
@@ -124,6 +124,7 @@ public class WriteXRay extends AppCompatActivity {
         b1=findViewById(R.id.button0);
         patientN=findViewById(R.id.patientName);
         patientID=findViewById(R.id.patientID);
+        patientG=findViewById(R.id.gender);
 
         //underline
         attachmentView.setPaintFlags(attachmentView.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
@@ -154,6 +155,7 @@ public class WriteXRay extends AppCompatActivity {
                 patientName=dataSnapshot.child("name").getValue().toString();
                 patientN.setText(patientName);
                 patientID.setText(dataSnapshot.child("national_id").getValue().toString());
+                patientG.setText(dataSnapshot.child("gender").getValue().toString());
 
             }
 

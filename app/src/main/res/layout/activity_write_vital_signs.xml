@@ -155,7 +155,8 @@
     <EditText
         android:id="@+id/findings"
         android:layout_width="288dp"
-        android:layout_height="49dp"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
         android:layout_marginTop="5dp"
         android:ems="10"
         android:hint="Findings"
@@ -168,7 +169,8 @@
     <EditText
         android:id="@+id/impression"
         android:layout_width="288dp"
-        android:layout_height="49dp"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
         android:layout_margin="7dp"
         android:ems="10"
         android:hint="Impression"
@@ -181,7 +183,8 @@
     <EditText
         android:id="@+id/note"
         android:layout_width="288dp"
-        android:layout_height="49dp"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
         android:layout_margin="7dp"
         android:ems="10"
         android:hint="Additional notes?"

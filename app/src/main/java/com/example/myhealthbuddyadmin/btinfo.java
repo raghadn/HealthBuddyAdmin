@@ -1,7 +1,8 @@
 package com.example.myhealthbuddyadmin;
 
 public class btinfo {
-    private String test,unit,result,normal;
+    private String test,unit;
+    private Double result,normalMin, normalMax;
 
     public String getTest() {
         return test;
@@ -11,11 +12,14 @@ public class btinfo {
         return unit;
     }
 
-    public String getResult() {
+    public Double getResult() {
         return result;
     }
 
-    public String getNormal() {
-        return normal;
+    public Double getNormalMin() {
+        return normalMin;
+    }
+    public Double getNormalMax() {
+        return normalMax;
     }
 }

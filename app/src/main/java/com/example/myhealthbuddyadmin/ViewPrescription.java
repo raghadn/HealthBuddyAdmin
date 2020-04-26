@@ -79,7 +79,7 @@ public class ViewPrescription extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 //record info
-                String medication,dose,every,duration,time,note;
+                String medication,dose,duration,time,note;
                 if(dataSnapshot.hasChild("medication")){
                     medication=dataSnapshot.child("medication").getValue().toString();
                     medicationT.setText(medication);

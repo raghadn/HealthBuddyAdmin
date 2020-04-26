@@ -39,19 +39,17 @@
         android:id="@+id/ForgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="Forgot password?"
         android:textColor="@color/blue"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AdminLoginbutton" />
+        app:layout_constraintStart_toStartOf="@+id/Adminpassword"
+        app:layout_constraintTop_toBottomOf="@+id/Adminpassword" />
 
     <Button
         android:id="@+id/AdminLoginbutton"
         android:layout_width="286dp"
         android:layout_height="53dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/buttonshape"
         android:text="Login"
         android:textAllCaps="false"
@@ -96,13 +94,13 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="145dp"
-        android:layout_height="145dp"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logoh" />
 
     <ProgressBar
         android:id="@+id/progressBar2"

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+
+        android:text="Test Name:"
+        android:textColor="@color/purple"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/test"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Test Name"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView6"
+        app:layout_constraintStart_toEndOf="@+id/textView6" />
+
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Unit:"
+        android:textColor="@color/purple"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <EditText
+        android:id="@+id/unit"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:hint="Unit"
+        tools:layout_editor_absoluteX="283dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <EditText
+        android:id="@+id/result"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:hint="Result"
+        android:inputType="numberDecimal"
+        tools:layout_editor_absoluteX="300dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <EditText
+        android:id="@+id/normalmin"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:hint="normalmin"
+        android:inputType="numberDecimal"
+        tools:layout_editor_absoluteX="300dp"
+        tools:layout_editor_absoluteY="40dp" />
+
+    <EditText
+        android:id="@+id/normalmax"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:hint="normalmax"
+        android:inputType="numberDecimal"
+        tools:layout_editor_absoluteX="284dp"
+        tools:layout_editor_absoluteY="61dp" />
+
+    <Button
+        android:id="@+id/addtest"
+
+        android:layout_width="288dp"
+        android:layout_height="49dp"
+        android:background="@drawable/buttonshape"
+        android:text="Create"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        tools:layout_editor_absoluteX="29dp"
+        tools:layout_editor_absoluteY="158dp" />
+
+    <Button
+        android:id="@+id/cancelRecord"
+
+        android:layout_width="288dp"
+        android:layout_height="49dp"
+        android:background="@drawable/cancelbutton"
+        android:text="Cancel"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        tools:layout_editor_absoluteX="34dp"
+        tools:layout_editor_absoluteY="142dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
