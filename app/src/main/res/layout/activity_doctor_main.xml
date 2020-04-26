@@ -9,40 +9,55 @@
     <include
         android:id="@+id/viewRequestToolbar"
         layout="@layout/toolbar"
-        android:layout_width="393dp"
-        android:layout_height="82dp" />
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
-        android:id="@+id/doctorName"
-        android:layout_width="273dp"
-        android:layout_height="48dp"
-        android:gravity="left"
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Welcome"
         android:textColor="@color/purple"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.115"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.026" />
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
+        app:layout_constraintStart_toStartOf="@+id/gridLayout"
+        app:layout_constraintTop_toBottomOf="@+id/viewRequestToolbar" />
+
+    <TextView
+        android:id="@+id/doctorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/purple"
+        android:layout_marginLeft="5dp"
+
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="@+id/textView4" />
+
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/d_bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        android:background="?android:attr/windowBackground"
         app:menu="@menu/d_bottom_navigation" />
 
     <GridLayout
+        android:id="@+id/gridLayout"
         android:layout_width="334dp"
         android:layout_height="506dp"
         android:layout_margin="20dp"
@@ -56,7 +71,7 @@
         app:layout_constraintVertical_bias="0.627">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/pillsCard"
+            android:id="@+id/prescription"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_margin="8dp"
@@ -83,7 +98,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pills"
+                    android:text="Prescriptions"
                     android:textAlignment="center" />
             </LinearLayout>
 
@@ -91,7 +106,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/blodcard"
+            android:id="@+id/bloodTest"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_margin="8dp"
@@ -118,7 +133,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="blod"
+                    android:text="Blood Tests"
                     android:textAlignment="center" />
             </LinearLayout>
 
@@ -126,7 +141,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardiocard"
+            android:id="@+id/VitalSigns"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_margin="8dp"
@@ -161,7 +176,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/Xraycard"
+            android:id="@+id/Xray"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_margin="8dp"
@@ -196,7 +211,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/reporcard"
+            android:id="@+id/Records"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_margin="8dp"
@@ -223,7 +238,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Medical History"
+                    android:text="Others"
                     android:textAlignment="center" />
             </LinearLayout>
 

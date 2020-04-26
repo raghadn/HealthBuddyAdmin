@@ -3,22 +3,13 @@ package com.example.myhealthbuddyadmin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,12 +17,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.onesignal.OneSignal;
-import com.squareup.picasso.Picasso;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DoctorMainActivity extends AppCompatActivity {
 //added the redirect to record when clicked viewRecord method
@@ -101,7 +88,7 @@ public class DoctorMainActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     String fName;
                     fName = dataSnapshot.child("name").getValue().toString();
-                    userName.setText("Welcome "+fName);
+                    userName.setText(fName);
                 }
             }
 
@@ -113,7 +100,7 @@ public class DoctorMainActivity extends AppCompatActivity {
 
 
 
-        Mypills = findViewById(R.id.pillsCard);
+        Mypills = findViewById(R.id.prescription);
         Mypills.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,7 +111,7 @@ public class DoctorMainActivity extends AppCompatActivity {
         });
 
 
-        MyBloodTests= findViewById(R.id.blodcard);
+        MyBloodTests= findViewById(R.id.bloodTest);
         MyBloodTests.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -134,7 +121,7 @@ public class DoctorMainActivity extends AppCompatActivity {
                                             }
                                         }
         );
-        Myx_Rays= findViewById(R.id.Xraycard);
+        Myx_Rays= findViewById(R.id.Xray);
         Myx_Rays.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -144,7 +131,7 @@ public class DoctorMainActivity extends AppCompatActivity {
                                         }
                                     }
         );
-        MyVital= findViewById(R.id.cardiocard);
+        MyVital= findViewById(R.id.VitalSigns);
         MyVital.setOnClickListener(new View.OnClickListener() {
                                        @Override
                                        public void onClick(View v) {
@@ -154,7 +141,7 @@ public class DoctorMainActivity extends AppCompatActivity {
                                        }
                                    }
         );
-        Myreports = findViewById(R.id.reporcard);
+        Myreports = findViewById(R.id.Records);
         Myreports.setOnClickListener(new View.OnClickListener() {
                                          @Override
                                          public void onClick(View v) {

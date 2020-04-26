@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -54,7 +53,7 @@ public class ViewPatient extends AppCompatActivity {
 
         prescriptions=findViewById(R.id.prescription);
         bloodTest=findViewById(R.id.bloodTest);
-        Xray=findViewById(R.id.Xray);
+        Xray=findViewById(R.id.Records);
         VitalSigns=findViewById(R.id.VitalSigns);
         Records=findViewById(R.id.Records);
 
@@ -71,11 +70,13 @@ public class ViewPatient extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 name=dataSnapshot.child("name").getValue().toString();
-                //gender=dataSnapshot.child("gender").getValue().toString();
-                nationalId=dataSnapshot.child("national_id").getValue().toString();
                 patientNameT.setText(name);
-                //genderT.setText(gender);
+
+                nationalId=dataSnapshot.child("national_id").getValue().toString();
                 natIDT.setText(nationalId);
+
+                genderT.setText(dataSnapshot.child("gender").getValue().toString());
+
 
             }
 
