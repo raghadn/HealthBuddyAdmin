@@ -98,7 +98,7 @@ public class WriteBloodTest extends AppCompatActivity{
         deleteAttachment.setPaintFlags(deleteAttachment.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
 
 
-        noteT=findViewById(R.id.rrrr);
+        noteT=findViewById(R.id.note);
         patientN=findViewById(R.id.patientName);
         patientID=findViewById(R.id.patientID);
         patientG=findViewById(R.id.gender);
@@ -154,6 +154,15 @@ public class WriteBloodTest extends AppCompatActivity{
                 dialog.setContentView(R.layout.dialog_add_test);
                 dialog.setTitle("Add Test");
                 dialog.setCancelable(true);
+
+                Button cbutton = (Button) dialog.findViewById(R.id.cancelTest);
+                cbutton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
 
                 Button button = (Button) dialog.findViewById(R.id.addtest);
                 button.setOnClickListener(new View.OnClickListener() {
@@ -317,7 +326,7 @@ public class WriteBloodTest extends AppCompatActivity{
                         //add note
                         note=noteT.getText().toString();
                         noteT.getText().clear();
-                        if(note!=null){
+                        if(!note.isEmpty()){
                             recordRef.child(recordIDٍ).child("note").setValue(note);
                         }
                         finish();
