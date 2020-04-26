@@ -2,6 +2,7 @@ package com.example.myhealthbuddyadmin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,13 +29,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class DoctorProfile extends AppCompatActivity {
     private BottomNavigationView bottomnav;
     CircleImageView userImage;
-    TextView userName;
-    TextView userHos;
+    TextView userName, userHos,phone, id,specialty,license;
     private FirebaseUser Fuser;
     private FirebaseAuth mAuth;
     private DatabaseReference dref,href;
     BottomNavigationView Doctorbottomnav;
     ImageView logoutbtn;
+    CardView LogOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,8 @@ public class DoctorProfile extends AppCompatActivity {
         setContentView(R.layout.activity_doctor_profile);
 
 
+        mAuth =FirebaseAuth.getInstance();
+        Fuser =mAuth.getCurrentUser();
 
         Doctorbottomnav=findViewById(R.id.d_bottom_navigation);
         Doctorbottomnav.setSelectedItemId(R.id.d_nav_profile);
@@ -53,8 +56,20 @@ public class DoctorProfile extends AppCompatActivity {
             }
         });
 
-        logoutbtn=(ImageView)findViewById(R.id.logoutbtndoctor);
-        logoutbtn.setOnClickListener(new View.OnClickListener() {
+
+
+        userImage=findViewById(R.id.doctorimage);
+        userHos=findViewById(R.id.doctorHospital);
+        userName=findViewById(R.id.doctorName);
+        LogOut=findViewById(R.id.logoutcard);
+        specialty = findViewById(R.id.docspecialty);
+        phone = findViewById(R.id.docphone);
+        id = findViewById(R.id.docid);
+        license=findViewById(R.id.licenseview);
+
+        mAuth = FirebaseAuth.getInstance();
+        Fuser =mAuth.getCurrentUser();
+        LogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
@@ -63,40 +78,28 @@ public class DoctorProfile extends AppCompatActivity {
                 startActivity(logoIntent);
                 finish();
 
+
             }
         });
 
-
-        userImage=findViewById(R.id.doctorimage);
-        userHos=findViewById(R.id.doctorHospital);
-        userName=findViewById(R.id.doctorName);
-
-        mAuth = FirebaseAuth.getInstance();
-        Fuser =mAuth.getCurrentUser();
-
-
-
-        bottomnav =  findViewById(R.id.d_bottom_navigation);
-        bottomnav.setSelectedItemId(R.id.d_nav_profile);
-        bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                DoctorMenuSelector(menuItem);
-                return false;
-            }
-        });
 
         dref = FirebaseDatabase.getInstance().getReference().child("Doctors").child(Fuser.getUid());
         dref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            String fName, hos;
+                if (dataSnapshot.exists()) {
+                    String fName, hos;
                     fName = dataSnapshot.child("name").getValue().toString();
                     userName.setText(fName);
+
+                    id.setText( dataSnapshot.child("id").getValue().toString());
+                    specialty.setText(dataSnapshot.child("specialty").getValue().toString());
+                    phone.setText(dataSnapshot.child("phone").getValue().toString());
+                    license.setText(dataSnapshot.child("license").getValue().toString());
+
+                            //String imge = dataSnapshot.child("Image").getValue().toString();
+
                     hos = dataSnapshot.child("hospital").getValue().toString();
-
-
                     href = FirebaseDatabase.getInstance().getReference().child("Hospitals").child(hos);
                     href.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -104,9 +107,8 @@ public class DoctorProfile extends AppCompatActivity {
                             if (dataSnapshot.exists()) {
                                 String hospital;
                                 hospital = dataSnapshot.child("Name").getValue().toString();
-
                                 userHos.setText(hospital);
-                                String imge = dataSnapshot.child("Image").getValue().toString();
+
 
                             }
                         }
