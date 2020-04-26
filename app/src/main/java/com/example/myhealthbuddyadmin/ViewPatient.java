@@ -53,7 +53,7 @@ public class ViewPatient extends AppCompatActivity {
 
         prescriptions=findViewById(R.id.prescription);
         bloodTest=findViewById(R.id.bloodTest);
-        Xray=findViewById(R.id.Records);
+        Xray=findViewById(R.id.Xray);
         VitalSigns=findViewById(R.id.VitalSigns);
         Records=findViewById(R.id.Records);
 
