@@ -43,7 +43,7 @@
         <activity android:name=".ViewPrescription" />
         <activity android:name=".ViewPatient" />
         <activity android:name=".DoctorProfile" />
-        <activity android:name=".SettingActivity" />
+        <activity android:name=".SettingsActivity" />
         <activity android:name=".DoctorMainActivity" />
         <activity android:name=".ViewPatientRequest" />
         <activity android:name=".CreateDoctor" />

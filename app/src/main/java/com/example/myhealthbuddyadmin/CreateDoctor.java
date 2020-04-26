@@ -145,12 +145,12 @@ public class CreateDoctor extends AppCompatActivity {
     // method adding thr created account to database
     private void CreateHealthcareProviderAccount(final String email , final String license, final String ID , final String Name , final String Phone, final String Gender, final String Specialty) {
 
-        if(Phone.length()>10 || Phone.length()<10 || !Phone.substring(0,2).equals("05")){
+        if(Phone.length()>10 || Phone.length()<10 || !Phone.substring(0,2).equals("05") || !Phone.matches("[0-9]+")){
             showMessage("Please enter a valid phone number");
             phone.setError("Please enter a valid phone number starts with 05 ");
             phone.requestFocus();
             createbtn.setVisibility(View.VISIBLE);
-        } if(license.length()>10 || license.length()<10){
+        } if(license.length()>10 || license.length()<10 || !license.matches("[0-9]+")){
             password.setError("Please enter a valid license number ");
             password.requestFocus();
             createbtn.setVisibility(View.VISIBLE);

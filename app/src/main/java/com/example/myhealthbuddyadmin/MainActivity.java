@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // IMPORTANT
         String AdminEmail = getIntent().getStringExtra("Email");
         String AdminPass = getIntent().getStringExtra("Password");
-        Toast.makeText(this, AdminEmail, Toast.LENGTH_LONG).show();
-        Toast.makeText(this, AdminPass, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, AdminEmail, Toast.LENGTH_LONG).show();
+       // Toast.makeText(this, AdminPass, Toast.LENGTH_LONG).show();
 
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             });
 
 
-        UpdateAdminHeader();
+        ViewAdminProfile();
       //  Toast.makeText(this, "1"+HospitalID, Toast.LENGTH_LONG).show();
 
 
@@ -319,7 +319,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.drawer_setting:
-                Intent intentSetting = new Intent(MainActivity.this, SettingActivity.class);
+                Intent intentSetting = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intentSetting);
                 break;
 
@@ -427,7 +427,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void UpdateAdminHeader(){
+    public void ViewAdminProfile(){
         NavigationView navigationView =findViewById(R.id.nav22);
         View header=navigationView.getHeaderView(0);
         final TextView AdminName = header.findViewById(R.id.adminmname);
