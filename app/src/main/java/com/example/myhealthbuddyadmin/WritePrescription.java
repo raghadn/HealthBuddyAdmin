@@ -392,6 +392,7 @@ public class WritePrescription extends AppCompatActivity {
                                 Toast.makeText(WritePrescription.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
                                 finish();
+
                             }
                             else {
                                 Toast.makeText(WritePrescription.this, "Error", Toast.LENGTH_SHORT).show();
@@ -408,6 +409,26 @@ public class WritePrescription extends AppCompatActivity {
 
             }
         });
+    }
+    //these 2 methods together
+    private void openGallery() {
+        Intent galleryIntent= new Intent();
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("application/pdf");
+        startActivityForResult(galleryIntent,Gallerypick);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode==Gallerypick&&resultCode==RESULT_OK&&data!=null){
+            //chosen file
+            fileUri = data.getData();
+            attachmentView.setVisibility(View.VISIBLE);
+            deleteAttachment.setVisibility(View.VISIBLE);
+            b0.setVisibility(View.VISIBLE);
+            b1.setVisibility(View.VISIBLE);
+        }
     }
 
     private void completeRequest(final String requestKey){
@@ -455,26 +476,7 @@ public class WritePrescription extends AppCompatActivity {
         });
     }
 
-    //these 2 methods together
-    private void openGallery() {
-        Intent galleryIntent= new Intent();
-        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-        galleryIntent.setType("application/pdf");
-        startActivityForResult(galleryIntent,Gallerypick);
-    }
 
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode==Gallerypick&&resultCode==RESULT_OK&&data!=null){
-            //chosen file
-            fileUri = data.getData();
-            attachmentView.setVisibility(View.VISIBLE);
-            deleteAttachment.setVisibility(View.VISIBLE);
-            b0.setVisibility(View.VISIBLE);
-            b1.setVisibility(View.VISIBLE);
-        }
-    }
     private void sendNotification(final String puid) {
 
         AsyncTask.execute(new Runnable() {

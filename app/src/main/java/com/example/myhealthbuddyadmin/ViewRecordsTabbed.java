@@ -36,6 +36,8 @@ public class ViewRecordsTabbed extends AppCompatActivity {
 
 
         write=findViewById(R.id.writeTest);
+
+
         final int type=(int)getIntent().getExtras().get("type");
         final String PatientKey=getIntent().getExtras().get("PatientKey").toString();
 

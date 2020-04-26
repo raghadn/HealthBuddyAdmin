@@ -78,6 +78,7 @@ public class MyRecordsFragment extends Fragment {
 
        BrowseWrite();
 
+
         return view;
     }
     private void BrowseWrite() {

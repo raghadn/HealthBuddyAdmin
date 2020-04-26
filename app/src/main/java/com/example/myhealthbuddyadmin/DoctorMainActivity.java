@@ -77,7 +77,8 @@ public class DoctorMainActivity extends AppCompatActivity {
         currentDoctorid = mAuth.getCurrentUser().getUid();
 
 
-        /*OneSignal.sendTag("User_uid",mAuth.getCurrentUser().getUid().toString());
+        OneSignal.sendTag("User_uid",mAuth.getCurrentUser().getUid().toString());
+        /*
         test=findViewById(R.id.button4);
         test.setOnClickListener(new View.OnClickListener() {
             @Override
