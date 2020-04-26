@@ -7,7 +7,8 @@ public class PatientResult {
 
     public String name;
     public String national_id;
-    //public String phone;
+    public String gender;
+
     //public String img;
 
 
@@ -15,10 +16,10 @@ public class PatientResult {
 
     }
 
-    public PatientResult(String name, String national_id) {
+    public PatientResult(String name, String national_id,String gender) {
         this.name = name;
         this.national_id = national_id;
-        //this.phone= phone;
+        this.gender=gender;
 
         // add img paramter also
         //this.img=img;
@@ -43,14 +44,7 @@ public class PatientResult {
     }
 
 
-   /* public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
+   /*
     public String getImg() {
         return img;
     }
@@ -58,4 +52,12 @@ public class PatientResult {
     public void setImg(String img) {
         this.img = img;
     }*/
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 }

@@ -76,7 +76,7 @@ public class MyRecordsFragment extends Fragment {
         linearLayoutManager.setStackFromEnd(true);
         prescriptionList.setLayoutManager(linearLayoutManager);
 
-        BrowseWrite();
+       BrowseWrite();
 
         return view;
     }
@@ -88,15 +88,15 @@ public class MyRecordsFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull final DataSnapshot dataSnapshot1) {
 
+
                 for (DataSnapshot record : dataSnapshot1.getChildren()) {
                     if (record.child("did").getValue().toString().equals(currentHCPuid)) {
-                        if(record.child("pid").getValue().toString().equals(PatientKey)) {
                             item_record r = record.getValue(item_record.class);
                             if (r.type == type) {
+                                r.dateCreated=record.child("dateCreated").getValue().toString();
                                 r.rid = record.getKey();
                                 records.add(r);
                             }
-                        }
 
                     }
                 }

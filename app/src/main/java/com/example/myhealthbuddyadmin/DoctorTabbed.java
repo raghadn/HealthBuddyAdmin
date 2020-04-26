@@ -15,10 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.myhealthbuddyadmin.ui.main.SectionsPagerAdapter;
 
 public class DoctorTabbed extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +46,35 @@ public class DoctorTabbed extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+        TextView Noresult=findViewById(R.id.NoResult);
+        TextView PageTitel=findViewById(R.id.title);
+
+
+       final int type=(int)getIntent().getExtras().get("type");
+
+
+        switch(type){
+
+            case 1: Noresult.setText("No prescriptions available  ");
+                PageTitel.setText("Prescriptions");
+                break;
+            case 2: Noresult.setText("No blood tests available   ");
+                PageTitel.setText("Blood Tests");
+                break;
+            case 3: Noresult.setText("No X-Rays available  ");
+                PageTitel.setText("X-Rays" );
+                break;
+            case 4: Noresult.setText("No vital signs available");
+                PageTitel.setText("Vital Signs");
+
+                break;
+            case 5: Noresult.setText("No record available ");
+                PageTitel.setText("Records");
+                break;
+        }
+
     }
 
     private void setUpViewPager(ViewPager viewPager){

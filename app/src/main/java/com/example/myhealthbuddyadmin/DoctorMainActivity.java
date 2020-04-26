@@ -2,6 +2,7 @@ package com.example.myhealthbuddyadmin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,14 +31,22 @@ import com.google.firebase.database.ValueEventListener;
 import com.onesignal.OneSignal;
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class DoctorMainActivity extends AppCompatActivity {
 //added the redirect to record when clicked viewRecord method
 
-    DatabaseReference RecordRef ,DoctorRef, PatientRef,HospitalRef;
+    DatabaseReference RecordRef;
     FirebaseAuth mAuth;
-    String currentDoctorid, HospitalID, HospitalName;
-    RecyclerView RecordList;
+    String currentDoctorid;
     BottomNavigationView Doctorbottomnav;
+
+    TextView userName;
+
+    private FirebaseUser Fuser;
+    private DatabaseReference dref;
+    CardView Mypills,MyBloodTests,Myx_Rays,MyVital,Myreports;
+
 
 
     @Override
@@ -52,7 +61,6 @@ public class DoctorMainActivity extends AppCompatActivity {
                 .init();
 
 
-
         Doctorbottomnav=findViewById(R.id.d_bottom_navigation);
         Doctorbottomnav.setSelectedItemId(R.id.d_nav_home);
         Doctorbottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -64,162 +72,101 @@ public class DoctorMainActivity extends AppCompatActivity {
         });
 
 
-
-
-
         RecordRef = FirebaseDatabase.getInstance().getReference().child("Records");
         mAuth = FirebaseAuth.getInstance();
         currentDoctorid = mAuth.getCurrentUser().getUid();
 
 
-        RecordList= findViewById(R.id.recordlist);
-        RecordList.setHasFixedSize(true);
-        RecyclerView myRecycler = (RecyclerView) findViewById(R.id.recordlist);
-        myRecycler.setLayoutManager(new LinearLayoutManager(this));
-        RecordList.setLayoutManager(new LinearLayoutManager(this));
-        //Toast.makeText(this, HID, Toast.LENGTH_LONG).show();
-
-
-
-        mAuth = FirebaseAuth.getInstance();
-
-
-
-        OneSignal.sendTag("User_uid",mAuth.getCurrentUser().getUid().toString());
-
-
-
-
-
-
-        //Browse();
-    }
-
-    public void Browse() {
-
-        Query DisplayInfiQuere =RecordRef.orderByChild("did").startAt(currentDoctorid).endAt(currentDoctorid+"\uf8ff");
-
-        FirebaseRecyclerAdapter<item_record, DoctorMainActivity.RecordViweHolder> FirebaseRecycleAdapter
-                = new FirebaseRecyclerAdapter<item_record, DoctorMainActivity.RecordViweHolder>
-                (
-                        item_record.class,
-                        R.layout.record_item,
-                        DoctorMainActivity.RecordViweHolder.class,
-                        DisplayInfiQuere
-                ){
+        /*OneSignal.sendTag("User_uid",mAuth.getCurrentUser().getUid().toString());
+        test=findViewById(R.id.button4);
+        test.setOnClickListener(new View.OnClickListener() {
             @Override
-            protected void populateViewHolder(final DoctorMainActivity.RecordViweHolder recordViweHolder, final item_record module, final int i) {
+            public void onClick(View v) {
+                Intent intent=new Intent(DoctorMainActivity.this,DoctorTabbed.class);
+                intent.putExtra("type",1);
+                startActivity(intent);
+            }
+        });*/
 
-                recordViweHolder.setDate(module.getDateCreated());
-
-                DoctorRef = FirebaseDatabase.getInstance().getReference().child("Doctors").child(currentDoctorid);
-                DoctorRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String Doctor_Name = dataSnapshot.child("name").getValue().toString();
-                       // HospitalID =dataSnapshot.child("hospital").getValue().toString();
-                        recordViweHolder.setDoctorName(Doctor_Name);
-
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
-
-
-                PatientRef = FirebaseDatabase.getInstance().getReference().child("Patients").child(module.getPid());
-                PatientRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String Patient_name =dataSnapshot.child("name").getValue().toString();
-                        recordViweHolder.setPatientName(Patient_name);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
-
-                HospitalRef= FirebaseDatabase.getInstance().getReference().child("Hospitals").child("122");
-                HospitalRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        HospitalName =dataSnapshot.child("Name").getValue().toString();
-                        recordViweHolder.setHospitalName(HospitalName);
-
-                        //redirect based on record type
-                        viewRecord(module.getType());
-
-                    }
-
-                    private void viewRecord(int type) {
-                        switch(type) {
-                            case 1:
-                                recordViweHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        String recordID = getRef(i).getKey();
-                                        Intent intent = new Intent(DoctorMainActivity.this, ViewPrescription.class);
-                                        intent.putExtra("recordID", recordID);
-                                        intent.putExtra("hospitalName", HospitalName); //for view record only not write!
-                                        startActivity(intent);
-                                    }
-                                });
-
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+        userName=findViewById(R.id.doctorName);
+        mAuth = FirebaseAuth.getInstance();
+        Fuser =mAuth.getCurrentUser();
 
 
 
-
+        dref = FirebaseDatabase.getInstance().getReference().child("Doctors").child(Fuser.getUid());
+        dref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String fName;
+                    fName = dataSnapshot.child("name").getValue().toString();
+                    userName.setText("Welcome "+fName);
+                }
             }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        };
-        RecordList.setAdapter(FirebaseRecycleAdapter);
+            }
+        });
+
+
+
+        Mypills = findViewById(R.id.pillsCard);
+        Mypills.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentPills=new Intent(DoctorMainActivity.this, DoctorTabbed.class);
+                intentPills.putExtra("type",1);
+                startActivity(intentPills);
+            }
+        });
+
+
+        MyBloodTests= findViewById(R.id.blodcard);
+        MyBloodTests.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                Intent intentMyBloodTests = new Intent(DoctorMainActivity.this, DoctorTabbed.class);
+                                                intentMyBloodTests.putExtra("type",2);
+                                                startActivity(intentMyBloodTests);
+                                            }
+                                        }
+        );
+        Myx_Rays= findViewById(R.id.Xraycard);
+        Myx_Rays.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intentMyx_Rays = new Intent(DoctorMainActivity.this, DoctorTabbed.class);
+                                            intentMyx_Rays.putExtra("type",3);
+                                            startActivity(intentMyx_Rays);
+                                        }
+                                    }
+        );
+        MyVital= findViewById(R.id.cardiocard);
+        MyVital.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+                                           Intent intentMyVital = new Intent(DoctorMainActivity.this, DoctorTabbed.class);
+                                           intentMyVital.putExtra("type",4);
+                                           startActivity(intentMyVital);
+                                       }
+                                   }
+        );
+        Myreports = findViewById(R.id.reporcard);
+        Myreports.setOnClickListener(new View.OnClickListener() {
+                                         @Override
+                                         public void onClick(View v) {
+                                             Intent intentRecord = new Intent(DoctorMainActivity.this, DoctorTabbed.class);
+                                             intentRecord.putExtra("type",5);
+                                             startActivity(intentRecord);
+                                         }
+                                     }
+        );
+
     }
 
-
-
-
-    public static class RecordViweHolder extends RecyclerView.ViewHolder {
-        View mViwe;
-
-
-        //defolt constroctor
-        public RecordViweHolder(@NonNull View itemView) {
-            super(itemView);
-            mViwe = itemView;
-        }
-
-        public void setDoctorName(String DName) {
-            TextView MyName= (TextView)mViwe.findViewById(R.id.d_name);
-            MyName.setText(DName);
-        }
-
-        public void setHospitalName(String HName) {
-            TextView MyName= (TextView)mViwe.findViewById(R.id.hname);
-            MyName.setText(HName);
-        }
-
-        public void setPatientName(String Pname) {
-            TextView myID=(TextView)mViwe.findViewById(R.id.patient_name);
-            myID.setText(Pname);
-        }
-
-        public void setDate(String Date) {
-            TextView myDate=(TextView) mViwe.findViewById(R.id.record_date);
-            myDate.setText(Date);
-        }
-
-    }
 
 
 

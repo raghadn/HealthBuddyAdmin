@@ -95,16 +95,16 @@ public class ViewRecordsTabbed extends AppCompatActivity {
             }
         });
 
-       /* BottomNavigationView bottomnav;
-        bottomnav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        //bottomnav.setSelectedItemId(R.id.d_bottom_navigation);
+        BottomNavigationView bottomnav;
+        bottomnav = (BottomNavigationView) findViewById(R.id.d_bottom_navigation);
+        bottomnav.setSelectedItemId(R.id.d_nav_search);
         bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 UserMenuSelector(menuItem);
                 return false;
             }
-        });*/
+        });
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter( getSupportFragmentManager());
 
         ViewPager viewPager = findViewById(R.id.view_pager);
