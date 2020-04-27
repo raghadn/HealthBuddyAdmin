@@ -16,18 +16,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/d_bottom_navigation" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view_pager">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/title"
@@ -37,15 +35,15 @@
             android:minHeight="?actionBarSize"
             android:padding="@dimen/appbar_padding"
             android:text="@string/app_name"
-            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
+            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+            android:textColor="@color/purple" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary" />
+            app:tabTextColor="@color/purple" />
     </com.google.android.material.appbar.AppBarLayout>
-
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -66,26 +64,24 @@
         android:id="@+id/NoResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NoRsult"
+        android:text="No Records"
+        android:textColor="@color/purple"
+        android:textSize="26dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/view_pager"
-        app:layout_constraintEnd_toEndOf="@+id/view_pager"
-        app:layout_constraintStart_toStartOf="@+id/view_pager"
-        app:layout_constraintTop_toTopOf="@+id/view_pager" />
+        android:layout_marginBottom="400dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
-        android:layout_width="410dp"
+        android:layout_width="match_parent"
         android:layout_height="599dp"
-        android:layout_marginBottom="8dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toTopOf="@+id/d_bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2">
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
     </androidx.viewpager.widget.ViewPager>
 

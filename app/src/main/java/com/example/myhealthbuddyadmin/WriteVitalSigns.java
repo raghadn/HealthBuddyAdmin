@@ -266,6 +266,10 @@ public class WriteVitalSigns extends AppCompatActivity {
             Toast.makeText(this, "Please make sure all fields are filled and attach a file.", Toast.LENGTH_SHORT).show();
         }
         else{
+            loadingbar.setTitle("Uploading Record");
+            loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
+            loadingbar.show();
+
             recordIDٍ=generateRecordID(type);
             StoreFile();
         }
@@ -278,9 +282,7 @@ public class WriteVitalSigns extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
-                    loadingbar.setTitle("Uploading Record");
-                    loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
-                    loadingbar.show();
+
 
                     final HashMap recordMap=new HashMap();
                     recordMap.put("type",4);
@@ -417,7 +419,7 @@ public class WriteVitalSigns extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         String url=String.valueOf(uri);
                         myUrl=url;
-                        recordRef.child(recordIDٍ).child("file").setValue(myUrl);
+                        //recordRef.child(recordIDٍ).child("file").setValue(myUrl);
                         saveRecord(url);
                     }
                 });
