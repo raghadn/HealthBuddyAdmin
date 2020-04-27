@@ -143,21 +143,9 @@ public class Notifications extends AppCompatActivity {
         }
 
         public void setType(String type){
-            ImageView imageView=(ImageView)mView.findViewById(R.id.display_request_image);
             TextView t=(TextView)mView.findViewById(R.id.display_request_type);
             t.setText(type);
-            if(type.equals("Medical Report")){
-                imageView.setImageResource(R.drawable.medicalhistory1);
-            }
-            if(type.equals("Radiology Report")){
-                imageView.setImageResource(R.drawable.skeleton);
-            }
-            if(type.equals("Prescription")){
-                imageView.setImageResource(R.drawable.pills1);
-            }
-            if(type.equals("Vital Signs")){
-                imageView.setImageResource(R.drawable.heartbeat);
-            }
+
 
 
         }

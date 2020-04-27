@@ -48,7 +48,11 @@
         <activity android:name=".ViewPatientRequest" />
         <activity android:name=".CreateDoctor" />
         <activity android:name=".Forgotpassword" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".EditRecord" />
+        <activity android:name=".EditXray" />
+        <activity android:name=".EditVitalSigns" />
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".SearchForPatient"
             android:windowSoftInputMode="adjustPan" />

@@ -8,10 +8,10 @@
 
     <item android:id="@+id/drawer_setting"
         android:icon="@drawable/setting"
-        android:title="Setting" />
+        android:title="Settings" />
 
     <item android:id="@+id/drawer_logout"
         android:icon="@drawable/logout"
-        android:title="LogOut" />
+        android:title="Logout" />
 
 </menu>

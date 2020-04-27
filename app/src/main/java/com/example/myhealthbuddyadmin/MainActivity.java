@@ -276,9 +276,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         return true;
 
 
-                                    case R.id.docedit:
-                                        //handle menu2 click
-                                        return true;
 
                                     default:
                                         return false;

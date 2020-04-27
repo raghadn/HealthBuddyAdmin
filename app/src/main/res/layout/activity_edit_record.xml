@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditRecord">
+
+    <include
+        android:id="@+id/viewHiveToolBar"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Record"
+        android:textColor="@color/purple"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewHiveToolBar"
+        app:layout_constraintEnd_toEndOf="@+id/viewHiveToolBar"
+        app:layout_constraintStart_toStartOf="@+id/viewHiveToolBar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bourder"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewHiveToolBar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name:"
+                    android:textColor="@color/purple"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/patientName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="Name"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toEndOf="@+id/textView21"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="National ID: "
+                    android:textColor="@color/purple"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+                <TextView
+                    android:id="@+id/patientID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ID"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/patientName"
+                    app:layout_constraintTop_toTopOf="@+id/textView21" />
+
+                <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Gender:"
+                    android:textColor="@color/purple"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+                <TextView
+                    android:id="@+id/gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/patientID"
+                    app:layout_constraintTop_toTopOf="@+id/textView27" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/testDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="62dp"
+        android:layout_marginLeft="62dp"
+        android:layout_marginTop="7dp"
+        android:inputType="textPersonName"
+        android:text="Test Date:"
+        android:textColor="@color/purple"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+    <ImageButton
+        android:id="@+id/testDateL"
+        android:layout_marginTop="3dp"
+        android:layout_width="28dp"
+        android:layout_height="25dp"
+        android:background="@drawable/calendar"
+        app:layout_constraintStart_toStartOf="@+id/testDate"
+        app:layout_constraintTop_toBottomOf="@+id/testDate" />
+
+    <TextView
+        android:id="@+id/exdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/black"
+        android:hint="When was the test conducted?"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/testDateL"
+        app:layout_constraintStart_toEndOf="@+id/testDateL"
+        app:layout_constraintTop_toTopOf="@+id/testDateL" />
+
+
+    <EditText
+        android:id="@+id/editnote"
+        android:layout_width="288dp"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:layout_margin="7dp"
+        android:ems="10"
+        android:hint="Additional notes?"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testDateL" />
+
+
+    <Button
+        android:id="@+id/addAttachmentedit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:drawableLeft="@drawable/attach"
+        android:drawablePadding="-15sp"
+        android:minHeight="1dp"
+        android:text=" Add File"
+        android:textAllCaps="false"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="@+id/editnote"
+        app:layout_constraintTop_toBottomOf="@+id/editnote" />
+
+
+    <Button
+        android:id="@+id/attachmentViewedit"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="?attr/selectableItemBackground"
+        android:minWidth="1dp"
+        android:text="View"
+        android:textAllCaps="false"
+        android:textColor="@color/blue"
+        android:textSize="14dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/addAttachmentedit"
+        app:layout_constraintTop_toBottomOf="@+id/addAttachmentedit" />
+
+    <Button
+        android:id="@+id/ebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="?attr/selectableItemBackground"
+        android:minWidth="1dp"
+        android:text=" or "
+        android:textAllCaps="false"
+        android:textSize="14dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/attachmentViewedit"
+        app:layout_constraintTop_toBottomOf="@+id/addAttachmentedit" />
+
+    <Button
+        android:id="@+id/deleteAttachmentedit"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="?attr/selectableItemBackground"
+        android:minWidth="1dp"
+        android:text="delete"
+        android:textAllCaps="false"
+        android:textColor="@color/red"
+        android:textSize="14dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/ebutton"
+        app:layout_constraintTop_toBottomOf="@+id/addAttachmentedit" />
+
+    <Button
+        android:id="@+id/ebutton0"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="?attr/selectableItemBackground"
+        android:minWidth="1dp"
+        android:text=" file."
+        android:textAllCaps="false"
+        android:textSize="14dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/deleteAttachmentedit"
+        app:layout_constraintTop_toBottomOf="@+id/addAttachmentedit" />
+
+    <Button
+        android:id="@+id/editRecord"
+
+        android:layout_width="288dp"
+        android:layout_height="49dp"
+        android:background="@drawable/buttonshape"
+        android:text="Edit"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+
+        android:textStyle="normal"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ebutton0" />
+
+    <Button
+        android:id="@+id/canceledit"
+
+        android:layout_width="288dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/cancelbutton"
+        android:text="Cancel"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+
+        android:textSize="18sp"
+        android:textStyle="normal"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editRecord" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

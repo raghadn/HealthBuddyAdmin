@@ -11,7 +11,7 @@
     <include
         android:id="@+id/viewRequestToolbar"
         layout="@layout/toolbar"
-        android:layout_width="397dp"
+        android:layout_width="match_parent"
         android:layout_height="83dp"
         tools:layout_editor_absoluteX="-2dp"
         tools:layout_editor_absoluteY="-1dp" />
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Settings"
-        android:textColor="#794D71"
+        android:textColor="@color/purple"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/viewRequestToolbar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +72,7 @@
                 android:gravity="center"
                 android:padding="6dp"
                 android:text="Support"
-                android:textColor="#BC000000"
+                android:textColor="@color/purple"
                 android:textSize="20sp" />
         </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -114,13 +114,13 @@
                 android:src="@drawable/trash1"/>
 
             <TextView
-                android:layout_width="177dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:gravity="center"
                 android:padding="6dp"
-                android:text="Deactivate"
-                android:textColor="#BC000000"
+                android:text="Deactivate Account"
+                android:textColor="@color/purple"
                 android:textSize="20sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -168,8 +168,8 @@
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:gravity="center"
                 android:padding="6dp"
-                android:text="Sign Out"
-                android:textColor="#BC000000"
+                android:text="Logout"
+                android:textColor="@color/purple"
                 android:textSize="20sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -224,7 +224,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:text="Admin Name"
-                            android:textColor="#99000000"
+                            android:textColor="@color/black"
                             android:textSize="24sp" />
 
                         <TextView
@@ -232,7 +232,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Hospital Name"
-                            android:textColor="#99000000"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
 
                      </LinearLayout>

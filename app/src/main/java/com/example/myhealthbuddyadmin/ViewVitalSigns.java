@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class ViewVitalSigns extends AppCompatActivity {
     TextView findingsT,impressionT,durationT;
     Button attachmentView,done;
     BottomNavigationView Doctorbottomnav;
+    ImageView edit;
 
 
 
@@ -46,7 +48,7 @@ public class ViewVitalSigns extends AppCompatActivity {
         });
 
         recordID = getIntent().getExtras().get("recordID").toString();
-
+edit=findViewById(R.id.editvital);
         doctorNameT=findViewById(R.id.doctorName);
         doctorsSpecialtyT=findViewById(R.id.doctorsSpecialty);
         patientNameT=findViewById(R.id.patientName);
@@ -57,6 +59,18 @@ public class ViewVitalSigns extends AppCompatActivity {
         patientID=findViewById(R.id.patientID);
         patientG=findViewById(R.id.gender);
 
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent edit =new Intent(ViewVitalSigns.this,EditVitalSigns.class);
+                Bundle extras = new Bundle();
+                extras.putString("PatientKey", pid);
+                extras.putString("RecordID", recordID);
+                edit.putExtras(extras);
+                startActivity(edit);
+                finish();
+            }
+        });
         done=findViewById(R.id.done);
         done.setOnClickListener(new View.OnClickListener() {
             @Override

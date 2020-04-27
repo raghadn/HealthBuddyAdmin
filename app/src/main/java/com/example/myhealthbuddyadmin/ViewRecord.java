@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class ViewRecord extends AppCompatActivity {
     TextView testDateT,noteT;
     Button attachmentView,done;
     BottomNavigationView Doctorbottomnav;
+    ImageView edit;
 
 
 
@@ -33,7 +35,7 @@ public class ViewRecord extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_record);
-
+edit= findViewById(R.id.editrecord);
         Doctorbottomnav=findViewById(R.id.d_bottom_navigation);
         Doctorbottomnav.setSelectedItemId(R.id.d_nav_home);
         Doctorbottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -55,7 +57,18 @@ public class ViewRecord extends AppCompatActivity {
         patientN=findViewById(R.id.patientName);
         patientID=findViewById(R.id.patientID);
         patientG=findViewById(R.id.gender);
-
+edit.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent edit =new Intent(ViewRecord.this,EditRecord.class);
+        Bundle extras = new Bundle();
+        extras.putString("PatientKey", pid);
+        extras.putString("RecordID", recordID);
+        edit.putExtras(extras);
+        startActivity(edit);
+        finish();
+    }
+});
         done=findViewById(R.id.done);
         done.setOnClickListener(new View.OnClickListener() {
             @Override

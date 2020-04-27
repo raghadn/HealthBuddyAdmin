@@ -1,15 +1,10 @@
 package com.example.myhealthbuddyadmin;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -30,7 +25,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,7 +34,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -56,58 +49,82 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
-public class WriteBloodTest extends AppCompatActivity{
-
-    EditText noteT;
-    TextView patientN,patientID,dateV,testsLabel,patientG;
-    Button submitRecord,cancel,addAttachment;
-    Button attachmentView, deleteAttachment, b0,b1,add;
-
-
-    String savecurrentdate,savecurrenttime,note;
-
-    String recordIDٍ, type,pid,patientName,req,requestKey;
-    String myUrl="";
-    Boolean hasBT;
-    private Uri fileUri;
-    private static final int Gallerypick=1;
-    StorageReference storageReference;
-    RecyclerView recyclerV;
+public class EditRecord extends AppCompatActivity{
     private FirebaseAuth mAuth;
     private String currentuser;
     private DatabaseReference patientRef, doctorRef,recordRef;
+    TextView dateV,patientN,patientID,patientG;
 
+    EditText noteT;
+    String note;
+
+    String patientName,hospitalName;
+    String type,pid,req,requestKey;
+    Button submitRecord,cancelRecord,addAttachment;
+    Button attachmentView, deleteAttachment, b0,b1;
+    private Uri fileUri;
+    private String myUrl="";//store the file
+    private String savecurrentdate,savecurrenttime;
+    private static final int Gallerypick=1;
+    StorageReference storageReference;
+    String recordIDٍ;
     ImageButton cal;
     String date;
+
     private DatePickerDialog.OnDateSetListener mDatasetListner;
+
     ProgressDialog loadingbar;
-    CardView card;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_write_blood_test);
-
+        setContentView(R.layout.activity_edit_record);
 
         loadingbar = new ProgressDialog(this);
 
-        addAttachment=findViewById(R.id.addAttachment);
-        deleteAttachment=findViewById((R.id.deleteAttachment));
-        submitRecord=findViewById(R.id.submitRecord);
-        cancel=findViewById(R.id.cancelRecord);
-        attachmentView=findViewById(R.id.attachmentView);
-        b0=findViewById(R.id.button);
-        b1=findViewById(R.id.button0);
+        type="Record";
+
+        noteT=findViewById(R.id.editnote);
+
+        cal=findViewById(R.id.testDateL);
+        dateV=findViewById(R.id.exdate);
+        cal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal=Calendar.getInstance();
+                int year=cal.get(Calendar.YEAR);
+                int month=cal.get(Calendar.MONTH);
+                int day=cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog=new DatePickerDialog(EditRecord.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDatasetListner,year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDatasetListner=new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month=month+1;
+                date=dayOfMonth+"/"+month+"/"+year;
+                dateV.setText(date);
+            }
+        };
+
+        addAttachment=findViewById(R.id.addAttachmentedit);
+        deleteAttachment=findViewById((R.id.deleteAttachmentedit));
+        submitRecord=findViewById(R.id.editRecord);
+        cancelRecord=findViewById(R.id.canceledit);
+        attachmentView=findViewById(R.id.attachmentViewedit);
+        b0=findViewById(R.id.ebutton);
+        b1=findViewById(R.id.ebutton0);
+        patientN=findViewById(R.id.patientName);
+        patientID=findViewById(R.id.patientID);
+        patientG=findViewById(R.id.gender);
 
         //underline
         attachmentView.setPaintFlags(attachmentView.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
         deleteAttachment.setPaintFlags(deleteAttachment.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
-
-
-        noteT=findViewById(R.id.note);
-        patientN=findViewById(R.id.patientName);
-        patientID=findViewById(R.id.patientID);
-        patientG=findViewById(R.id.gender);
 
         Calendar calfordate=Calendar.getInstance();
         SimpleDateFormat currentDate=new SimpleDateFormat("dd-MMMM-yyyy");
@@ -116,21 +133,18 @@ public class WriteBloodTest extends AppCompatActivity{
         Calendar calfortime=Calendar.getInstance();
         SimpleDateFormat currentTime=new SimpleDateFormat("HH:mm");
         savecurrenttime=currentTime.format(calfortime.getTime());
-        recordRef= FirebaseDatabase.getInstance().getReference().child("Records");
-        doctorRef= FirebaseDatabase.getInstance().getReference().child("Doctors");
 
         pid = getIntent().getExtras().get("PatientKey").toString();
-        req=getIntent().getExtras().get("Request").toString();
+        recordIDٍ=getIntent().getExtras().get("RecordID").toString();
 
         storageReference= FirebaseStorage.getInstance().getReference();
         mAuth= FirebaseAuth.getInstance();
         currentuser=mAuth.getCurrentUser().getUid();
-
-        recyclerV=findViewById(R.id.recy);
-
-        type="BloodTest";
-
+        doctorRef= FirebaseDatabase.getInstance().getReference().child("Doctors");
         patientRef= FirebaseDatabase.getInstance().getReference().child("Patients");
+        recordRef= FirebaseDatabase.getInstance().getReference().child("Records");
+
+
         patientRef.child(pid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -147,105 +161,20 @@ public class WriteBloodTest extends AppCompatActivity{
             }
         });
 
-        //first create record with general information
-        recordIDٍ=generateRecordID(type);
-        saveRecord("");
-
-
-        //add blood test
-        add=findViewById(R.id.add);
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // openDialog();
-                final Dialog dialog = new Dialog(WriteBloodTest.this);
-                dialog.setContentView(R.layout.dialog_add_test);
-                dialog.setTitle("Add Test");
-                dialog.setCancelable(true);
-
-                Button cbutton = (Button) dialog.findViewById(R.id.cancelTest);
-                cbutton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-
-                Button button = (Button) dialog.findViewById(R.id.addtest);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        EditText testT,unitT,resultT,normalminT,normalmaxT;
-
-                        testT= dialog.findViewById(R.id.test);
-                        unitT=dialog.findViewById((R.id.unit));
-                        resultT=dialog.findViewById(R.id.result);
-                        normalminT=dialog.findViewById(R.id.normalmin);
-                        normalmaxT=dialog.findViewById(R.id.normalmax);
-
-                        String test,unit, result,normalmin,normalmax;
-
-                        test=testT.getText().toString();
-                        unit = unitT.getText().toString();
-                        result = resultT.getText().toString().trim();
-                        normalmin = normalminT.getText().toString().trim();
-                        normalmax = normalmaxT.getText().toString().trim();
-
-                        Boolean isError = true;
-
-
-                        if (((test.isEmpty() || unit.isEmpty()) || result.isEmpty()) || (normalmin.isEmpty() || normalmax.isEmpty())) {
-                            showMessage("Please fill all fields.");
-                            isError = true;
-                        } else{
-
-                            isError = false;
-                            AddBloodTest( test, unit, Double.parseDouble(resultT.getText().toString()),  Double.parseDouble(normalminT.getText().toString()),  Double.parseDouble(normalmaxT.getText().toString()));
-
-                        }
-
-                        if(!isError)
-                            dialog.dismiss();
-
-                    }
-                });
-
-                dialog.show();
-            }
-        });
-
-
-        cal=findViewById(R.id.testDateL);
-        dateV=findViewById(R.id.exdate);
-        cal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar cal=Calendar.getInstance();
-                int year=cal.get(Calendar.YEAR);
-                int month=cal.get(Calendar.MONTH);
-                int day=cal.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialog=new DatePickerDialog(WriteBloodTest.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDatasetListner,year,month,day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-            }
-        });
-
-        mDatasetListner=new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month=month+1;
-                date=dayOfMonth+"/"+month+"/"+year;
-                dateV.setText(date);
-            }
-        };
-
         //addAttachment
         addAttachment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openGallery();
+
+            }
+        });
+
+        //submit the record
+        submitRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                validateRecord();
             }
         });
 
@@ -261,7 +190,7 @@ public class WriteBloodTest extends AppCompatActivity{
                 try {
                     startActivity(pdfIntent);
                 } catch (ActivityNotFoundException e) {
-                    Toast.makeText(WriteBloodTest.this, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditRecord.this, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -272,92 +201,20 @@ public class WriteBloodTest extends AppCompatActivity{
             public void onClick(View v) {
                 fileUri=null;
                 myUrl=null;
-                attachmentView.setVisibility(View.GONE);
+                attachmentView.setVisibility(View.INVISIBLE);
                 deleteAttachment.setVisibility(View.INVISIBLE);
                 b0.setVisibility(View.INVISIBLE);
                 b1.setVisibility(View.INVISIBLE);
-            }
-        });
-
-        //check if there is a bloodtest
-        card=findViewById(R.id.card);
-        testsLabel=findViewById(R.id.textView6);
-        hasBT=false;
-        recordRef.child(recordIDٍ).child("BloodTest").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if (dataSnapshot.getValue() == null) {
-                    //no blood tests
-                    hasBT=true;
-                    card.setVisibility(View.GONE);
-                    recyclerV.setVisibility(View.GONE);
-                    testsLabel.setVisibility(View.GONE);
-
-                }else{
-                    hasBT=false;
-                    card.setVisibility(View.VISIBLE);
-                    recyclerV.setVisibility(View.VISIBLE);
-                    testsLabel.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
 
-//validate here! if there is no file or bloodtests then delete the record
-        //submit button which will add the file and note
-        submitRecord=findViewById(R.id.submitRecord);
-        submitRecord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (date == null) {
-                    showMessage("Please add test date");
-                }else{
-                    if (hasBT && fileUri==null){
-                        showMessage("Please add blood tests or a file");
-                    }else {
-                        loadingbar.setTitle("Uploading Record");
-                        loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
-                        loadingbar.show();
-
-                        recordRef.child(recordIDٍ).child("testDate").setValue(date);
-
-                        //save file
-                        if(fileUri!=null&&!fileUri.equals(Uri.EMPTY)){
-                            StoreFile();
-                        }
-                        //add note
-                        note=noteT.getText().toString();
-                        noteT.getText().clear();
-                        if(!note.isEmpty()){
-                            recordRef.child(recordIDٍ).child("note").setValue(note);
-                        }
-                        if(req.equals("Y")){
-                            requestKey=getIntent().getExtras().get("RequestKey").toString();
-                            completeRequest(requestKey);
-                        }
-                        sendNotification(pid);
-
-                        finish();
-                        Toast.makeText(WriteBloodTest.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-            }
-        });
-
-
-        ////////////cancel button delete the record!!!
-        cancel.setOnClickListener(new View.OnClickListener() {
+        //cancel record
+        cancelRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
-                builder.setTitle("Cancel Record");
+                builder.setTitle("Cancel Edit");
                 builder.setMessage("Are you sure you want to cancel?");
                 // Set click listener for alert dialog buttons
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -365,7 +222,7 @@ public class WriteBloodTest extends AppCompatActivity{
                     public void onClick(DialogInterface dialog, int which) {
                         switch(which){
                             case DialogInterface.BUTTON_POSITIVE:
-                                recordRef.child(recordIDٍ).removeValue();
+                                // User clicked the yes button
                                 finish();
                                 break;
 
@@ -388,172 +245,25 @@ public class WriteBloodTest extends AppCompatActivity{
             }
         });
 
-
-
-        //recycler view
-        recyclerV.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-        recyclerV.setLayoutManager(linearLayoutManager);
-        displayBloodTests();
-    }//onc
-
-
-
-    private void displayBloodTests() {
-        final Query query = recordRef.child(recordIDٍ).child("BloodTest");
-        FirebaseRecyclerAdapter<btinfo,WriteBloodTest.viewHolder> firebaseRecyclerAdapter =
-                new FirebaseRecyclerAdapter<btinfo, WriteBloodTest.viewHolder>(
-                        btinfo.class,
-                        R.layout.btitem,
-                        WriteBloodTest.viewHolder.class,
-                        query
-                ) {
-                    @Override
-                    protected void populateViewHolder(WriteBloodTest.viewHolder viewHolder, btinfo btinfo, final int i) {
-                        //set information in each row
-                        Double min, max,res;
-                        max=btinfo.getNormalMax();
-                        min=btinfo.getNormalMin();
-                        res=btinfo.getResult();
-
-
-                        viewHolder.setTest(btinfo.getTest()+"("+btinfo.getUnit()+")");
-                        viewHolder.setNormalMax(max);
-                        viewHolder.setNormalMin(min);
-                        viewHolder.setResult(res);
-
-
-                        //in between
-                        if(res>=min && res<=max){
-                            //green
-                            viewHolder.colorbtn.setBackgroundColor(Color.parseColor("#4CAF50"));
-
-                        }else {//less or greater
-                            //red
-                            viewHolder.colorbtn.setBackgroundColor(Color.parseColor("#CA0000"));
-                        }
-
-
-                        viewHolder.del.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
-                                builder.setTitle("Delete Test!");
-                                builder.setMessage("Are you sure?");
-
-
-
-
-                                // Set click listener for alert dialog buttons
-                                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        switch(which){
-                                            case DialogInterface.BUTTON_POSITIVE:
-                                                // User clicked the yes button
-                                                deleteItem(i);
-                                                break;
-
-                                            case DialogInterface.BUTTON_NEGATIVE:
-                                                // User clicked the no button
-                                                break;
-                                        }
-                                    }
-                                };
-                                // Set the alert dialog yes button click listener
-                                builder.setPositiveButton("Yes", dialogClickListener);
-
-                                // Set the alert dialog no button click listener
-                                builder.setNegativeButton("No",dialogClickListener);
-
-                                AlertDialog dialog = builder.create();
-                                // Display the alert dialog on interface
-                                dialog.show();
-                            }
-
-                        });//delete onclicklistener
-                    }
-
-                    public void deleteItem(int position){
-                        String key = getRef(position).getKey();
-                        recordRef.child(recordIDٍ).child("BloodTest").child(key)
-                                .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()){
-                                            Toast.makeText(WriteBloodTest.this, "Test deleted.", Toast.LENGTH_SHORT).show();
-                                        }
-                                        else {
-                                            Toast.makeText(WriteBloodTest.this, "Test not deleted.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-
-                                });
-                    }
-                };
-
-
-        recyclerV.setAdapter(firebaseRecyclerAdapter);
-
     }
 
-    private void AddBloodTest(String test,String unit,Double result, Double normalmin, Double normalmax) {
-        DatabaseReference ref = recordRef.child(recordIDٍ).child("BloodTest");
-        HashMap btmap = new HashMap();
+    private void validateRecord() {
+        note=noteT.getText().toString();
 
-        btmap.put("test", test);
-        btmap.put("unit", unit);
-        btmap.put("result", result);
-        btmap.put("normalMin", normalmin);
-        btmap.put("normalMax", normalmax);
+        //if no file have to fill all fields
+        //if there is a file then all fields are optional
+        //No file OR one of fields are messing  except NOTE is optional
 
-        ref.child(test).updateChildren(btmap).addOnCompleteListener(new OnCompleteListener() {
-            @Override
-            public void onComplete(@NonNull Task task) {
+        // try edit here
 
-                if (task.isSuccessful()) {
-                    Toast.makeText(WriteBloodTest.this, "BloodTest Added", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(WriteBloodTest.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                }
+        if (fileUri!=null){
+            StoreFile();
+        }
 
-            }
-        });
+
+
+
     }
-
-    public static class viewHolder extends RecyclerView.ViewHolder{
-        View mView;
-        ImageButton del= itemView.findViewById(R.id.deleteBT);
-        Button colorbtn= itemView.findViewById(R.id.button3);
-
-        public viewHolder(@NonNull View itemView) {
-            super(itemView);
-            mView = itemView;
-        }
-
-        public void setTest(String tn){
-            TextView title = mView.findViewById(R.id.test);
-            title.setText(tn);
-        }
-
-        public void setResult(Double tn){
-            TextView title = mView.findViewById(R.id.result);
-            title.setText(tn+"");
-        }
-        public void setNormalMin(Double tn){
-            TextView title = mView.findViewById(R.id.normalMin);
-            title.setText(tn+"");
-        }
-        public void setNormalMax(Double tn){
-            TextView title = mView.findViewById(R.id.normalMax);
-            title.setText(tn+"");
-        }
-    }
-
-
-
 
     private void saveRecord(final String url) {
 
@@ -561,19 +271,46 @@ public class WriteBloodTest extends AppCompatActivity{
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
+                    loadingbar.setTitle("Editing Record");
+                    loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
+                    loadingbar.show();
+
                     final HashMap recordMap=new HashMap();
-                    recordMap.put("type",2);
+                    recordMap.put("type",5);
                     recordMap.put("did",currentuser);
                     recordMap.put("pid",pid);
                     recordMap.put("dateCreated",savecurrentdate);
                     recordMap.put("timeCreated",savecurrenttime);
+                    if (date!= null){
+                    recordMap.put("testDate",date);}
                     recordMap.put("doctorSpeciality",dataSnapshot.child("specialty").getValue().toString());
                     recordMap.put("doctorName",dataSnapshot.child("name").getValue().toString());
                     recordMap.put("hospital",dataSnapshot.child("hospital").getValue().toString());
-                    recordMap.put("testDate",date);
 
-                    recordRef.child(recordIDٍ).updateChildren(recordMap);
 
+                    if(!note.isEmpty())
+                        recordMap.put("note",note);
+
+                    //file
+                    if(!TextUtils.isEmpty(url)){
+                        recordMap.put("file",url);
+                    }
+                    recordRef.child(recordIDٍ).updateChildren(recordMap).addOnCompleteListener(new OnCompleteListener() {
+                        @Override
+                        public void onComplete(@NonNull Task task) {
+                            if(task.isSuccessful()){
+                                sendNotification(pid);
+                                Toast.makeText(EditRecord.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
+                                loadingbar.dismiss();
+                                finish();
+                            }
+                            else {
+                                Toast.makeText(EditRecord.this, "Error", Toast.LENGTH_SHORT).show();
+                                loadingbar.dismiss();
+                                finish();
+                            }
+                        }
+                    });
                 }
             }
 
@@ -583,6 +320,8 @@ public class WriteBloodTest extends AppCompatActivity{
             }
         });
     }
+
+
 
     //done but need to check whether id exist
     private String generateRecordID(String recordType) {
@@ -667,7 +406,7 @@ public class WriteBloodTest extends AppCompatActivity{
                         String url=String.valueOf(uri);
                         myUrl=url;
                         recordRef.child(recordIDٍ).child("file").setValue(myUrl);
-
+                        saveRecord(url);
                     }
                 });
             }
@@ -683,8 +422,6 @@ public class WriteBloodTest extends AppCompatActivity{
             }
         });
     }
-
-
 
     private void openGallery() {
         Intent galleryIntent= new Intent();
@@ -704,6 +441,7 @@ public class WriteBloodTest extends AppCompatActivity{
             b1.setVisibility(View.VISIBLE);
         }
     }
+
     private void completeRequest(final String requestKey){
         Calendar calfordate=Calendar.getInstance();
         SimpleDateFormat currentDate=new SimpleDateFormat("dd-MMMM-yyyy");
@@ -748,8 +486,6 @@ public class WriteBloodTest extends AppCompatActivity{
             }
         });
     }
-
-
     private void sendNotification(final String puid) {
 
         AsyncTask.execute(new Runnable() {
@@ -821,6 +557,4 @@ public class WriteBloodTest extends AppCompatActivity{
             }
         });
     }
-
-
 }

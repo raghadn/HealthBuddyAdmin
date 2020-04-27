@@ -3,10 +3,6 @@
 
     <item
         android:id="@+id/docdeactive"
-        android:title="DeActive" />
-
-    <item
-        android:id="@+id/docedit"
-        android:title="Edit" />
+        android:title="Deactivate Account" />
 
 </menu>
