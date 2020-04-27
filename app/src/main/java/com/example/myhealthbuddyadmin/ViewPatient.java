@@ -47,7 +47,7 @@ public class ViewPatient extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         patientNameT=findViewById(R.id.patientName);
-        natIDT=findViewById(R.id.docid);
+        natIDT=findViewById(R.id.nid);
         genderT=findViewById(R.id.gender);
 
 

@@ -34,7 +34,6 @@ public class DoctorProfile extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference dref,href;
     BottomNavigationView Doctorbottomnav;
-    ImageView logoutbtn;
     CardView LogOut;
 
     @Override

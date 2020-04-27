@@ -60,11 +60,6 @@ public class MyRecordsFragment extends Fragment {
         allRecordsRef = FirebaseDatabase.getInstance().getReference().child("Records");
 
 
-        mAuth = FirebaseAuth.getInstance();
-        currentHCPuid= mAuth.getCurrentUser().getUid();
-        allSharesRef = FirebaseDatabase.getInstance().getReference().child("Share");
-        allRecordsRef = FirebaseDatabase.getInstance().getReference().child("Records");
-
         Noresult=view.findViewById(R.id.NoResult);
 
         // RecyclerView
@@ -73,7 +68,7 @@ public class MyRecordsFragment extends Fragment {
         prescriptionList.setLayoutManager(new LinearLayoutManager(MyRecordsFragment.this.getActivity()));
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(view.getContext());
         linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
+        //linearLayoutManager.setStackFromEnd(true);
         prescriptionList.setLayoutManager(linearLayoutManager);
 
        BrowseWrite();
@@ -84,8 +79,8 @@ public class MyRecordsFragment extends Fragment {
     private void BrowseWrite() {
 
         final ArrayList<item_record>  records= new ArrayList<>();
-        allRecordsRef.orderByChild("pid").equalTo(PatientKey+"\uf8ff");
-        allRecordsRef.addValueEventListener(new ValueEventListener() {
+
+        allRecordsRef.orderByChild("pid").equalTo(PatientKey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull final DataSnapshot dataSnapshot1) {
 

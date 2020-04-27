@@ -45,13 +45,6 @@ public class MyWrittenRecordsMain extends Fragment {
 
         type=(int)getActivity().getIntent().getExtras().get("type");
 
-
-        mAuth = FirebaseAuth.getInstance();
-        currentHCPuid= mAuth.getCurrentUser().getUid();
-        allSharesRef = FirebaseDatabase.getInstance().getReference().child("Share");
-        allRecordsRef = FirebaseDatabase.getInstance().getReference().child("Records");
-
-
         mAuth = FirebaseAuth.getInstance();
         currentHCPuid= mAuth.getCurrentUser().getUid();
         allSharesRef = FirebaseDatabase.getInstance().getReference().child("Share");
@@ -75,8 +68,7 @@ public class MyWrittenRecordsMain extends Fragment {
     private void BrowseWrite() {
 
         final ArrayList<item_record> records= new ArrayList<>();
-        allRecordsRef.orderByChild("did").equalTo(currentHCPuid+"\uf8ff");
-        allRecordsRef.addValueEventListener(new ValueEventListener() {
+        allRecordsRef.orderByChild("did").equalTo(currentHCPuid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull final DataSnapshot dataSnapshot1) {
 
