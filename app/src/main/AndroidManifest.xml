@@ -51,7 +51,8 @@
         <activity android:name=".EditRecord" />
         <activity android:name=".EditXray" />
         <activity android:name=".EditVitalSigns" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".SearchForPatient"
             android:windowSoftInputMode="adjustPan" />

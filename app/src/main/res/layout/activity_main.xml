@@ -17,22 +17,21 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="320dp"
+
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="40dp"
             app:cardCornerRadius="5dp"
             app:contentPadding="1dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.767"
+            app:layout_constraintBottom_toBottomOf="@+id/tool"
+            app:layout_constraintEnd_toEndOf="@+id/tool"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tool"
-            app:layout_constraintVertical_bias="0.023">
+            app:layout_constraintTop_toTopOf="@+id/tool">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
+
                 android:layout_height="match_parent"
                 android:background="#ffffffff"
                 android:orientation="horizontal"
@@ -41,13 +40,10 @@
 
                 <EditText
                     android:id="@+id/SearchInput"
-                    android:layout_width="264dp"
+                    android:layout_width="291dp"
                     android:layout_height="35dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp"
                     android:background="#ffffffff"
-                    android:ems="10"
-                    android:hint="Search For health care provider"
+                    android:hint="Search Health Care Providers..."
                     android:imeOptions="actionSearch"
                     android:inputType="textPersonName"
                     android:lines="1"
@@ -67,7 +63,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tool"
-            android:layout_width="394dp"
+            android:layout_width="match_parent"
             android:layout_height="67dp"
             android:layout_alignTop="@+id/tool"
             android:layout_alignEnd="@+id/tool"
@@ -106,57 +102,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tool" />
 
-        <!--  <ImageButton
-            android:id="@+id/searchbutton"
-            android:layout_width="37dp"
-            android:layout_height="37dp"
-            android:layout_marginBottom="3dp"
-            android:background="@android:drawable/ic_menu_search"
-            android:src="@drawable/search"
-            app:layout_constraintBottom_toBottomOf="@+id/SearchInput"
-            app:layout_constraintEnd_toEndOf="@+id/SearchInput"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/SearchInput"
-            app:layout_constraintTop_toBottomOf="@+id/tool"
-            app:layout_constraintVertical_bias="1.0" />
-
-       <com.google.android.material.bottomnavigation.BottomNavigationView
-         android:id="@+id/bottom_navigation"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_alignParentBottom="true"
-         app:layout_constraintBottom_toBottomOf="parent"
-         app:layout_constraintEnd_toEndOf="parent"
-         app:layout_constraintHorizontal_bias="0.0"
-         app:layout_constraintStart_toStartOf="parent"
-         app:layout_constraintTop_toTopOf="parent"
-         app:layout_constraintVertical_bias="1.0"
-         android:background="?android:attr/windowBackground"
-         app:menu="@menu/bottom_navigation" />
-
-
-
-            <EditText
-            android:id="@+id/SearchInput"
-            android:layout_width="303dp"
-            android:layout_height="43dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginRight="4dp"
-            android:ems="10"
-            android:hint="Search"
-            android:imeOptions="actionSearch"
-            android:inputType="textPersonName"
-            android:lines="1"
-            android:maxLines="1"
-            android:padding="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/Searchresult"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tool"
-            app:layout_constraintVertical_bias="0.7" />
-
-         -->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
