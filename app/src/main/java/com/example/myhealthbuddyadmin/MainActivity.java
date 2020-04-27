@@ -192,12 +192,70 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             searchHCPInfiQuere
                     ) {
                 @Override
-                protected void populateViewHolder(SearchViweHolder searchViweHolder, search_result module, final int i) {
+                protected void populateViewHolder(final SearchViweHolder searchViweHolder, final search_result module, final int i) {
                     searchViweHolder.setName(module.getName());
                     searchViweHolder.setID(module.getID());
                     searchViweHolder.setSpecialty(module.getSpecialty());
                     searchViweHolder.setGender(module.getGender());
                     //searchViweHolder.setImage(getApplicationContext(),module.getImage());
+
+
+                    searchViweHolder.TextViewOptions.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View v) {
+
+                            PopupMenu popup =new PopupMenu(v.getContext(),searchViweHolder.TextViewOptions);
+                            popup.inflate(R.menu.admin_options_menu);
+                            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                @Override
+                                public boolean onMenuItemClick(MenuItem item) {
+                                    switch (item.getItemId()) {
+
+                                        case R.id.docdeactive:
+
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
+                                            builder.setTitle("DE Active Health Care Provider");
+                                            builder.setMessage("Are you sure you want to De active the health care provider?");
+                                            // Set click listener for alert dialog buttons
+                                            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    switch(which){
+                                                        case DialogInterface.BUTTON_POSITIVE:
+                                                            // User clicked the yes button
+                                                            allUsersdatabaseRef.getParent().child("DoctorIDs").child("DeActive").child(module.getID()).setValue("Deactive");
+                                                            Toast.makeText(getApplicationContext(), "this Acount is deactive",Toast.LENGTH_LONG).show();
+                                                            break;
+
+                                                        case DialogInterface.BUTTON_NEGATIVE:
+                                                            // User clicked the no button
+                                                            break;
+                                                    }
+                                                }
+                                            };
+                                            // Set the alert dialog yes button click listener
+                                            builder.setPositiveButton("Yes", dialogClickListener);
+
+                                            // Set the alert dialog no button click listener
+                                            builder.setNegativeButton("No",dialogClickListener);
+
+                                            AlertDialog dialog = builder.create();
+                                            // Display the alert dialog on interface
+                                            dialog.show();
+
+                                            return true;
+
+
+
+
+                                        default:
+                                            return false;
+                                    }
+                                }
+                            });
+                            popup.show();
+                        }
+                    });
 
                 }
 
