@@ -28,10 +28,6 @@
         <activity android:name=".ViewVitalSigns" />
         <activity android:name=".ViewBloodTest" />
         <activity android:name=".ViewXRay" />
-        <activity android:name=".VitalSigns" />
-        <activity android:name=".Record" />
-        <activity android:name=".XRay" />
-        <activity android:name=".BloodTest" />
         <activity android:name=".WriteRecord" />
         <activity android:name=".WriteVitalSigns" />
         <activity android:name=".WriteXRay" />
@@ -39,7 +35,6 @@
         <activity android:name=".PhoneAuth" />
         <activity android:name=".WritePrescription" />
         <activity android:name=".WriteBloodTest" />
-        <activity android:name=".Prescriptions" />
         <activity android:name=".ViewPrescription" />
         <activity android:name=".ViewPatient" />
         <activity android:name=".DoctorProfile" />

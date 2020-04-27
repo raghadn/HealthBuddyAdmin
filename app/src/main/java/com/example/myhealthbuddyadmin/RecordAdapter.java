@@ -123,8 +123,8 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordView
 
 
 
-            Intent n = new Intent(c, Prescriptions.class);
-            n.putExtra("list",mRecorslist );
+            //Intent n = new Intent(c, AllRecords.class);
+            //n.putExtra("list",mRecorslist );
 
         }
     }
