@@ -86,6 +86,8 @@ public class ViewVitalSigns extends AppCompatActivity {
                 impression=dataSnapshot.child("impression").getValue().toString();
                 impressionT.setText(impression);
 
+                testDateT.setText(dataSnapshot.child("testDate").getValue().toString());
+
 
                 if(dataSnapshot.hasChild("note")){
                     note=dataSnapshot.child("note").getValue().toString();

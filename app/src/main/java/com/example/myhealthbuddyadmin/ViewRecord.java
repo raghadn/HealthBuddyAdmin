@@ -73,13 +73,12 @@ public class ViewRecord extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                //record info
-                String medication,impression,note;
 
+
+                testDateT.setText(dataSnapshot.child("testDate").getValue().toString());
 
                 if(dataSnapshot.hasChild("note")){
-                    note=dataSnapshot.child("note").getValue().toString();
-                    noteT.setText(note);
+                    noteT.setText(dataSnapshot.child("note").getValue().toString());
                 }else{
                     noteT.setVisibility(View.GONE);
                     findViewById(R.id.noteL).setVisibility(View.GONE);

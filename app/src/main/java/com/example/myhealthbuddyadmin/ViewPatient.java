@@ -70,11 +70,13 @@ public class ViewPatient extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 name=dataSnapshot.child("name").getValue().toString();
-                //gender=dataSnapshot.child("gender").getValue().toString();
-                nationalId=dataSnapshot.child("national_id").getValue().toString();
                 patientNameT.setText(name);
-                //genderT.setText(gender);
+
+                nationalId=dataSnapshot.child("national_id").getValue().toString();
                 natIDT.setText(nationalId);
+
+                genderT.setText(dataSnapshot.child("gender").getValue().toString());
+
 
             }
 

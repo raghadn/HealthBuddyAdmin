@@ -260,6 +260,10 @@ public class WriteRecord extends AppCompatActivity {
             Toast.makeText(this, "Please add test date and attach a file.", Toast.LENGTH_SHORT).show();
         }
         else{
+            loadingbar.setTitle("Uploading Record");
+            loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
+            loadingbar.show();
+
             recordIDٍ=generateRecordID(type);
             StoreFile();
         }
@@ -272,9 +276,7 @@ public class WriteRecord extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
-                    loadingbar.setTitle("Uploading Record");
-                    loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
-                    loadingbar.show();
+
 
                     final HashMap recordMap=new HashMap();
                     recordMap.put("type",5);
@@ -294,6 +296,7 @@ public class WriteRecord extends AppCompatActivity {
                     if(!TextUtils.isEmpty(url)){
                         recordMap.put("file",url);
                     }
+
                     recordRef.child(recordIDٍ).updateChildren(recordMap).addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
@@ -408,7 +411,7 @@ public class WriteRecord extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         String url=String.valueOf(uri);
                         myUrl=url;
-                        recordRef.child(recordIDٍ).child("file").setValue(myUrl);
+                        //recordRef.child(recordIDٍ).child("file").setValue(myUrl);
                         saveRecord(url);
                     }
                 });
