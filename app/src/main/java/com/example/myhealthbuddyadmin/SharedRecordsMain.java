@@ -59,8 +59,6 @@ public class SharedRecordsMain extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         currentHCPuid= mAuth.getCurrentUser().getUid();
 
-
-
         Noresult=view.findViewById(R.id.NoResult);
 
         // RecyclerView
