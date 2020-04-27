@@ -63,6 +63,8 @@ edit.setOnClickListener(new View.OnClickListener() {
         Intent edit =new Intent(ViewRecord.this,EditRecord.class);
         Bundle extras = new Bundle();
         extras.putString("PatientKey", pid);
+        extras.putString("RecordID", recordID);
+        edit.putExtras(extras);
         startActivity(edit);
         finish();
     }

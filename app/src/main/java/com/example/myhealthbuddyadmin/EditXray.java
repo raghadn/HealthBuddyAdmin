@@ -1,4 +1,5 @@
 package com.example.myhealthbuddyadmin;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,15 +50,14 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
-public class EditRecord extends AppCompatActivity{
+public class EditXray extends AppCompatActivity {
+
     private FirebaseAuth mAuth;
     private String currentuser;
     private DatabaseReference patientRef, doctorRef,recordRef;
     TextView dateV,patientN,patientID,patientG;
-
-    EditText noteT;
-    String note;
-
+    EditText findingsT,impressionT,noteT;
+    String findings,impression,note;
     String patientName,hospitalName;
     String type,pid,req,requestKey;
     Button submitRecord,cancelRecord,addAttachment;
@@ -78,13 +78,15 @@ public class EditRecord extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_record);
+        setContentView(R.layout.activity_edit_xray);
 
         loadingbar = new ProgressDialog(this);
 
-        type="Record";
+        type="XRay";
 
-        noteT=findViewById(R.id.editnote);
+        noteT=findViewById(R.id.note);
+        findingsT=findViewById(R.id.findings);
+        impressionT=findViewById(R.id.impression);
 
         cal=findViewById(R.id.testDateL);
         dateV=findViewById(R.id.exdate);
@@ -96,7 +98,7 @@ public class EditRecord extends AppCompatActivity{
                 int month=cal.get(Calendar.MONTH);
                 int day=cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog=new DatePickerDialog(EditRecord.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDatasetListner,year,month,day);
+                DatePickerDialog dialog=new DatePickerDialog(EditXray.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDatasetListner,year,month,day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -111,13 +113,13 @@ public class EditRecord extends AppCompatActivity{
             }
         };
 
-        addAttachment=findViewById(R.id.addAttachmentedit);
-        deleteAttachment=findViewById((R.id.deleteAttachmentedit));
-        submitRecord=findViewById(R.id.editRecord);
-        cancelRecord=findViewById(R.id.canceledit);
-        attachmentView=findViewById(R.id.attachmentViewedit);
-        b0=findViewById(R.id.ebutton);
-        b1=findViewById(R.id.ebutton0);
+        addAttachment=findViewById(R.id.addAttachment);
+        deleteAttachment=findViewById((R.id.deleteAttachment));
+        submitRecord=findViewById(R.id.submitRecord);
+        cancelRecord=findViewById(R.id.cancelRecord);
+        attachmentView=findViewById(R.id.attachmentView);
+        b0=findViewById(R.id.button);
+        b1=findViewById(R.id.button0);
         patientN=findViewById(R.id.patientName);
         patientID=findViewById(R.id.patientID);
         patientG=findViewById(R.id.gender);
@@ -135,8 +137,6 @@ public class EditRecord extends AppCompatActivity{
         savecurrenttime=currentTime.format(calfortime.getTime());
 
         pid = getIntent().getExtras().get("PatientKey").toString();
-        recordIDٍ=getIntent().getExtras().get("RecordID").toString();
-
         storageReference= FirebaseStorage.getInstance().getReference();
         mAuth= FirebaseAuth.getInstance();
         currentuser=mAuth.getCurrentUser().getUid();
@@ -190,7 +190,7 @@ public class EditRecord extends AppCompatActivity{
                 try {
                     startActivity(pdfIntent);
                 } catch (ActivityNotFoundException e) {
-                    Toast.makeText(EditRecord.this, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditXray.this, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -248,22 +248,30 @@ public class EditRecord extends AppCompatActivity{
     }
 
     private void validateRecord() {
+        if (fileUri==null)
+            Toast.makeText(this, "Please add a file.", Toast.LENGTH_SHORT).show();
+
+
+        findings=findingsT.getText().toString();
+        impression=impressionT.getText().toString();
         note=noteT.getText().toString();
 
         //if no file have to fill all fields
         //if there is a file then all fields are optional
         //No file OR one of fields are messing  except NOTE is optional
 
-        // try edit here
 
-        if (fileUri!=null){
+
+        loadingbar.setTitle("Uploading Record");
+        loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
+        loadingbar.show();
+
+        recordIDٍ=getIntent().getExtras().get("RecordID").toString();
+        if (fileUri!=null)
             StoreFile();
-        }
-
-
-
-
     }
+
+
 
     private void saveRecord(final String url) {
 
@@ -271,41 +279,41 @@ public class EditRecord extends AppCompatActivity{
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
-                    loadingbar.setTitle("Editing Record");
-                    loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
-                    loadingbar.show();
+
 
                     final HashMap recordMap=new HashMap();
-                    recordMap.put("type",5);
+                    recordMap.put("type",3);
                     recordMap.put("did",currentuser);
                     recordMap.put("pid",pid);
                     recordMap.put("dateCreated",savecurrentdate);
                     recordMap.put("timeCreated",savecurrenttime);
-                    if (date!= null){
-                    recordMap.put("testDate",date);}
-                    recordMap.put("doctorSpeciality",dataSnapshot.child("specialty").getValue().toString());
-                    recordMap.put("doctorName",dataSnapshot.child("name").getValue().toString());
-                    recordMap.put("hospital",dataSnapshot.child("hospital").getValue().toString());
-
+                    if (date!=null)
+                        recordMap.put("testDate",date);
+                    if (!findings.isEmpty())
+                        recordMap.put("findings",findings);
+                    if (!impression.isEmpty())
+                        recordMap.put("impression",impression);
 
                     if(!note.isEmpty())
                         recordMap.put("note",note);
 
                     //file
-                    if(!TextUtils.isEmpty(url)){
-                        recordMap.put("file",url);
-                    }
+                    if (!url.isEmpty()){
+                        if(!TextUtils.isEmpty(url)){
+                            recordMap.put("file",url);
+                        }}
                     recordRef.child(recordIDٍ).updateChildren(recordMap).addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if(task.isSuccessful()){
+
                                 sendNotification(pid);
-                                Toast.makeText(EditRecord.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditXray.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
                                 finish();
                             }
                             else {
-                                Toast.makeText(EditRecord.this, "Error", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditXray.this, "Error", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
                                 finish();
                             }
@@ -323,70 +331,6 @@ public class EditRecord extends AppCompatActivity{
 
 
 
-    //done but need to check whether id exist
-    private String generateRecordID(String recordType) {
-        // check recordType to be implemented on development phase
-        if(recordType.equals("Prescription"))
-            recordType="1";
-
-        if(recordType.equals("BloodTest"))
-            recordType="2";
-
-        if(recordType.equals("XRay"))
-            recordType="3";
-
-        if(recordType.equals("VitalSigns"))
-            recordType="4";
-
-        if(recordType.equals("Record"))
-            recordType="5";
-
-
-
-        //String ID
-        String StrId = "";
-
-        // boolean variable indicate wither id exist in database or not
-        boolean exist=false ;
-
-        //random id
-        long id;
-
-        // to check id length
-        String test;
-
-        do {
-            // generate a random number between 0000-9999
-            //(max - min + 1) + min
-            Random random = new Random();
-            id = random.nextInt(99999999+1);
-
-            //convert id to string
-            test=id+"";
-
-            do {
-                if (test.length()<8) {
-                    //random Number<100000000 add zeros before the number
-                    test="0".concat(test);
-                }
-
-            }while(test.length()<8);
-
-
-            // add the health care facility digits
-            StrId=recordType.concat(test);
-
-		/*
-	       check if the number previously taken in database
-	       well be implemented on the development phase
-	       if ()
-	       exist = true
-		 */
-
-        }while(exist);
-
-        return StrId;
-    }
 
     private void showMessage(String message) {
 
@@ -405,7 +349,7 @@ public class EditRecord extends AppCompatActivity{
                     public void onSuccess(Uri uri) {
                         String url=String.valueOf(uri);
                         myUrl=url;
-                        recordRef.child(recordIDٍ).child("file").setValue(myUrl);
+                        //recordRef.child(recordIDٍ).child("file").setValue(myUrl);
                         saveRecord(url);
                     }
                 });
@@ -442,50 +386,6 @@ public class EditRecord extends AppCompatActivity{
         }
     }
 
-    private void completeRequest(final String requestKey){
-        Calendar calfordate=Calendar.getInstance();
-        SimpleDateFormat currentDate=new SimpleDateFormat("dd-MMMM-yyyy");
-        String savecurrentdate=currentDate.format(calfordate.getTime());
-
-        Calendar calfortime=Calendar.getInstance();
-        SimpleDateFormat currentTime=new SimpleDateFormat("HH:mm");
-        String savecurrenttime=currentTime.format(calfortime.getTime());
-
-
-        Calendar calfordecDec=Calendar.getInstance();
-        SimpleDateFormat decTime=new SimpleDateFormat("dd/MM/yyyy");
-        final String Datecreated=decTime.format(calfordecDec.getTime());
-
-        final String randomname=savecurrentdate+savecurrenttime;
-
-        final DatabaseReference pendingRequest= FirebaseDatabase.getInstance().getReference().child("Requests").child("PendingRequests").child(requestKey);
-        final DatabaseReference completedRequest=FirebaseDatabase.getInstance().getReference().child("Requests").child("CompletedRequests");
-        pendingRequest.child("completion_date").setValue(Datecreated);
-        pendingRequest.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                completedRequest.child(requestKey+randomname).setValue(dataSnapshot.getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            pendingRequest.removeValue();
-                            Toast.makeText(getApplicationContext(), "Request completed", Toast.LENGTH_LONG).show();
-
-                        }
-                        else
-                            Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
     private void sendNotification(final String puid) {
 
         AsyncTask.execute(new Runnable() {

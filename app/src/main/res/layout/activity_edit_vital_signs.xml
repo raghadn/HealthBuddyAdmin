@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditRecord">
+    tools:context=".EditVitalSigns">
 
     <include
         android:id="@+id/viewHiveToolBar"
@@ -18,7 +18,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit Record"
+        android:text="Edit Vital Signs"
         android:textColor="@color/purple"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/viewHiveToolBar"
@@ -152,9 +152,36 @@
         app:layout_constraintStart_toEndOf="@+id/testDateL"
         app:layout_constraintTop_toTopOf="@+id/testDateL" />
 
+    <EditText
+        android:id="@+id/findings"
+        android:layout_width="288dp"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="Findings"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testDateL" />
 
     <EditText
-        android:id="@+id/editnote"
+        android:id="@+id/impression"
+        android:layout_width="288dp"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:layout_margin="7dp"
+        android:ems="10"
+        android:hint="Impression"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/findings" />
+
+    <EditText
+        android:id="@+id/note"
         android:layout_width="288dp"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
@@ -165,11 +192,11 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/testDateL" />
+        app:layout_constraintTop_toBottomOf="@+id/impression" />
 
 
     <Button
-        android:id="@+id/addAttachmentedit"
+        android:id="@+id/addAttachment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
@@ -179,12 +206,12 @@
         android:text=" Add File"
         android:textAllCaps="false"
         android:textSize="14dp"
-        app:layout_constraintStart_toStartOf="@+id/editnote"
-        app:layout_constraintTop_toBottomOf="@+id/editnote" />
+        app:layout_constraintStart_toStartOf="@+id/note"
+        app:layout_constraintTop_toBottomOf="@+id/note" />
 
 
     <Button
-        android:id="@+id/attachmentViewedit"
+        android:id="@+id/attachmentView"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:background="?attr/selectableItemBackground"
@@ -194,11 +221,11 @@
         android:textColor="@color/blue"
         android:textSize="14dp"
         android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@+id/addAttachmentedit"
-        app:layout_constraintTop_toBottomOf="@+id/addAttachmentedit" />
+        app:layout_constraintStart_toStartOf="@+id/addAttachment"
+        app:layout_constraintTop_toBottomOf="@+id/addAttachment" />
 
     <Button
-        android:id="@+id/ebutton"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:background="?attr/selectableItemBackground"
@@ -207,11 +234,11 @@
         android:textAllCaps="false"
         android:textSize="14dp"
         android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@+id/attachmentViewedit"
-        app:layout_constraintTop_toBottomOf="@+id/addAttachmentedit" />
+        app:layout_constraintStart_toEndOf="@+id/attachmentView"
+        app:layout_constraintTop_toBottomOf="@+id/addAttachment" />
 
     <Button
-        android:id="@+id/deleteAttachmentedit"
+        android:id="@+id/deleteAttachment"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:background="?attr/selectableItemBackground"
@@ -221,11 +248,11 @@
         android:textColor="@color/red"
         android:textSize="14dp"
         android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@+id/ebutton"
-        app:layout_constraintTop_toBottomOf="@+id/addAttachmentedit" />
+        app:layout_constraintStart_toEndOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/addAttachment" />
 
     <Button
-        android:id="@+id/ebutton0"
+        android:id="@+id/button0"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:background="?attr/selectableItemBackground"
@@ -234,11 +261,11 @@
         android:textAllCaps="false"
         android:textSize="14dp"
         android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@+id/deleteAttachmentedit"
-        app:layout_constraintTop_toBottomOf="@+id/addAttachmentedit" />
+        app:layout_constraintStart_toEndOf="@+id/deleteAttachment"
+        app:layout_constraintTop_toBottomOf="@+id/addAttachment" />
 
     <Button
-        android:id="@+id/editRecord"
+        android:id="@+id/submitRecord"
 
         android:layout_width="288dp"
         android:layout_height="49dp"
@@ -252,10 +279,10 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ebutton0" />
+        app:layout_constraintTop_toBottomOf="@+id/button0" />
 
     <Button
-        android:id="@+id/canceledit"
+        android:id="@+id/cancelRecord"
 
         android:layout_width="288dp"
         android:layout_height="49dp"
@@ -270,7 +297,7 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editRecord" />
+        app:layout_constraintTop_toBottomOf="@+id/submitRecord" />
 
 
 
