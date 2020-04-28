@@ -419,15 +419,17 @@
                                 android:textColor="@color/black"
                                 android:textSize="16sp" />
 
+
                         </LinearLayout>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recy"
-                            android:layout_width="350dp"
-                            android:layout_height="wrap_content" />
+
 
                     </androidx.cardview.widget.CardView>
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recy"
+                        android:layout_width="350dp"
+                        android:layout_height="100dp" />
                 </LinearLayout>
 
             </FrameLayout>
@@ -484,17 +486,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/d_bottom_navigation" />
 
+
+
+
     <ImageView
         android:id="@+id/editbloodtest"
-        android:layout_width="59dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView5"
-        app:layout_constraintEnd_toEndOf="@+id/viewHiveToolBar"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toEndOf="@+id/textView22"
-        app:srcCompat="@drawable/edit" />
+        android:layout_marginRight="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewHiveToolBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/editre" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

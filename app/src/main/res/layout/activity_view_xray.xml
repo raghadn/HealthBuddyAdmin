@@ -30,14 +30,14 @@
 
     <ImageView
         android:id="@+id/editxray"
-        android:layout_width="101dp"
-        android:layout_height="45dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:visibility="invisible"
+        android:layout_marginRight="15dp"
         app:layout_constraintBottom_toBottomOf="@+id/viewHiveToolBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView14"
-        app:srcCompat="@drawable/edit" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/editre" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -210,9 +210,9 @@
                 android:id="@+id/frameLayout2"
                 android:layout_width="380dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/bourder"
                 android:padding="5dp"
-                android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView25">
@@ -309,9 +309,9 @@
                 android:id="@+id/frameLayout3"
                 android:layout_width="380dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/bourder"
                 android:padding="5dp"
-                android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView26">

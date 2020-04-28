@@ -228,6 +228,11 @@ public class SearchForPatient extends AppCompatActivity {
                 Intent intentHome = new Intent(SearchForPatient.this, DoctorMainActivity.class);
                 startActivity(intentHome);
                 break;
+
+            case R.id.d_nav_notification:
+                Intent intentNot=new Intent(SearchForPatient.this, Notifications.class);
+                startActivity(intentNot);
+                break;
         }
 
     }

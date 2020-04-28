@@ -97,7 +97,11 @@ public class EditRecord extends AppCompatActivity{
                 int day=cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog=new DatePickerDialog(EditRecord.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDatasetListner,year,month,day);
+
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+
                 dialog.show();
             }
         });

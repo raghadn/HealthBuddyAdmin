@@ -5,17 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,20 +43,36 @@ import static android.os.Environment.DIRECTORY_DOWNLOADS;
 public class ReadActivity extends AppCompatActivity {
     PDFView pdf;
     String url,recordIDٍ;
-    ImageButton export;
+    Button export;
+    TextView tv;
     DatabaseReference mData;
     StorageReference storageReference;
     StorageReference ref;
+
+    BottomNavigationView Doctorbottomnav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
+
+        Doctorbottomnav=findViewById(R.id.d_bottom_navigation);
+        Doctorbottomnav.setSelectedItemId(R.id.d_nav_home);
+        Doctorbottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                DoctorMenuSelector(menuItem);
+                return false;
+            }
+        });
+
         pdf=findViewById(R.id.pdfView);
         url=getIntent().getExtras().get("url").toString();
         recordIDٍ=getIntent().getExtras().get("recordID").toString();
 
 
+        tv=findViewById(R.id.textView);
+        tv.setText("Record "+recordIDٍ+" PDF");
         export=findViewById(R.id.export);
         export.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +156,31 @@ public class ReadActivity extends AppCompatActivity {
             progressDialog.dismiss();
         }
 
+    }
+
+    private void DoctorMenuSelector(MenuItem item) {
+        switch (item.getItemId()){
+
+            case R.id.d_nav_home:
+                Intent intentshare = new Intent(ReadActivity.this, DoctorMainActivity.class);
+                startActivity(intentshare);
+                break;
+
+            case R.id.d_nav_profile:
+                Intent intentrequest=new Intent(ReadActivity.this, DoctorProfile.class);
+                startActivity(intentrequest);
+                break;
+
+            case R.id.d_nav_search:
+                Intent intentsearch=new Intent(ReadActivity.this, SearchForPatient.class);
+                startActivity(intentsearch);
+                break;
+
+            case R.id.d_nav_notification:
+                Intent intentNot=new Intent(ReadActivity.this, Notifications.class);
+                startActivity(intentNot);
+                break;
+        }
     }
 
 

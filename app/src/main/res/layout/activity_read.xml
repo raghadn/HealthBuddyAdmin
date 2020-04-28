@@ -31,19 +31,27 @@
     <com.github.barteksc.pdfviewer.PDFView
         android:id="@+id/pdfView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="600dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/export" />
 
-
-    <ImageButton
+    <Button
         android:id="@+id/export"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/export"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="?attr/selectableItemBackground"
+        android:drawableLeft="@drawable/download"
+        android:minHeight="1dp"
+        android:text=" Download PDF"
+        android:textAllCaps="false"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/purple"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewRequestToolbar" />
+
+
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

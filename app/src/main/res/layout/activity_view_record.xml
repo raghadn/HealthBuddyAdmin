@@ -408,16 +408,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/d_bottom_navigation" />
 
+
     <ImageView
         android:id="@+id/editrecord"
-        android:layout_width="63dp"
-        android:layout_height="32dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        android:layout_marginRight="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewHiveToolBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.813"
-        app:layout_constraintStart_toEndOf="@+id/textView22"
-        app:srcCompat="@drawable/edit" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/editre" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

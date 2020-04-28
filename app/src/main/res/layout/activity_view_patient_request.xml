@@ -30,17 +30,132 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="88dp">
+        android:layout_height="700dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewHiveToolBar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
+                android:layout_marginTop="15dp"
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Patient Information"
+                android:textColor="@color/purple"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/frameLayout"
+                app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="380dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bourder"
+                android:padding="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView1">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:layout_editor_absoluteX="5dp"
+                    tools:layout_editor_absoluteY="5dp">
+
+                    <TextView
+                        android:id="@+id/textView19"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name:"
+                        android:textColor="@color/purple"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/patientName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:text="Name"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toEndOf="@+id/textView21"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView21"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="National ID: "
+                        android:textColor="@color/purple"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+                    <TextView
+                        android:id="@+id/patientID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ID"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="@+id/patientName"
+                        app:layout_constraintTop_toTopOf="@+id/textView21" />
+
+                    <TextView
+                        android:id="@+id/textView29"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Gender:"
+                        android:textColor="@color/purple"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+                    <TextView
+                        android:id="@+id/gender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gender"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="@+id/patientID"
+                        app:layout_constraintTop_toTopOf="@+id/textView29" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </FrameLayout>
+
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_toEndOf="@+id/display_request_image"
+                android:layout_toRightOf="@+id/display_request_image"
+                android:text="Request Recieved on: "
+                android:textColor="@color/purple"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/textView1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
                 android:id="@+id/page_request_requestdate"
-                android:layout_width="74dp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="18sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView13"
                 android:layout_alignParentStart="true"
@@ -48,44 +163,48 @@
                 android:layout_gravity="right"
                 android:gravity="center"
                 android:text="Date"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.934"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="61dp" />
+                app:layout_constraintBottom_toBottomOf="@+id/textView22"
+                app:layout_constraintStart_toEndOf="@+id/textView22"
+                app:layout_constraintTop_toTopOf="@+id/textView22" />
+
 
             <Button
                 android:id="@+id/page_request_writerecord"
-                android:layout_width="286dp"
-                android:layout_height="53dp"
-                android:layout_marginTop="28dp"
+
+                android:layout_width="288dp"
+                android:layout_marginTop="10dp"
+                android:layout_height="49dp"
                 android:background="@drawable/buttonshape"
-                android:text="Write Record"
-                android:textAllCaps="true"
-                android:textColor="#ffffff"
-                android:textSize="18dp"
-                android:textStyle="bold"
+                android:text="Accept and Write Record"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+
+                android:textStyle="normal"
+
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/page_request_note" />
 
             <Button
                 android:id="@+id/page_request_cancelb"
-                android:layout_width="286dp"
-                android:layout_height="53dp"
-                android:layout_marginTop="16dp"
+
+                android:layout_width="288dp"
+                android:layout_height="49dp"
                 android:background="@drawable/cancelbutton"
-                android:text="Cancel and delete request"
-                android:textAllCaps="true"
-                android:textColor="#ffffff"
-                android:textSize="18dp"
-                android:textStyle="bold"
+                android:text="Decline and Delete Request"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp"
+                android:textStyle="normal"
+
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/page_request_writerecord" />
+
+
+
 
             <TextView
                 android:id="@+id/page_request_type"
@@ -114,7 +233,7 @@
                 android:text="Appointment Date"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@+id/textView16"
+                app:layout_constraintStart_toStartOf="@+id/textView18"
                 app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
             <TextView
@@ -135,129 +254,49 @@
 
             <TextView
                 android:id="@+id/textView16"
-                android:layout_width="130dp"
-                android:layout_height="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="15dp"
                 android:layout_toEndOf="@+id/display_request_image"
                 android:layout_toRightOf="@+id/display_request_image"
                 android:text="Request Type:"
-                android:textColor="#131010"
+                android:textColor="@color/purple"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+                app:layout_constraintStart_toStartOf="@+id/textView18"
+                app:layout_constraintTop_toBottomOf="@+id/page_request_apDate" />
+
 
             <TextView
                 android:id="@+id/textView18"
-                android:layout_width="185dp"
-                android:layout_height="27dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="20dp"
-                android:layout_toEndOf="@+id/display_request_image"
-                android:layout_toRightOf="@+id/display_request_image"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Appointment Date:"
-                android:textColor="#131010"
+                android:textColor="@color/purple"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/page_request_type" />
+                app:layout_constraintStart_toStartOf="@+id/frameLayout"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
 
             <TextView
                 android:id="@+id/textView17"
-                android:layout_width="130dp"
-                android:layout_height="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="20dp"
                 android:layout_toEndOf="@+id/display_request_image"
                 android:layout_toRightOf="@+id/display_request_image"
                 android:text="Notes:"
-                android:textColor="#131010"
+                android:textColor="@color/purple"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/page_request_apDate" />
+                app:layout_constraintStart_toStartOf="@+id/page_request_type"
+                app:layout_constraintTop_toBottomOf="@+id/page_request_type" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
-                android:layout_width="208dp"
-                android:layout_height="92dp"
-                android:layout_marginTop="90dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/textView19"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Name:"
-                    android:textColor="@color/purple"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/patientName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:text="Name"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toEndOf="@+id/textView21"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView21"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="National ID: "
-                    android:textColor="@color/purple"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView19" />
-
-                <TextView
-                    android:id="@+id/patientID"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ID"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="@+id/patientName"
-                    app:layout_constraintTop_toTopOf="@+id/textView21" />
-
-
-                <TextView
-                    android:id="@+id/textView27"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Gender:"
-                    android:textColor="@color/purple"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView21" />
-
-                <TextView
-                    android:id="@+id/gender"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Gender"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="@+id/patientID"
-                    app:layout_constraintTop_toTopOf="@+id/textView27" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

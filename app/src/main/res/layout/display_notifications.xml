@@ -29,18 +29,14 @@
 
             <TextView
                 android:id="@+id/display_request_name"
-                android:layout_width="126dp"
+                android:layout_width="wrap_content"
                 android:layout_height="21dp"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                android:layout_gravity="right"
+                android:layout_gravity="left"
                 android:layout_marginStart="1dp"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="6dp"
-                android:layout_marginEnd="171dp"
-                android:layout_marginRight="171dp"
                 android:layout_marginBottom="89dp"
                 android:layout_toEndOf="@+id/textView2"
                 android:layout_toRightOf="@+id/textView2"
@@ -148,7 +144,7 @@
                 android:layout_marginBottom="2dp"
                 android:layout_toEndOf="@+id/display_request_Date"
                 android:layout_toRightOf="@+id/display_request_Date"
-                android:text="Requested at:"
+                android:text="Request Date:"
                 android:textColor="#131010"
                 android:textSize="10sp" />
 
@@ -196,7 +192,7 @@
                 android:layout_marginLeft="17dp"
                 android:layout_marginTop="87dp"
                 android:layout_marginBottom="7dp"
-                android:text="Appointment date:"
+                android:text="Appointment Date:"
                 android:textColor="#050101"
                 android:textSize="18sp" />
 

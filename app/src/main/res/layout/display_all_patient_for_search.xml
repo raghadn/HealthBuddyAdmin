@@ -21,7 +21,7 @@
             android:id="@+id/button2"
             android:layout_width="10dp"
             android:layout_height="match_parent"
-            android:background="#794D71"
+            android:background="@color/purple"
             android:clickable="false" />
 
         <TextView
