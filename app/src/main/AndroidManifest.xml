@@ -23,7 +23,7 @@
         <activity
             android:name=".ViewRecordsTabbed"
             android:label="@string/title_activity_view_records_tabbed"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" ></activity>
         <activity android:name=".ViewRecord" />
         <activity android:name=".ViewVitalSigns" />
         <activity android:name=".ViewBloodTest" />

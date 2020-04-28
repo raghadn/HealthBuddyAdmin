@@ -87,15 +87,11 @@ public class Login extends AppCompatActivity {
         final String ID = adminID.getText().toString();
         final String password = adminPassword.getText().toString();
 
-        if (ID.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Please Enter Your ID", Toast.LENGTH_LONG).show();
-            adminLoginButton.setVisibility(View.VISIBLE);
-        } else
-        if (password.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Please Enter Your password", Toast.LENGTH_LONG).show();
+
+        if (checkFields(ID,password)==false) {
+            Toast.makeText(getApplicationContext(), "Please fill all fields", Toast.LENGTH_LONG).show();
             adminLoginButton.setVisibility(View.VISIBLE);
         } else {
-
 
             final DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
             firebaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -183,12 +179,9 @@ public class Login extends AppCompatActivity {
         final String ID = adminID.getText().toString();
         final String password = adminPassword.getText().toString();
 
-        if (ID.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Please Enter Your ID", Toast.LENGTH_LONG).show();
-            adminLoginButton.setVisibility(View.VISIBLE);
-        } else
-        if (password.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Please Enter Your password", Toast.LENGTH_LONG).show();
+
+        if (checkFields(ID,password)==false) {
+            Toast.makeText(getApplicationContext(), "Please fill all fields", Toast.LENGTH_LONG).show();
             adminLoginButton.setVisibility(View.VISIBLE);
         } else {
             if (ID.length() == 5 && !password.isEmpty()) {
@@ -293,5 +286,19 @@ public class Login extends AppCompatActivity {
 
         return IsDeactive[0];
     }
+
+    public boolean checkFields(String id,String password){
+        boolean flag=true;
+        if(id.isEmpty()||password.isEmpty()){
+            return false;
+        }
+        if(!id.matches("[0-9]+")) {
+            return false;
+        }
+
+        return flag;
+
+    }
+
 
 }
