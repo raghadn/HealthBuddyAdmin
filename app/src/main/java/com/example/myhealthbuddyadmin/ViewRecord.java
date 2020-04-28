@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,14 +22,14 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ViewRecord extends AppCompatActivity {
 
-    String recordID,hid,pid;
+    String recordID,hid,pid,doctorID;
     TextView doctorNameT,doctorsSpecialtyT, patientNameT,hospitalNameT,creationDate,creationTime,patientN,patientID,patientG;
     DatabaseReference recordRef, patientRef ,hospitalRef;
     TextView testDateT,noteT;
     Button attachmentView,done;
     BottomNavigationView Doctorbottomnav;
     ImageView edit;
-
+    String currentuser;
 
 
     @Override
@@ -47,7 +48,7 @@ edit= findViewById(R.id.editrecord);
         });
 
         recordID = getIntent().getExtras().get("recordID").toString();
-
+        currentuser= FirebaseAuth.getInstance().getCurrentUser().getUid();
         doctorNameT=findViewById(R.id.doctorName);
         doctorsSpecialtyT=findViewById(R.id.doctorsSpecialty);
         patientNameT=findViewById(R.id.patientName);
@@ -107,6 +108,12 @@ edit.setOnClickListener(new View.OnClickListener() {
                 doctorsSpecialty=dataSnapshot.child("doctorSpeciality").getValue().toString();
                 doctorsSpecialtyT.setText(doctorsSpecialty);
 
+                doctorID=dataSnapshot.child("did").getValue().toString();
+// for edit
+                if (currentuser.equals(doctorID)){
+                    System.out.println("true");
+                    edit.setVisibility(View.VISIBLE);
+                }
                 creationDate.setText(dataSnapshot.child("dateCreated").getValue().toString()+" at ");
                 creationTime.setText(dataSnapshot.child("timeCreated").getValue().toString());
                 hid=dataSnapshot.child("hospital").getValue().toString();
@@ -171,6 +178,7 @@ edit.setOnClickListener(new View.OnClickListener() {
 
             }
         });
+
 
     }
 

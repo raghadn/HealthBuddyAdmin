@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ViewBloodTest extends AppCompatActivity {
 
-    String recordID,hid,pid;
+    String recordID,hid,pid,did;
     TextView doctorNameT,doctorsSpecialtyT, patientNameT,hospitalNameT,creationDate,creationTime,patientN,patientID,patientG;
     DatabaseReference recordRef, patientRef ,hospitalRef;
     TextView testDateT,noteT;
@@ -37,14 +39,16 @@ public class ViewBloodTest extends AppCompatActivity {
     Button attachmentView,done;
     BottomNavigationView Doctorbottomnav;
     RecyclerView recyclerV;
-
+    ImageView edit;
+    String currentuser;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_blood_test);
-
+edit=findViewById(R.id.editbloodtest);
+        currentuser= FirebaseAuth.getInstance().getCurrentUser().getUid();
         Doctorbottomnav=findViewById(R.id.d_bottom_navigation);
         Doctorbottomnav.setSelectedItemId(R.id.d_nav_home);
         Doctorbottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -56,7 +60,18 @@ public class ViewBloodTest extends AppCompatActivity {
         });
 
         recordID = getIntent().getExtras().get("recordID").toString();
-
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent edit =new Intent(ViewBloodTest.this,EditBloodTest.class);
+                Bundle extras = new Bundle();
+                extras.putString("PatientKey", pid);
+                extras.putString("RecordID", recordID);
+                edit.putExtras(extras);
+                startActivity(edit);
+                finish();
+            }
+        });
         doctorNameT=findViewById(R.id.doctorName);
         doctorsSpecialtyT=findViewById(R.id.doctorsSpecialty);
         patientNameT=findViewById(R.id.patientName);
@@ -105,7 +120,12 @@ public class ViewBloodTest extends AppCompatActivity {
 
                 doctorsSpecialty=dataSnapshot.child("doctorSpeciality").getValue().toString();
                 doctorsSpecialtyT.setText(doctorsSpecialty);
-
+                did=dataSnapshot.child("did").getValue().toString();
+// for edit
+                if (currentuser.equals(did)){
+                    System.out.println("true");
+                    edit.setVisibility(View.VISIBLE);
+                }
                 creationDate.setText(dataSnapshot.child("dateCreated").getValue().toString()+" at ");
                 creationTime.setText(dataSnapshot.child("timeCreated").getValue().toString());
                 hid=dataSnapshot.child("hospital").getValue().toString();

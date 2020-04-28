@@ -261,14 +261,17 @@ public class EditXray extends AppCompatActivity {
         //No file OR one of fields are messing  except NOTE is optional
 
 
+        if (fileUri != null && !fileUri.equals(Uri.EMPTY)) {
+            loadingbar.setTitle("Uploading Record");
+            loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
+            loadingbar.show();
 
-        loadingbar.setTitle("Uploading Record");
-        loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
-        loadingbar.show();
-
-        recordIDٍ=getIntent().getExtras().get("RecordID").toString();
-        if (fileUri!=null)
+            recordIDٍ=getIntent().getExtras().get("RecordID").toString();
             StoreFile();
+        } else {
+            recordIDٍ=getIntent().getExtras().get("RecordID").toString();
+            saveRecord("");
+        }
     }
 
 

@@ -256,10 +256,17 @@ public class EditRecord extends AppCompatActivity{
 
         // try edit here
 
-        if (fileUri!=null){
-            StoreFile();
-        }
+        if (fileUri != null && !fileUri.equals(Uri.EMPTY)) {
+            loadingbar.setTitle("Uploading Record");
+            loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
+            loadingbar.show();
 
+            recordIDٍ=getIntent().getExtras().get("RecordID").toString();
+            StoreFile();
+        } else {
+            recordIDٍ=getIntent().getExtras().get("RecordID").toString();
+            saveRecord("");
+        }
 
 
 
@@ -323,70 +330,7 @@ public class EditRecord extends AppCompatActivity{
 
 
 
-    //done but need to check whether id exist
-    private String generateRecordID(String recordType) {
-        // check recordType to be implemented on development phase
-        if(recordType.equals("Prescription"))
-            recordType="1";
 
-        if(recordType.equals("BloodTest"))
-            recordType="2";
-
-        if(recordType.equals("XRay"))
-            recordType="3";
-
-        if(recordType.equals("VitalSigns"))
-            recordType="4";
-
-        if(recordType.equals("Record"))
-            recordType="5";
-
-
-
-        //String ID
-        String StrId = "";
-
-        // boolean variable indicate wither id exist in database or not
-        boolean exist=false ;
-
-        //random id
-        long id;
-
-        // to check id length
-        String test;
-
-        do {
-            // generate a random number between 0000-9999
-            //(max - min + 1) + min
-            Random random = new Random();
-            id = random.nextInt(99999999+1);
-
-            //convert id to string
-            test=id+"";
-
-            do {
-                if (test.length()<8) {
-                    //random Number<100000000 add zeros before the number
-                    test="0".concat(test);
-                }
-
-            }while(test.length()<8);
-
-
-            // add the health care facility digits
-            StrId=recordType.concat(test);
-
-		/*
-	       check if the number previously taken in database
-	       well be implemented on the development phase
-	       if ()
-	       exist = true
-		 */
-
-        }while(exist);
-
-        return StrId;
-    }
 
     private void showMessage(String message) {
 
@@ -442,50 +386,7 @@ public class EditRecord extends AppCompatActivity{
         }
     }
 
-    private void completeRequest(final String requestKey){
-        Calendar calfordate=Calendar.getInstance();
-        SimpleDateFormat currentDate=new SimpleDateFormat("dd-MMMM-yyyy");
-        String savecurrentdate=currentDate.format(calfordate.getTime());
 
-        Calendar calfortime=Calendar.getInstance();
-        SimpleDateFormat currentTime=new SimpleDateFormat("HH:mm");
-        String savecurrenttime=currentTime.format(calfortime.getTime());
-
-
-        Calendar calfordecDec=Calendar.getInstance();
-        SimpleDateFormat decTime=new SimpleDateFormat("dd/MM/yyyy");
-        final String Datecreated=decTime.format(calfordecDec.getTime());
-
-        final String randomname=savecurrentdate+savecurrenttime;
-
-        final DatabaseReference pendingRequest= FirebaseDatabase.getInstance().getReference().child("Requests").child("PendingRequests").child(requestKey);
-        final DatabaseReference completedRequest=FirebaseDatabase.getInstance().getReference().child("Requests").child("CompletedRequests");
-        pendingRequest.child("completion_date").setValue(Datecreated);
-        pendingRequest.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                completedRequest.child(requestKey+randomname).setValue(dataSnapshot.getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            pendingRequest.removeValue();
-                            Toast.makeText(getApplicationContext(), "Request completed", Toast.LENGTH_LONG).show();
-
-                        }
-                        else
-                            Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
     private void sendNotification(final String puid) {
 
         AsyncTask.execute(new Runnable() {

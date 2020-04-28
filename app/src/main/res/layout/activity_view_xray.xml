@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ViewXRay">
 
+
     <include
         android:id="@+id/viewHiveToolBar"
         layout="@layout/toolbar"
@@ -26,6 +27,17 @@
         app:layout_constraintEnd_toEndOf="@+id/viewHiveToolBar"
         app:layout_constraintStart_toStartOf="@+id/viewHiveToolBar"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/editxray"
+        android:layout_width="101dp"
+        android:layout_height="45dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/viewHiveToolBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/textView14"
+        app:srcCompat="@drawable/edit" />
 
     <ScrollView
         android:layout_width="0dp"

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ViewVitalSigns extends AppCompatActivity {
 
-    String recordID,hid,pid;
+    String recordID,hid,pid,did;
     TextView doctorNameT,doctorsSpecialtyT, patientNameT,hospitalNameT,creationDate,creationTime,patientN,patientID,patientG;
     DatabaseReference recordRef, patientRef ,hospitalRef;
     TextView testDateT,noteT;
@@ -29,13 +30,14 @@ public class ViewVitalSigns extends AppCompatActivity {
     Button attachmentView,done;
     BottomNavigationView Doctorbottomnav;
     ImageView edit;
-
+    String currentuser;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_vital_signs);
+        currentuser= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         Doctorbottomnav=findViewById(R.id.d_bottom_navigation);
         Doctorbottomnav.setSelectedItemId(R.id.d_nav_home);
@@ -120,7 +122,12 @@ edit=findViewById(R.id.editvital);
 
                 doctorsSpecialty=dataSnapshot.child("doctorSpeciality").getValue().toString();
                 doctorsSpecialtyT.setText(doctorsSpecialty);
-
+                did=dataSnapshot.child("did").getValue().toString();
+// for edit
+                if (currentuser.equals(did)){
+                    System.out.println("true");
+                    edit.setVisibility(View.VISIBLE);
+                }
                 creationDate.setText(dataSnapshot.child("dateCreated").getValue().toString()+" at ");
                 creationTime.setText(dataSnapshot.child("timeCreated").getValue().toString());
                 hid=dataSnapshot.child("hospital").getValue().toString();

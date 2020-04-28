@@ -455,6 +455,7 @@
         android:id="@+id/editvital"
         android:layout_width="45dp"
         android:layout_height="37dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/scrollView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.816"

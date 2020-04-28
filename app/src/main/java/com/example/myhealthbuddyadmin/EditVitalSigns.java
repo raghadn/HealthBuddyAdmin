@@ -249,9 +249,6 @@ public class EditVitalSigns extends AppCompatActivity {
 
     private void validateRecord() {
 
-        if (fileUri==null)
-            Toast.makeText(this, "Please add a file.", Toast.LENGTH_SHORT).show();
-
         findings=findingsT.getText().toString();
         impression=impressionT.getText().toString();
         note=noteT.getText().toString();
@@ -260,15 +257,18 @@ public class EditVitalSigns extends AppCompatActivity {
         //if there is a file then all fields are optional
         //No file OR one of fields are messing  except NOTE is optional
 
-
-
+        if (fileUri != null && !fileUri.equals(Uri.EMPTY)) {
             loadingbar.setTitle("Uploading Record");
             loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
             loadingbar.show();
 
             recordIDٍ=getIntent().getExtras().get("RecordID").toString();
-if (fileUri!=null)
             StoreFile();
+        } else {
+            recordIDٍ=getIntent().getExtras().get("RecordID").toString();
+            saveRecord("");
+        }
+
         }
 
 
