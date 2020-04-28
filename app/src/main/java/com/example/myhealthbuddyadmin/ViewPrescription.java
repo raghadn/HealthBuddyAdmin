@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,14 +27,14 @@ public class ViewPrescription extends AppCompatActivity {
     TextView medicationT,doseT,durationT,timeT,noteT,patientN,patientID,patientG;;
     Button attachmentView,done;
     BottomNavigationView Doctorbottomnav;
-
+    ImageView edit;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_prescription);
-
+edit=findViewById(R.id.editprescription);
         Doctorbottomnav=findViewById(R.id.d_bottom_navigation);
         Doctorbottomnav.setSelectedItemId(R.id.d_nav_home);
         Doctorbottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -45,7 +46,18 @@ public class ViewPrescription extends AppCompatActivity {
         });
 
         recordID = getIntent().getExtras().get("recordID").toString();
-
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent edit =new Intent(ViewPrescription.this,EditPrescription.class);
+                Bundle extras = new Bundle();
+                extras.putString("PatientKey", pid);
+                extras.putString("RecordID", recordID);
+                edit.putExtras(extras);
+                startActivity(edit);
+                finish();
+            }
+        });
         doctorNameT=findViewById(R.id.doctorName);
         doctorsSpecialtyT=findViewById(R.id.doctorsSpecialty);
         patientNameT=findViewById(R.id.patientName);

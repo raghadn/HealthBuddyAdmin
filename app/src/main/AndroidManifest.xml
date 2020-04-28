@@ -46,6 +46,7 @@
         <activity android:name=".EditRecord" />
         <activity android:name=".EditXray" />
         <activity android:name=".EditVitalSigns" />
+        <activity android:name=".EditPrescription" />
         <activity android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan"/>
         <activity
