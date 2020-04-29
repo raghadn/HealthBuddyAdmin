@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -18,6 +19,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,9 +65,9 @@ public class WritePrescription extends AppCompatActivity {
     private static final int Gallerypick=1;
     StorageReference storageReference;
     String recordIDٍ;
-
-
     ProgressDialog loadingbar;
+
+    ImageView hintbtn;
 
 
     @Override
@@ -92,6 +94,40 @@ public class WritePrescription extends AppCompatActivity {
         attachmentView=findViewById(R.id.attachmentView);
         b0=findViewById(R.id.button);
         b1=findViewById(R.id.button0);
+
+        hintbtn=findViewById(R.id.hintbtn);
+        hintbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(WritePrescription.this);
+                dialog.setContentView(R.layout.hintdialog);
+                dialog.setTitle("Prescription Requirements");
+                dialog.setCancelable(true);
+
+
+                Button cbutton = (Button) dialog.findViewById(R.id.done);
+                cbutton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                TextView hint = dialog.findViewById(R.id.hint);
+                hint.setText("Medication Name is required.");
+
+                TextView hint2 = dialog.findViewById(R.id.hint2);
+                hint2.setText("File -- All other fields optional.\n"+
+                        "No file -- All fields required \nexcept notes.");
+
+                dialog.show();
+            }
+        });
+
+
+
+
+
 
         //underline
         attachmentView.setPaintFlags(attachmentView.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);

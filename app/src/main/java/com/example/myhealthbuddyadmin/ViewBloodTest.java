@@ -103,6 +103,9 @@ edit=findViewById(R.id.editbloodtest);
                 //record info
                 String note;
 
+                testDateT.setText(dataSnapshot.child("testDate").getValue().toString());
+
+
                 if(dataSnapshot.hasChild("note")){
                     note=dataSnapshot.child("note").getValue().toString();
                     noteT.setText(note);
@@ -110,6 +113,18 @@ edit=findViewById(R.id.editbloodtest);
                     noteT.setVisibility(View.GONE);
                     findViewById(R.id.noteL).setVisibility(View.GONE);
                 }
+                //tests
+                if(dataSnapshot.hasChild("BloodTest")){
+                    //recycler view
+                    recyclerV=findViewById(R.id.recy);
+                    recyclerV.setHasFixedSize(true);
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());////?
+                    linearLayoutManager.setReverseLayout(true);
+                    linearLayoutManager.setStackFromEnd(true);
+                    recyclerV.setLayoutManager(linearLayoutManager);
+                    displayBloodTests();
+                }
+
 
 
                 //doctor who wrote this record

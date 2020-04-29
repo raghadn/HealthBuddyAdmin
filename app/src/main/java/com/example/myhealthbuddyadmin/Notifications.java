@@ -43,7 +43,7 @@ public class Notifications extends AppCompatActivity {
 
 
         Doctorbottomnav=findViewById(R.id.d_bottom_navigation);
-        Doctorbottomnav.setSelectedItemId(R.id.d_nav_home);
+        Doctorbottomnav.setSelectedItemId(R.id.d_nav_notification);
         Doctorbottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

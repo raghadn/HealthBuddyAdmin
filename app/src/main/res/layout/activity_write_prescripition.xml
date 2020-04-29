@@ -119,7 +119,7 @@
         android:layout_height="49dp"
         android:layout_margin="7dp"
         android:ems="10"
-        android:hint="Medication"
+        android:hint="Medication Name"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:inputType="textPersonName"
@@ -281,5 +281,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/submitRecord" />
+
+
+    <ImageView
+        android:id="@+id/hintbtn"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/ic_dialog_info"
+        android:layout_marginRight="20dp"
+        android:tint="@color/purple"
+        app:layout_constraintBottom_toBottomOf="@+id/viewHiveToolBar"
+        app:layout_constraintEnd_toEndOf="@+id/viewHiveToolBar"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
