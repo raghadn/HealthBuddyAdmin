@@ -145,12 +145,12 @@ public class CreateDoctor extends AppCompatActivity {
     // method adding thr created account to database
     private void CreateHealthcareProviderAccount(final String email , final String license, final String ID , final String Name , final String Phone, final String Gender, final String Specialty) {
 
-        if(Phone.length()>10 || Phone.length()<10 || !Phone.substring(0,2).equals("05") || !Phone.matches("[0-9]+")){
+        if(checkPhone(Phone)==false){
             showMessage("Please enter a valid phone number");
             phone.setError("Please enter a valid phone number starts with 05 ");
             phone.requestFocus();
             createbtn.setVisibility(View.VISIBLE);
-        } if(license.length()>10 || license.length()<10 || !license.matches("[0-9]+")){
+        } if(checkLicense(license)==false){
             password.setError("Please enter a valid license number ");
             password.requestFocus();
             createbtn.setVisibility(View.VISIBLE);
@@ -197,6 +197,30 @@ public class CreateDoctor extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), message,Toast.LENGTH_LONG).show();
     }
+
+    public boolean checkPhone(String phoneNumber){
+        boolean flag=true;
+
+        if(phoneNumber.length()>10 || phoneNumber.length()<10 || !phoneNumber.substring(0,2).equals("05") || !phoneNumber.matches("[0-9]+")){
+            flag=false;
+
+        }
+        return flag;
+
+    }
+
+    public boolean checkLicense(String license){
+        boolean flag=true;
+
+        if(license.length()>10 || license.length()<10 || !license.matches("[0-9]+")){
+            flag=false;
+
+        }
+        return flag;
+
+    }
+
+
 
 
 
