@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApiNotAvailableException;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,10 +36,10 @@ public class PhoneAuth extends AppCompatActivity {
         setContentView(R.layout.activity_phone_auth);
 
          user = FirebaseAuth.getInstance().getCurrentUser();
-        PhCode= findViewById(R.id.phonecode);
+        PhCode= findViewById(R.id.forgotID);
         sendVerificationCode();
 
-        authBtn= findViewById(R.id.phbtn);
+        authBtn= findViewById(R.id.forgotsub);
         authBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

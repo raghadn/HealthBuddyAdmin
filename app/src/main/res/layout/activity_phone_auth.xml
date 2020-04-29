@@ -6,57 +6,87 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     tools:context=".PhoneAuth">
-
     <include
-        android:id="@+id/viewHiveToolBar"
+        android:id="@+id/viewRequestToolbar"
         layout="@layout/toolbar"
-        android:layout_width="413dp"
-        android:layout_height="82dp" />
-
-    <Button
-        android:id="@+id/phbtn"
-        android:layout_width="286dp"
-        android:layout_height="53dp"
-        android:background="@drawable/login_btn"
-        android:text="Auth"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/phonecode"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Phone Verfication"
+        android:textColor="@color/purple"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewRequestToolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/viewRequestToolbar" />
+
+
+    <Button
+        android:id="@+id/forgotsub"
         android:layout_width="286dp"
         android:layout_height="53dp"
-        android:layout_marginBottom="40dp"
-        android:ems="10"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/buttonshape"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/forgotID" />
+
+
+
+    <EditText
+        android:id="@+id/forgotID"
+        android:layout_width="286dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/login_style"
-        android:inputType="textPersonName"
+        android:cursorVisible="false"
+        android:ems="10"
+        android:textColor="@color/black"
         android:hint="Code"
-        app:layout_constraintBottom_toTopOf="@+id/phbtn"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
     <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView18"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Phone Verfication"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/viewHiveToolBar"
-        app:layout_constraintEnd_toEndOf="@+id/viewHiveToolBar"
-        app:layout_constraintStart_toStartOf="@+id/viewHiveToolBar"
-        app:layout_constraintTop_toTopOf="@+id/viewHiveToolBar" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Please check your phone for a veefication code"
-        app:layout_constraintBottom_toTopOf="@+id/phonecode"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="Verification code was sent to your phone number."
+        android:textColor="@color/purple"
+        android:textSize="22dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewHiveToolBar" />
+        app:layout_constraintTop_toBottomOf="@+id/viewRequestToolbar" />
+
+
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Please enter the code received below."
+        android:textColor="@color/black"
+        android:textSize="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

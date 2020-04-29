@@ -129,9 +129,45 @@ public class EditPrescription extends AppCompatActivity {
 
             }
         });
+        recordIDٍ=getIntent().getExtras().get("RecordID").toString();
+        recordRef.child(recordIDٍ).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                //record info
+                String medication,dose,duration,time,note;
+                if(dataSnapshot.hasChild("medication")){
+                    medication=dataSnapshot.child("medication").getValue().toString();
+                    medicationT.setText(medication);
+                }
 
+                if(dataSnapshot.hasChild("dose")){
+                    dose=dataSnapshot.child("dose").getValue().toString();
+                    doseT.setText(dose);
+                }
 
+                if(dataSnapshot.hasChild("duration")){
+                    duration=dataSnapshot.child("duration").getValue().toString();
+                    durationT.setText(duration);
+                }
+
+                if(dataSnapshot.hasChild("timeOfPrescription")){
+                    time=dataSnapshot.child("timeOfPrescription").getValue().toString();
+                    timeT.setText(time);
+                }
+
+                if(dataSnapshot.hasChild("note")){
+                    note=dataSnapshot.child("note").getValue().toString();
+                    noteT.setText(note);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         //addAttachment
@@ -237,10 +273,9 @@ public class EditPrescription extends AppCompatActivity {
                     loadingbar.setMessage("Please wait while we are uploading your record to the patient.");
                     loadingbar.show();
 
-                    recordIDٍ=getIntent().getExtras().get("RecordID").toString();
+
                     StoreFile();
                 } else {
-                    recordIDٍ=getIntent().getExtras().get("RecordID").toString();
                     saveRecord("");
                 }
 
