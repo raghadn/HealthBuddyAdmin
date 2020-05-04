@@ -430,7 +430,12 @@ public class WritePrescription extends AppCompatActivity {
                                 }
                                 sendNotification(pid);
                                 Toast.makeText(WritePrescription.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
+
                                 loadingbar.dismiss();
+
+
+
+
                                 Intent redirect = new Intent(WritePrescription.this,ViewRecordsTabbed.class);
                                 redirect.putExtra("PatientKey",pid);
                                 redirect.putExtra("type",1);

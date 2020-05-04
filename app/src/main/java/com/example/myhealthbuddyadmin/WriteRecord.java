@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -23,6 +24,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,6 +79,8 @@ public class WriteRecord extends AppCompatActivity {
 
     ProgressDialog loadingbar;
 
+    ImageView hintbtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +89,35 @@ public class WriteRecord extends AppCompatActivity {
         loadingbar = new ProgressDialog(this);
 
         type="Record";
+
+        hintbtn=findViewById(R.id.hintbtn);
+        hintbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(WriteRecord.this);
+                dialog.setContentView(R.layout.hintdialog);
+                dialog.setTitle("Record Requirements");
+                dialog.setCancelable(true);
+
+
+                Button cbutton = (Button) dialog.findViewById(R.id.done);
+                cbutton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                TextView hint = dialog.findViewById(R.id.hint);
+                hint.setText(" Test date and file required.");
+
+
+                TextView hint2 = dialog.findViewById(R.id.hint2);
+                hint2.setText("Notes optional.");
+
+                dialog.show();
+            }
+        });
 
         noteT=findViewById(R.id.note);
 
@@ -100,6 +133,22 @@ public class WriteRecord extends AppCompatActivity {
 
                 DatePickerDialog dialog=new DatePickerDialog(WriteRecord.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDatasetListner,year,month,day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                dialog.show();
+            }
+        });
+
+        dateV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal=Calendar.getInstance();
+                int year=cal.get(Calendar.YEAR);
+                int month=cal.get(Calendar.MONTH);
+                int day=cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog=new DatePickerDialog(WriteRecord.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDatasetListner,year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
                 dialog.show();
             }
         });

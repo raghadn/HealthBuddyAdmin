@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,6 +84,8 @@ public class WriteBloodTest extends AppCompatActivity{
     ProgressDialog loadingbar;
     CardView card;
 
+    ImageView hintbtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +101,36 @@ public class WriteBloodTest extends AppCompatActivity{
         attachmentView=findViewById(R.id.attachmentView);
         b0=findViewById(R.id.button);
         b1=findViewById(R.id.button0);
+
+        hintbtn=findViewById(R.id.hintbtn);
+        hintbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(WriteBloodTest.this);
+                dialog.setContentView(R.layout.hintdialog);
+                dialog.setTitle("Blood Test Requirements");
+                dialog.setCancelable(true);
+
+
+                Button cbutton = (Button) dialog.findViewById(R.id.done);
+                cbutton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                TextView hint = dialog.findViewById(R.id.hint);
+                hint.setText("Test Date is required");
+
+                TextView hint2 = dialog.findViewById(R.id.hint2);
+                hint2.setText("Test Added -- File optional.\n"+
+                        "No Tests -- File required.");
+
+                dialog.show();
+            }
+        });
+
 
         //underline
         attachmentView.setPaintFlags(attachmentView.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
@@ -228,6 +261,22 @@ public class WriteBloodTest extends AppCompatActivity{
 
                 DatePickerDialog dialog=new DatePickerDialog(WriteBloodTest.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDatasetListner,year,month,day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                dialog.show();
+            }
+        });
+
+        dateV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal=Calendar.getInstance();
+                int year=cal.get(Calendar.YEAR);
+                int month=cal.get(Calendar.MONTH);
+                int day=cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog=new DatePickerDialog(WriteBloodTest.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDatasetListner,year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
                 dialog.show();
             }
         });
