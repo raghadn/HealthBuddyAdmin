@@ -148,6 +148,11 @@ public class ViewRecordsTabbed extends AppCompatActivity {
                 Intent intentsearch=new Intent(ViewRecordsTabbed.this, SearchForPatient.class);
                 startActivity(intentsearch);
                 break;
+
+            case R.id.d_nav_notification:
+                Intent intentNotifications = new Intent(ViewRecordsTabbed.this, Notifications.class);
+                startActivity(intentNotifications);
+                break;
         }
     }
 }

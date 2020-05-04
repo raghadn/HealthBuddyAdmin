@@ -199,6 +199,11 @@ edit.setOnClickListener(new View.OnClickListener() {
                 startActivity(intentNotifications);
                 break;
 
+            case R.id.d_nav_home:
+                Intent intenthome = new Intent(ViewRecord.this, DoctorMainActivity.class);
+                startActivity(intenthome);
+                break;
+
 
         }
 

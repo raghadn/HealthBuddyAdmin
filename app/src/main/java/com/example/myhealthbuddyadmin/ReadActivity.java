@@ -43,7 +43,6 @@ public class ReadActivity extends AppCompatActivity {
     DatabaseReference mData;
     StorageReference storageReference;
     StorageReference ref;
-
     BottomNavigationView Doctorbottomnav;
 
     @Override

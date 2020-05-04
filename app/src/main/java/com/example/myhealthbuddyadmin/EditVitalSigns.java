@@ -100,6 +100,7 @@ public class EditVitalSigns extends AppCompatActivity {
 
                 DatePickerDialog dialog=new DatePickerDialog(EditVitalSigns.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDatasetListner,year,month,day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
                 dialog.show();
             }
         });
@@ -310,11 +311,17 @@ if (!findings.isEmpty())
                                 sendNotification(pid);
                                 Toast.makeText(EditVitalSigns.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
+                                Intent Vital=new Intent(EditVitalSigns.this,DoctorTabbed.class);
+                                Vital.putExtra("type",4);
+                                startActivity(Vital);
                                 finish();
                             }
                             else {
                                 Toast.makeText(EditVitalSigns.this, "Error", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
+                                Intent Vital=new Intent(EditVitalSigns.this,DoctorTabbed.class);
+                                Vital.putExtra("type",4);
+                                startActivity(Vital);
                                 finish();
                             }
                         }

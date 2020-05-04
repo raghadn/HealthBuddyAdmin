@@ -100,6 +100,7 @@ public class EditXray extends AppCompatActivity {
 
                 DatePickerDialog dialog=new DatePickerDialog(EditXray.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDatasetListner,year,month,day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
                 dialog.show();
             }
         });
@@ -313,11 +314,17 @@ public class EditXray extends AppCompatActivity {
                                 sendNotification(pid);
                                 Toast.makeText(EditXray.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
+                                Intent XRay=new Intent(EditXray.this,DoctorTabbed.class);
+                                XRay.putExtra("type",3);
+                                startActivity(XRay);
                                 finish();
                             }
                             else {
                                 Toast.makeText(EditXray.this, "Error", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
+                                Intent XRay=new Intent(EditXray.this,DoctorTabbed.class);
+                                XRay.putExtra("type",3);
+                                startActivity(XRay);
                                 finish();
                             }
                         }

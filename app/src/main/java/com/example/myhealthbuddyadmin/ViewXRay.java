@@ -209,6 +209,10 @@ edit=findViewById(R.id.editxray);
                 Intent intentNotifications = new Intent(ViewXRay.this, Notifications.class);
                 startActivity(intentNotifications);
                 break;
+            case R.id.d_nav_home:
+                Intent intentHome= new Intent(ViewXRay.this, DoctorMainActivity.class);
+                startActivity(intentHome);
+                break;
 
 
         }

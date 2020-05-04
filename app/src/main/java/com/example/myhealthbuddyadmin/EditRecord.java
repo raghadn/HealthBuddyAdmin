@@ -313,11 +313,17 @@ public class EditRecord extends AppCompatActivity{
                                 sendNotification(pid);
                                 Toast.makeText(EditRecord.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
+                                Intent records=new Intent(EditRecord.this,DoctorTabbed.class);
+                                records.putExtra("type",5);
+                                startActivity(records);
                                 finish();
                             }
                             else {
                                 Toast.makeText(EditRecord.this, "Error", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
+                                Intent records=new Intent(EditRecord.this,DoctorTabbed.class);
+                                records.putExtra("type",5);
+                                startActivity(records);
                                 finish();
                             }
                         }

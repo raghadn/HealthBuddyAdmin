@@ -228,6 +228,10 @@ edit=findViewById(R.id.editprescription);
                 Intent intentNotifications = new Intent(ViewPrescription.this, Notifications.class);
                 startActivity(intentNotifications);
                 break;
+            case R.id.d_nav_home:
+                Intent intenthome = new Intent(ViewPrescription.this, DoctorMainActivity.class);
+                startActivity(intenthome);
+                break;
 
 
         }

@@ -95,8 +95,8 @@ edit=findViewById(R.id.editbloodtest);
 
 
 
-        recordRef = FirebaseDatabase.getInstance().getReference().child("Records").child(recordID);
-        recordRef.addValueEventListener(new ValueEventListener() {
+
+        FirebaseDatabase.getInstance().getReference().child("Records").child(recordID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -331,6 +331,10 @@ edit=findViewById(R.id.editbloodtest);
             case R.id.d_nav_notification:
                 Intent intentNotifications = new Intent(ViewBloodTest.this, Notifications.class);
                 startActivity(intentNotifications);
+                break;
+            case R.id.d_nav_home:
+                Intent intenthome = new Intent(ViewBloodTest.this, DoctorMainActivity.class);
+                startActivity(intenthome);
                 break;
 
 

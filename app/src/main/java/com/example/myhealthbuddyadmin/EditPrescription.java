@@ -355,12 +355,19 @@ public class EditPrescription extends AppCompatActivity {
                                 sendNotification(pid);
                                 Toast.makeText(EditPrescription.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
+                                Intent prescription=new Intent(EditPrescription.this,DoctorTabbed.class);
+                                prescription.putExtra("type",1);
+                                startActivity(prescription);
                                 finish();
+
 
                             }
                             else {
                                 Toast.makeText(EditPrescription.this, "Error", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
+                                Intent prescription=new Intent(EditPrescription.this,DoctorTabbed.class);
+                                prescription.putExtra("type",1);
+                                startActivity(prescription);
                                 finish();
                             }
                         }

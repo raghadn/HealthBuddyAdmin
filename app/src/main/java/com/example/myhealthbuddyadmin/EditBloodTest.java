@@ -227,6 +227,7 @@ public class EditBloodTest extends AppCompatActivity{
 
                 DatePickerDialog dialog=new DatePickerDialog(EditBloodTest.this,android.R.style.Theme_DeviceDefault_Dialog_MinWidth,mDatasetListner,year,month,day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
                 dialog.show();
             }
         });
@@ -337,9 +338,12 @@ public class EditBloodTest extends AppCompatActivity{
                         }
 
                         sendNotification(pid);
-
-                        finish();
                         Toast.makeText(EditBloodTest.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
+                        Intent BloodTest=new Intent(EditBloodTest.this,DoctorTabbed.class);
+                        BloodTest.putExtra("type",2);
+                        startActivity(BloodTest);
+                        finish();
+
                     }
                 }
 
@@ -361,6 +365,9 @@ public class EditBloodTest extends AppCompatActivity{
                         switch(which){
                             case DialogInterface.BUTTON_POSITIVE:
                                 recordRef.child(recordIDٍ).removeValue();
+                                Intent BloodTest=new Intent(EditBloodTest.this,DoctorTabbed.class);
+                                BloodTest.putExtra("type",2);
+                                startActivity(BloodTest);
                                 finish();
                                 break;
 

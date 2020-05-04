@@ -211,6 +211,10 @@ edit=findViewById(R.id.editvital);
                 Intent intentNotifications = new Intent(ViewVitalSigns.this, Notifications.class);
                 startActivity(intentNotifications);
                 break;
+            case R.id.d_nav_home:
+                Intent intenthome = new Intent(ViewVitalSigns.this, DoctorMainActivity.class);
+                startActivity(intenthome);
+                break;
 
 
         }
