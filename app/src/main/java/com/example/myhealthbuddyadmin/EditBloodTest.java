@@ -59,7 +59,7 @@ import java.util.Scanner;
 public class EditBloodTest extends AppCompatActivity{
 
     EditText noteT;
-    TextView patientN,patientID,dateV,testsLabel,patientG;
+    TextView patientN,patientID,dateV,testsLabel,patientG,pulldate;
     Button submitRecord,cancel,addAttachment;
     Button attachmentView, deleteAttachment, b0,b1,add;
 
@@ -98,7 +98,7 @@ public class EditBloodTest extends AppCompatActivity{
         attachmentView=findViewById(R.id.attachmentView);
         b0=findViewById(R.id.button);
         b1=findViewById(R.id.button0);
-
+pulldate=findViewById(R.id.exdate);
         //underline
         attachmentView.setPaintFlags(attachmentView.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
         deleteAttachment.setPaintFlags(deleteAttachment.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
@@ -145,9 +145,24 @@ public class EditBloodTest extends AppCompatActivity{
 
             }
         });
-
-        //first create record with general information
+// retrieve info
         recordIDٍ=getIntent().getExtras().get("RecordID").toString();
+        recordRef.child(recordIDٍ).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String date= dataSnapshot.child("testDate").getValue().toString();
+                pulldate.setText(date);
+                String adnote=dataSnapshot.child("note").getValue().toString();
+                noteT.setText(adnote);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        //first create record with general information
+
         saveRecord("");
 
 
@@ -356,7 +371,7 @@ public class EditBloodTest extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
-                builder.setTitle("Cancel Record");
+                builder.setTitle("Cancel Edit");
                 builder.setMessage("Are you sure you want to cancel?");
                 // Set click listener for alert dialog buttons
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -364,10 +379,6 @@ public class EditBloodTest extends AppCompatActivity{
                     public void onClick(DialogInterface dialog, int which) {
                         switch(which){
                             case DialogInterface.BUTTON_POSITIVE:
-                                recordRef.child(recordIDٍ).removeValue();
-                                Intent BloodTest=new Intent(EditBloodTest.this,DoctorTabbed.class);
-                                BloodTest.putExtra("type",2);
-                                startActivity(BloodTest);
                                 finish();
                                 break;
 
