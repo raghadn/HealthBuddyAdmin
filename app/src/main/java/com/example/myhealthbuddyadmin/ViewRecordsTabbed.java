@@ -31,11 +31,29 @@ public class ViewRecordsTabbed extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_records_tabbed);
 
+        BottomNavigationView bottomnav;
+        bottomnav = (BottomNavigationView) findViewById(R.id.d_bottom_navigation);
+        bottomnav.setSelectedItemId(R.id.d_nav_search);
+        bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                UserMenuSelector(menuItem);
+                return false;
+            }
+        });
+
         Noresult=findViewById(R.id.NoResult);
         PageTitel=findViewById(R.id.title);
 
+        write=findViewById(R.id.write);
 
-        write=findViewById(R.id.writeTest);
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter( getSupportFragmentManager());
+
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        setUpViewPager(viewPager);
+
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
 
 
         final int type=(int)getIntent().getExtras().get("type");
@@ -97,30 +115,17 @@ public class ViewRecordsTabbed extends AppCompatActivity {
             }
         });
 
-        BottomNavigationView bottomnav;
-        bottomnav = (BottomNavigationView) findViewById(R.id.d_bottom_navigation);
-        bottomnav.setSelectedItemId(R.id.d_nav_search);
-        bottomnav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                UserMenuSelector(menuItem);
-                return false;
-            }
-        });
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter( getSupportFragmentManager());
 
-        ViewPager viewPager = findViewById(R.id.view_pager);
-        setUpViewPager(viewPager);
 
-        TabLayout tabs = findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
+
+
 
 
     }
 
     private void setUpViewPager(ViewPager viewPager){
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter( getSupportFragmentManager());
-        sectionsPagerAdapter.addFragment(new MyRecordsFragment(),"My Records");
+        sectionsPagerAdapter.addFragment(new MyRecordsFragment(),"Written Records");
         sectionsPagerAdapter.addFragment(new SharedRecordsFragment(),"Shared Records");
         viewPager.setAdapter(sectionsPagerAdapter);
     }
