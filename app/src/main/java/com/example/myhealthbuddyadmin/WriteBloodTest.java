@@ -342,9 +342,13 @@ public class WriteBloodTest extends AppCompatActivity{
                             completeRequest(requestKey);
                         }
                         sendNotification(pid);
-
-                        finish();
                         Toast.makeText(WriteBloodTest.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
+                        Intent redirect = new Intent(WriteBloodTest.this,ViewRecordsTabbed.class);
+                        redirect.putExtra("PatientKey",pid);
+                        redirect.putExtra("type",2);
+                        startActivity(redirect);
+                        finish();
+
                     }
                 }
 
@@ -366,6 +370,10 @@ public class WriteBloodTest extends AppCompatActivity{
                         switch(which){
                             case DialogInterface.BUTTON_POSITIVE:
                                 recordRef.child(recordIDٍ).removeValue();
+                                Intent redirect = new Intent(WriteBloodTest.this,ViewRecordsTabbed.class);
+                                redirect.putExtra("PatientKey",pid);
+                                redirect.putExtra("type",2);
+                                startActivity(redirect);
                                 finish();
                                 break;
 

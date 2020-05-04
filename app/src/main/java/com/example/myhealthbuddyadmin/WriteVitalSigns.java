@@ -227,6 +227,10 @@ public class WriteVitalSigns extends AppCompatActivity {
                         switch(which){
                             case DialogInterface.BUTTON_POSITIVE:
                                 // User clicked the yes button
+                                Intent redirect = new Intent(WriteVitalSigns.this,ViewRecordsTabbed.class);
+                                redirect.putExtra("PatientKey",pid);
+                                redirect.putExtra("type",4);
+                                startActivity(redirect);
                                 finish();
                                 break;
 
@@ -316,11 +320,19 @@ public class WriteVitalSigns extends AppCompatActivity {
                                 sendNotification(pid);
                                 Toast.makeText(WriteVitalSigns.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
+                                Intent redirect = new Intent(WriteVitalSigns.this,ViewRecordsTabbed.class);
+                                redirect.putExtra("PatientKey",pid);
+                                redirect.putExtra("type",4);
+                                startActivity(redirect);
                                 finish();
                             }
                             else {
                                 Toast.makeText(WriteVitalSigns.this, "Error", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
+                                Intent redirect = new Intent(WriteVitalSigns.this,ViewRecordsTabbed.class);
+                                redirect.putExtra("PatientKey",pid);
+                                redirect.putExtra("type",4);
+                                startActivity(redirect);
                                 finish();
                             }
                         }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,7 +77,7 @@ public class Notifications extends AppCompatActivity {
 
     }
 
-    private void displayNotifications(String currentDoctorid) {
+    private void displayNotifications(final String currentDoctorid) {
 
         notificationList=(RecyclerView)findViewById(R.id.NotificationList);
         notificationList.setHasFixedSize(true);
@@ -86,41 +87,61 @@ public class Notifications extends AppCompatActivity {
         notificationList.setLayoutManager(linearLayoutManager);
 
 
-        Query query =requestsRef.child("PendingRequests").orderByChild("doctor_id").startAt(currentDoctorid).endAt(currentDoctorid+"\uf8ff");
+        //Query query =requestsRef.child("PendingRequests").orderByChild("doctor_id").startAt(currentDoctorid).endAt(currentDoctorid+"\uf8ff");
+
+        Query query =requestsRef.child("PendingRequests").orderByChild("oreder_date");
 
         FirebaseRecyclerAdapter<DoctorRequests,NotificationsViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<DoctorRequests, NotificationsViewHolder>(DoctorRequests.class,R.layout.display_notifications,NotificationsViewHolder.class,query) {
             @Override
             protected void populateViewHolder(final NotificationsViewHolder notificationsViewHolder, DoctorRequests doctorRequests, int i) {
-                notificationsViewHolder.setPatient_id(doctorRequests.getPatient_id());
-                notificationsViewHolder.setType(doctorRequests.getType());
-                notificationsViewHolder.setDate(doctorRequests.getDate());
-                notificationsViewHolder.setRequest_date(doctorRequests.getRequest_date());
 
-                PatientRef = FirebaseDatabase.getInstance().getReference().child("Patients");
-                PatientRef.child(doctorRequests.getPatient_uid()).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.exists()){
+                final ViewGroup.LayoutParams params = notificationsViewHolder.mView.getLayoutParams();
+                notificationsViewHolder.mView.setVisibility(View.GONE);
 
-                        String Patient_name =dataSnapshot.child("name").getValue().toString();
+                params.height = 0;
+                params.width = 0;
 
-                        notificationsViewHolder.setPatientName(Patient_name);}
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
+                if(doctorRequests.getDoctor_id().equals(currentDoctorid)) {
+                    notificationsViewHolder.mView.setVisibility(View.VISIBLE);
+                        params.width = 1000;
+                        params.height = 400;
 
-                final String RequestKey = getRef(i).getKey();
-                notificationsViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent ClickRequest = new Intent(Notifications.this, ViewPatientRequest.class);
-                        ClickRequest.putExtra("RequestKey",RequestKey);
-                        startActivity(ClickRequest);
-                    }
-                });
+
+                    notificationsViewHolder.setPatient_id(doctorRequests.getPatient_id());
+                    notificationsViewHolder.setType(doctorRequests.getType());
+                    notificationsViewHolder.setDate(doctorRequests.getDate());
+                    notificationsViewHolder.setRequest_date(doctorRequests.getRequest_date());
+
+                    PatientRef = FirebaseDatabase.getInstance().getReference().child("Patients");
+                    PatientRef.child(doctorRequests.getPatient_uid()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+
+                                String Patient_name = dataSnapshot.child("name").getValue().toString();
+
+                                notificationsViewHolder.setPatientName(Patient_name);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+
+                    final String RequestKey = getRef(i).getKey();
+                    notificationsViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent ClickRequest = new Intent(Notifications.this, ViewPatientRequest.class);
+                            ClickRequest.putExtra("RequestKey", RequestKey);
+                            startActivity(ClickRequest);
+                        }
+                    });
+                }
+
+
 
             }
 

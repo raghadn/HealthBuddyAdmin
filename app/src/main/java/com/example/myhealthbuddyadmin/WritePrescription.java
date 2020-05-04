@@ -234,6 +234,10 @@ public class WritePrescription extends AppCompatActivity {
                         switch(which){
                             case DialogInterface.BUTTON_POSITIVE:
                                 // User clicked the yes button
+                                Intent redirect = new Intent(WritePrescription.this,ViewRecordsTabbed.class);
+                                redirect.putExtra("PatientKey",pid);
+                                redirect.putExtra("type",1);
+                                startActivity(redirect);
                                 finish();
                                 break;
 
@@ -427,12 +431,20 @@ public class WritePrescription extends AppCompatActivity {
                                 sendNotification(pid);
                                 Toast.makeText(WritePrescription.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
+                                Intent redirect = new Intent(WritePrescription.this,ViewRecordsTabbed.class);
+                                redirect.putExtra("PatientKey",pid);
+                                redirect.putExtra("type",1);
+                                startActivity(redirect);
                                 finish();
 
                             }
                             else {
                                 Toast.makeText(WritePrescription.this, "Error", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
+                                Intent redirect = new Intent(WritePrescription.this,ViewRecordsTabbed.class);
+                                redirect.putExtra("PatientKey",pid);
+                                redirect.putExtra("type",1);
+                                startActivity(redirect);
                                 finish();
                             }
                         }

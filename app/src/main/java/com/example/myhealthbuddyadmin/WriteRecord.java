@@ -225,6 +225,10 @@ public class WriteRecord extends AppCompatActivity {
                         switch(which){
                             case DialogInterface.BUTTON_POSITIVE:
                                 // User clicked the yes button
+                                Intent redirect = new Intent(WriteRecord.this,ViewRecordsTabbed.class);
+                                redirect.putExtra("PatientKey",pid);
+                                redirect.putExtra("type",5);
+                                startActivity(redirect);
                                 finish();
                                 break;
 
@@ -308,11 +312,19 @@ public class WriteRecord extends AppCompatActivity {
                                 sendNotification(pid);
                                 Toast.makeText(WriteRecord.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
+                                Intent redirect = new Intent(WriteRecord.this,ViewRecordsTabbed.class);
+                                redirect.putExtra("PatientKey",pid);
+                                redirect.putExtra("type",5);
+                                startActivity(redirect);
                                 finish();
                             }
                             else {
                                 Toast.makeText(WriteRecord.this, "Error", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
+                                Intent redirect = new Intent(WriteRecord.this,ViewRecordsTabbed.class);
+                                redirect.putExtra("PatientKey",pid);
+                                redirect.putExtra("type",5);
+                                startActivity(redirect);
                                 finish();
                             }
                         }

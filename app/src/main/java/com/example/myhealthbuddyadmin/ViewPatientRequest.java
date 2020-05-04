@@ -210,7 +210,7 @@ public class ViewPatientRequest extends AppCompatActivity {
 
         final String randomname=savecurrentdate+savecurrenttime;
         AlertDialog.Builder altb= new AlertDialog.Builder(ViewPatientRequest.this);
-        altb.setMessage("Are you sure you want to cancel and delete the request?").setCancelable(false)
+        altb.setMessage("Are you sure you want to decline and delete the request?").setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -224,7 +224,7 @@ public class ViewPatientRequest extends AppCompatActivity {
                                         if(task.isSuccessful()){
                                             String puid=dataSnapshot.child("patient_uid").getValue().toString();
                                         pendingRequest.removeValue();
-                                        Toast.makeText(getApplicationContext(), "Request canceled", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "Request declined", Toast.LENGTH_LONG).show();
                                             sendNotification(puid);
                                             sendUserToNotificationPage();
 
@@ -254,7 +254,7 @@ public class ViewPatientRequest extends AppCompatActivity {
                 });
 
         AlertDialog alertDialog=altb.create();
-        alertDialog.setTitle("Cancel Request");
+        alertDialog.setTitle("Decline Request");
         alertDialog.show();
 
 
