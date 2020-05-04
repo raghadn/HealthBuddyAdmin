@@ -169,6 +169,7 @@ public class ViewBloodTest extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         hospitalNameT.setText(dataSnapshot.child("Name").getValue().toString());
+
                     }
 
                     @Override
