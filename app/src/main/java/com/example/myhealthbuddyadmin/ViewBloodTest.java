@@ -216,7 +216,7 @@ edit=findViewById(R.id.editbloodtest);
     }//onc
 
     private void displayBloodTests() {
-        final Query query = recordRef.child(recordID).child("BloodTest");
+        final Query query = recordRef.child("BloodTest");
         FirebaseRecyclerAdapter<btinfo,WriteBloodTest.viewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<btinfo, WriteBloodTest.viewHolder>(
                         btinfo.class,
@@ -249,6 +249,7 @@ edit=findViewById(R.id.editbloodtest);
                             viewHolder.colorbtn.setBackgroundColor(Color.parseColor("#CA0000"));
                         }
 
+                        viewHolder.del.setVisibility(View.INVISIBLE);
 
                         viewHolder.del.setOnClickListener(new View.OnClickListener() {
                             @Override
