@@ -380,16 +380,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
             case R.id.drawer_logout:
-                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                firebaseAuth.signOut();
-                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                if (firebaseUser == null)
-                    startActivity(new Intent(MainActivity.this, Login.class));
+                Logout();
                 break;
 
 
         }
         return false;
+    }
+
+    private void Logout() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signOut();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser == null)
+            startActivity(new Intent(MainActivity.this, Login.class));
     }
 
 

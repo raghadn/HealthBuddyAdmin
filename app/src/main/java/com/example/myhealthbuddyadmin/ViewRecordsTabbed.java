@@ -5,21 +5,17 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.myhealthbuddyadmin.ui.main.SectionsPagerAdapter;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class ViewRecordsTabbed extends AppCompatActivity {
 
@@ -45,7 +41,7 @@ public class ViewRecordsTabbed extends AppCompatActivity {
         Noresult=findViewById(R.id.NoResult);
         PageTitel=findViewById(R.id.title);
 
-        write=findViewById(R.id.write);
+        write=findViewById(R.id.writeTest);
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter( getSupportFragmentManager());
 
@@ -144,7 +140,7 @@ public class ViewRecordsTabbed extends AppCompatActivity {
                 break;
 
             case R.id.d_nav_profile:
-                Intent intentrequest=new Intent(ViewRecordsTabbed.this, DoctorProfile.class);
+                Intent intentrequest=new Intent(ViewRecordsTabbed.this, HCP_Profile.class);
                 startActivity(intentrequest);
                 break;
 

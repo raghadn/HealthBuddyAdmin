@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -204,7 +203,7 @@ edit=findViewById(R.id.editvital);
                 break;
 
             case R.id.d_nav_profile:
-                Intent intentProfile = new Intent(ViewVitalSigns.this, DoctorProfile.class);
+                Intent intentProfile = new Intent(ViewVitalSigns.this, HCP_Profile.class);
                 startActivity(intentProfile);
                 break;
 

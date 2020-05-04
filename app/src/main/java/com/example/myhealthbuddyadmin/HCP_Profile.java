@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -20,13 +18,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.onesignal.OneSignal;
-import com.squareup.picasso.Picasso;
 
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class DoctorProfile extends AppCompatActivity {
+public class HCP_Profile extends AppCompatActivity {
     private BottomNavigationView bottomnav;
     CircleImageView userImage;
     TextView userName, userHos,phone, id,specialty,license;
@@ -72,7 +68,7 @@ public class DoctorProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                Intent logoIntent = new Intent(DoctorProfile.this, Login.class);
+                Intent logoIntent = new Intent(HCP_Profile.this, Login.class);
                 logoIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(logoIntent);
                 finish();
@@ -136,17 +132,17 @@ public class DoctorProfile extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.d_nav_search:
-                Intent intentSearch = new Intent(DoctorProfile.this, SearchForPatient.class);
+                Intent intentSearch = new Intent(HCP_Profile.this, SearchForPatient.class);
                 startActivity(intentSearch);
                 break;
 
             case R.id.d_nav_home:
-                Intent intentHome = new Intent(DoctorProfile.this, DoctorMainActivity.class);
+                Intent intentHome = new Intent(HCP_Profile.this, DoctorMainActivity.class);
                 startActivity(intentHome);
                 break;
 
             case R.id.d_nav_notification:
-                Intent intentNot=new Intent(DoctorProfile.this, Notifications.class);
+                Intent intentNot=new Intent(HCP_Profile.this, Notifications.class);
                 startActivity(intentNot);
                 break;
         }

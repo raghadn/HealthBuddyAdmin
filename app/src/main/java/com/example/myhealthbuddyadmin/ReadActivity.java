@@ -13,7 +13,6 @@ import android.os.AsyncTask;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 
@@ -21,11 +20,7 @@ import com.github.barteksc.pdfviewer.PDFView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -167,7 +162,7 @@ public class ReadActivity extends AppCompatActivity {
                 break;
 
             case R.id.d_nav_profile:
-                Intent intentrequest=new Intent(ReadActivity.this, DoctorProfile.class);
+                Intent intentrequest=new Intent(ReadActivity.this, HCP_Profile.class);
                 startActivity(intentrequest);
                 break;
 

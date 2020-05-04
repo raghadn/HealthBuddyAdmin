@@ -37,7 +37,7 @@
         <activity android:name=".WriteBloodTest" />
         <activity android:name=".ViewPrescription" />
         <activity android:name=".ViewPatient" />
-        <activity android:name=".DoctorProfile" />
+        <activity android:name=".HCP_Profile" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".DoctorMainActivity" />
         <activity android:name=".ViewPatientRequest" />

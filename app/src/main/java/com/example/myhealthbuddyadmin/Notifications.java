@@ -197,7 +197,7 @@ public class Notifications extends AppCompatActivity {
                 break;
 
             case R.id.d_nav_profile:
-                Intent intentProfile = new Intent(Notifications.this, DoctorProfile.class);
+                Intent intentProfile = new Intent(Notifications.this, HCP_Profile.class);
                 startActivity(intentProfile);
                 break;
 

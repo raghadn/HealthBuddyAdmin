@@ -167,7 +167,7 @@ public class DoctorMainActivity extends AppCompatActivity {
                 break;
 
             case R.id.d_nav_profile:
-                Intent intentProfile = new Intent(DoctorMainActivity.this, DoctorProfile.class);
+                Intent intentProfile = new Intent(DoctorMainActivity.this, HCP_Profile.class);
                 startActivity(intentProfile);
                 break;
 

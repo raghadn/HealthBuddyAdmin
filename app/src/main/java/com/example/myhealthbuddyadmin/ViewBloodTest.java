@@ -324,7 +324,7 @@ edit=findViewById(R.id.editbloodtest);
                 break;
 
             case R.id.d_nav_profile:
-                Intent intentProfile = new Intent(ViewBloodTest.this, DoctorProfile.class);
+                Intent intentProfile = new Intent(ViewBloodTest.this, HCP_Profile.class);
                 startActivity(intentProfile);
                 break;
 

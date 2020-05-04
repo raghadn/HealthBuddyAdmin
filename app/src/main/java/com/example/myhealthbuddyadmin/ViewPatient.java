@@ -141,7 +141,7 @@ public class ViewPatient extends AppCompatActivity {
                 break;
 
             case R.id.d_nav_profile:
-                Intent intentProfile = new Intent(ViewPatient.this, DoctorProfile.class);
+                Intent intentProfile = new Intent(ViewPatient.this, HCP_Profile.class);
                 startActivity(intentProfile);
                 break;
 

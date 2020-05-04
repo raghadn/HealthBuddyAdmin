@@ -68,7 +68,7 @@ public class MyRecordsFragment extends Fragment {
         prescriptionList.setLayoutManager(new LinearLayoutManager(MyRecordsFragment.this.getActivity()));
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(view.getContext());
         linearLayoutManager.setReverseLayout(true);
-        //linearLayoutManager.setStackFromEnd(true);
+        linearLayoutManager.setStackFromEnd(true);
         prescriptionList.setLayoutManager(linearLayoutManager);
 
        BrowseWrite();

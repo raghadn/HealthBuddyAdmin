@@ -146,12 +146,11 @@ public class CreateDoctor extends AppCompatActivity {
     private void CreateHealthcareProviderAccount(final String email , final String license, final String ID , final String Name , final String Phone, final String Gender, final String Specialty) {
 
         if(checkPhone(Phone)==false){
-            showMessage("Please enter a valid phone number");
-            phone.setError("Please enter a valid phone number starts with 05 ");
+            phone.setError("Please enter a 10 digits phone number starts with 05 ");
             phone.requestFocus();
             createbtn.setVisibility(View.VISIBLE);
-        } if(checkLicense(license)==false){
-            password.setError("Please enter a valid license number ");
+        } else if(checkLicense(license)==false){
+            password.setError("Please enter a 10 digits license number ");
             password.requestFocus();
             createbtn.setVisibility(View.VISIBLE);
 
@@ -180,7 +179,7 @@ public class CreateDoctor extends AppCompatActivity {
 
                         //For the doctors id (Login)
                         FirebaseDatabase.getInstance().getReference().child("DoctorIDs").child(ID).setValue(email);
-                        showMessage("The Account has been created ");
+                        showMessage("The Health care provider account has been created ");
                         createbtn.setVisibility(View.VISIBLE);
                     } else {
                         showMessage("Error");
