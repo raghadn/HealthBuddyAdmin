@@ -45,7 +45,7 @@ public class ViewBloodTest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_blood_test);
-edit=findViewById(R.id.editbloodtest);
+        edit=findViewById(R.id.editbloodtest);
         currentuser= FirebaseAuth.getInstance().getCurrentUser().getUid();
         Doctorbottomnav=findViewById(R.id.d_bottom_navigation);
         Doctorbottomnav.setSelectedItemId(R.id.d_nav_home);
@@ -94,7 +94,8 @@ edit=findViewById(R.id.editbloodtest);
 
 
 
-        FirebaseDatabase.getInstance().getReference().child("Records").child(recordID).addValueEventListener(new ValueEventListener() {
+        recordRef =FirebaseDatabase.getInstance().getReference().child("Records").child(recordID);
+        recordRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
