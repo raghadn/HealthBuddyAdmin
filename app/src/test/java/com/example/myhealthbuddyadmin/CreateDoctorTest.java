@@ -18,7 +18,6 @@ public class CreateDoctorTest {
 
     @Test
     public void checkLicense() {
-
         String license="123456uy";
         CreateDoctor doctor=new CreateDoctor();
         boolean result=doctor.checkLicense(license);

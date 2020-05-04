@@ -71,26 +71,31 @@ public class ViewRecordsTabbed extends AppCompatActivity {
                         writePres.putExtra("PatientKey",PatientKey);
                         writePres.putExtra("Request","N");
                         startActivity(writePres);
+                        finish();
                         break;
                     case 2: Intent wBloodTests = new Intent(ViewRecordsTabbed.this, WriteBloodTest.class);
                         wBloodTests.putExtra("PatientKey",PatientKey);
                         wBloodTests.putExtra("Request","N");
                         startActivity(wBloodTests);
+                        finish();
                         break;
                     case 3:  Intent wx_Rays = new Intent(ViewRecordsTabbed.this, WriteXRay.class);
                         wx_Rays.putExtra("PatientKey",PatientKey);
                         wx_Rays.putExtra("Request","N");
                         startActivity(wx_Rays);
+                        finish();
                         break;
                     case 4: Intent wVital = new Intent(ViewRecordsTabbed.this, WriteVitalSigns.class);
                         wVital.putExtra("PatientKey",PatientKey);
                         wVital.putExtra("Request","N");
                         startActivity(wVital);
+                        finish();
                         break;
                     case 5:Intent wRecord = new Intent(ViewRecordsTabbed.this, WriteRecord.class);
                         wRecord.putExtra("PatientKey",PatientKey);
                         wRecord.putExtra("Request","N");
                         startActivity(wRecord);
+                        finish();
                         break;
                 }
 

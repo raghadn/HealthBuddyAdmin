@@ -227,6 +227,10 @@ public class WriteXRay extends AppCompatActivity {
                         switch(which){
                             case DialogInterface.BUTTON_POSITIVE:
                                 // User clicked the yes button
+                                Intent redirect = new Intent(WriteXRay.this,ViewRecordsTabbed.class);
+                                redirect.putExtra("PatientKey",pid);
+                                redirect.putExtra("type",3);
+                                startActivity(redirect);
                                 finish();
                                 break;
 
@@ -316,11 +320,19 @@ public class WriteXRay extends AppCompatActivity {
                                 sendNotification(pid);
                                 Toast.makeText(WriteXRay.this, "Record successfully uploaded", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
+                                Intent redirect = new Intent(WriteXRay.this,ViewRecordsTabbed.class);
+                                redirect.putExtra("PatientKey",pid);
+                                redirect.putExtra("type",3);
+                                startActivity(redirect);
                                 finish();
                             }
                             else {
                                 Toast.makeText(WriteXRay.this, "Error", Toast.LENGTH_SHORT).show();
                                 loadingbar.dismiss();
+                                Intent redirect = new Intent(WriteXRay.this,ViewRecordsTabbed.class);
+                                redirect.putExtra("PatientKey",pid);
+                                redirect.putExtra("type",3);
+                                startActivity(redirect);
                                 finish();
                             }
                         }
