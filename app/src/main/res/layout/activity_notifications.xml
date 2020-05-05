@@ -6,6 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".Notifications">
 
+    <TextView
+        android:id="@+id/nonotif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+
+        android:layout_marginTop="348dp"
+        android:text="No new notifications"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <include
         android:id="@+id/viewRequestToolbar"
         layout="@layout/toolbar"

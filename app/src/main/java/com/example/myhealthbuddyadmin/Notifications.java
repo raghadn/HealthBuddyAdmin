@@ -34,6 +34,7 @@ public class Notifications extends AppCompatActivity {
     private DatabaseReference requestsRef,PatientRef,docRef;
     String currentDoctorid,uid;
     FirebaseAuth mAuth;
+    View nonot;
 
 
 
@@ -58,14 +59,29 @@ public class Notifications extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         uid=mAuth.getCurrentUser().getUid().toString();
 
+        notificationList=(RecyclerView)findViewById(R.id.NotificationList);
+        notificationList.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        notificationList.setLayoutManager(linearLayoutManager);
+
+        nonot=findViewById(R.id.nonotif);
 
 
-        docRef=FirebaseDatabase.getInstance().getReference().child("Doctors");
-        docRef.child(uid).addValueEventListener(new ValueEventListener() {
+        Query RecordRef = FirebaseDatabase.getInstance().getReference().child("Requests").child("PendingRequests").orderByChild("doctor_uid").equalTo(uid);
+
+
+        RecordRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                currentDoctorid=dataSnapshot.child("id").getValue().toString();
-                displayNotifications(currentDoctorid);
+                if(dataSnapshot.getChildrenCount()>0)
+                    displayNotifications(uid);
+                else {
+
+                    notificationList.setVisibility(View.INVISIBLE);
+                    nonot.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -79,17 +95,11 @@ public class Notifications extends AppCompatActivity {
 
     private void displayNotifications(final String currentDoctorid) {
 
-        notificationList=(RecyclerView)findViewById(R.id.NotificationList);
-        notificationList.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-        notificationList.setLayoutManager(linearLayoutManager);
 
 
         //Query query =requestsRef.child("PendingRequests").orderByChild("doctor_id").startAt(currentDoctorid).endAt(currentDoctorid+"\uf8ff");
 
-        Query query =requestsRef.child("PendingRequests").orderByChild("oreder_date");
+        Query query =requestsRef.child("PendingRequests").orderByChild("order_date");
 
         FirebaseRecyclerAdapter<DoctorRequests,NotificationsViewHolder> firebaseRecyclerAdapter =
                 new FirebaseRecyclerAdapter<DoctorRequests, NotificationsViewHolder>(DoctorRequests.class,R.layout.display_notifications,NotificationsViewHolder.class,query) {
@@ -102,7 +112,7 @@ public class Notifications extends AppCompatActivity {
                 params.height = 0;
                 params.width = 0;
 
-                if(doctorRequests.getDoctor_id().equals(currentDoctorid)) {
+                if(doctorRequests.getDoctor_uid().equals(currentDoctorid)) {
                     notificationsViewHolder.mView.setVisibility(View.VISIBLE);
                         params.width = 1000;
                         params.height = 400;
