@@ -329,6 +329,9 @@ public class WriteVitalSigns extends AppCompatActivity {
     }
 
     private void saveRecord(final String url) {
+        Calendar orderdate=Calendar.getInstance();
+        SimpleDateFormat dateorder=new SimpleDateFormat("yyyy-MM-dd");
+        final String date_order =dateorder.format(orderdate.getTime());
 
         doctorRef.child(currentuser).addValueEventListener(new ValueEventListener() {
             @Override
@@ -349,6 +352,7 @@ public class WriteVitalSigns extends AppCompatActivity {
 
                     recordMap.put("findings",findings);
                     recordMap.put("impression",impression);
+                    recordMap.put("date_order",date_order);
 
                     if(!note.isEmpty())
                         recordMap.put("note",note);

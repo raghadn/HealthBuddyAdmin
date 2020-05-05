@@ -614,6 +614,10 @@ public class WriteBloodTest extends AppCompatActivity{
 
     private void saveRecord(final String url) {
 
+        Calendar orderdate=Calendar.getInstance();
+        SimpleDateFormat dateorder=new SimpleDateFormat("yyyy-MM-dd");
+        final String date_order =dateorder.format(orderdate.getTime());
+
         doctorRef.child(currentuser).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -628,6 +632,7 @@ public class WriteBloodTest extends AppCompatActivity{
                     recordMap.put("doctorName",dataSnapshot.child("name").getValue().toString());
                     recordMap.put("hospital",dataSnapshot.child("hospital").getValue().toString());
                     recordMap.put("testDate",date);
+                    recordMap.put("date_order",date_order);
 
                     recordRef.child(recordIDٍ).updateChildren(recordMap);
 

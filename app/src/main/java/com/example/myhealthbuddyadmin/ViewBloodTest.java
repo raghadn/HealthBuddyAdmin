@@ -153,7 +153,7 @@ public class ViewBloodTest extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         patientN.setText(dataSnapshot.child("name").getValue().toString());
                         patientID.setText(dataSnapshot.child("national_id").getValue().toString());
-                        //patientG.setText(dataSnapshot.child("").getValue().toString());
+                        patientG.setText(dataSnapshot.child("gender").getValue().toString());
                     }
 
                     @Override
@@ -169,6 +169,7 @@ public class ViewBloodTest extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         hospitalNameT.setText(dataSnapshot.child("Name").getValue().toString());
+
                     }
 
                     @Override
