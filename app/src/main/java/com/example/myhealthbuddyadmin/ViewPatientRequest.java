@@ -142,7 +142,7 @@ public class ViewPatientRequest extends AppCompatActivity {
         WriteRecordbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(type.equals("Medical Report")){
+                if(type.equals("Other")){
                     Intent intentwritemed = new Intent(ViewPatientRequest.this, WriteRecord.class);
                     intentwritemed.putExtra("PatientKey",PatientKey);
                     intentwritemed.putExtra("Request","Y");
@@ -151,7 +151,7 @@ public class ViewPatientRequest extends AppCompatActivity {
                     finish();
 
                 }
-                if(type.equals("Radiology Report")){
+                if(type.equals("X-Ray")){
                     Intent intentwriterad = new Intent(ViewPatientRequest.this, WriteXRay.class);
                     intentwriterad.putExtra("PatientKey",PatientKey);
                     intentwriterad.putExtra("Request","Y");
@@ -176,7 +176,7 @@ public class ViewPatientRequest extends AppCompatActivity {
                     finish();
 
                 }
-                if(type.equals("Lab Report")){
+                if(type.equals("Blood Test")){
                     Intent intentwritelab = new Intent(ViewPatientRequest.this, WriteBloodTest.class);
                     intentwritelab.putExtra("PatientKey",PatientKey);
                     intentwritelab.putExtra("Request","Y");
