@@ -9,9 +9,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shared"
-        android:layout_width="400dp"
+        android:layout_width="398dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
         android:layout_height="645dp"
-        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"

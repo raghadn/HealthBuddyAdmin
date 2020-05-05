@@ -100,7 +100,7 @@
 
             <FrameLayout
                 android:id="@+id/frameLayout"
-                android:layout_width="380dp"
+                android:layout_width="340dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/bourder"
@@ -197,7 +197,7 @@
 
             <FrameLayout
                 android:id="@+id/frameLayout2"
-                android:layout_width="380dp"
+                android:layout_width="340dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/bourder"
@@ -296,7 +296,7 @@
 
             <FrameLayout
                 android:id="@+id/frameLayout3"
-                android:layout_width="380dp"
+                android:layout_width="340dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/bourder"
@@ -477,9 +477,9 @@
 
     <ImageView
         android:id="@+id/editprescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:visibility="visible"
         android:layout_marginRight="15dp"
         app:layout_constraintBottom_toBottomOf="@+id/viewHiveToolBar"
         app:layout_constraintEnd_toEndOf="parent"

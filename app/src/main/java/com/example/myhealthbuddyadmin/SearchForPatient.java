@@ -105,7 +105,7 @@ public class SearchForPatient extends AppCompatActivity {
     public void SearchMethod(String SearchBoxInput) {
 
 
-        Toast.makeText(this, "جاري البحث..", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Searching....", Toast.LENGTH_SHORT).show();
         Query searchPatientnQuere = allPatientsdatabaseRef.orderByChild("national_id").startAt(SearchBoxInput).endAt(SearchBoxInput+ "\uf8ff");
 
         FirebaseRecyclerAdapter<PatientResult, PatientViweHolder> FirebaseRecycleAdapter

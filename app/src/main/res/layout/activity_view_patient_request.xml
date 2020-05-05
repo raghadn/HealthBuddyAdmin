@@ -40,8 +40,8 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:layout_marginTop="15dp"
                 android:id="@+id/textView1"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -49,11 +49,11 @@
                 android:textColor="@color/purple"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/frameLayout"
-                app:layout_constraintTop_toBottomOf="@+id/textView22" />
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
             <FrameLayout
                 android:id="@+id/frameLayout"
-                android:layout_width="380dp"
+                android:layout_width="340dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bourder"
                 android:padding="5dp"
@@ -80,7 +80,7 @@
                     <TextView
                         android:id="@+id/patientName"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="28dp"
                         android:layout_marginLeft="4dp"
                         android:text="Name"
                         android:textColor="@color/black"
@@ -134,39 +134,51 @@
 
             </FrameLayout>
 
-
-            <TextView
-                android:id="@+id/textView22"
-                android:layout_marginTop="15dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"
-                android:layout_toEndOf="@+id/display_request_image"
-                android:layout_toRightOf="@+id/display_request_image"
-                android:text="Request Recieved on: "
-                android:textColor="@color/purple"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@+id/textView1"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/textView22"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
 
 
-            <TextView
-                android:id="@+id/page_request_requestdate"
-                android:layout_width="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/textView13"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_gravity="right"
-                android:gravity="center"
-                android:text="Date"
-                app:layout_constraintBottom_toBottomOf="@+id/textView22"
-                app:layout_constraintStart_toEndOf="@+id/textView22"
-                app:layout_constraintTop_toTopOf="@+id/textView22" />
+                    android:text="Received on "
 
+                    android:textColor="@color/grey"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/page_request_requestdate"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView13"
+
+
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="right"
+                    android:gravity="center"
+                    android:text="Date"
+                    android:textColor="@color/grey"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView22"
+                    app:layout_constraintStart_toEndOf="@+id/textView22"
+                    app:layout_constraintTop_toTopOf="@+id/textView22" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
                 android:id="@+id/page_request_writerecord"
@@ -178,7 +190,7 @@
                 android:text="Accept and Write Record"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="14sp"
 
                 android:textStyle="normal"
 
@@ -196,7 +208,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:layout_marginTop="10dp"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:textStyle="normal"
 
                 app:layout_constraintEnd_toEndOf="parent"
@@ -259,8 +271,6 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginTop="15dp"
-                android:layout_toEndOf="@+id/display_request_image"
-                android:layout_toRightOf="@+id/display_request_image"
                 android:text="Request Type:"
                 android:textColor="@color/purple"
                 android:textSize="18sp"
@@ -289,8 +299,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
-                android:layout_toEndOf="@+id/display_request_image"
-                android:layout_toRightOf="@+id/display_request_image"
+
+
                 android:text="Notes:"
                 android:textColor="@color/purple"
                 android:textSize="18sp"

@@ -132,7 +132,7 @@ public class Login extends AppCompatActivity {
                                                     // Send user to Doctors main Activity
                                                     Intent loginIntent = new Intent(com.example.myhealthbuddyadmin.Login.this, DoctorMainActivity.class);
                                                     startActivity(loginIntent);
-                                                    Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_LONG).show();
                                                 }
                                             } else {
                                                 mAuth.getCurrentUser().sendEmailVerification();
