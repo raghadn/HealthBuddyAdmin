@@ -153,6 +153,7 @@ pulldate=findViewById(R.id.exdate);
                 String date= dataSnapshot.child("testDate").getValue().toString();
                 pulldate.setText(date);
                 String adnote=dataSnapshot.child("note").getValue().toString();
+                if (!adnote.isEmpty())
                 noteT.setText(adnote);
             }
 

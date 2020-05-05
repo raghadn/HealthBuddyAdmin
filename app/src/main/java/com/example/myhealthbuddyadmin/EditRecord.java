@@ -164,7 +164,24 @@ public class EditRecord extends AppCompatActivity{
 
             }
         });
+        recordIDٍ=getIntent().getExtras().get("RecordID").toString();
+        recordRef.child(recordIDٍ).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                //record info
+                String date= dataSnapshot.child("testDate").getValue().toString();
+                dateV.setText(date);
+                String adnote=dataSnapshot.child("note").getValue().toString();
+                if (!adnote.isEmpty())
+                    noteT.setText(adnote);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         //addAttachment
         addAttachment.setOnClickListener(new View.OnClickListener() {
             @Override

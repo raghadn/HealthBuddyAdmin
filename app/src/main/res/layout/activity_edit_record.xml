@@ -176,7 +176,7 @@
         android:drawableLeft="@drawable/attach"
         android:drawablePadding="-15sp"
         android:minHeight="1dp"
-        android:text=" Add File"
+        android:text="     Update File?"
         android:textAllCaps="false"
         android:textSize="14dp"
         app:layout_constraintStart_toStartOf="@+id/editnote"

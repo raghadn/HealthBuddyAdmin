@@ -55,7 +55,7 @@ public class EditXray extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String currentuser;
     private DatabaseReference patientRef, doctorRef,recordRef;
-    TextView dateV,patientN,patientID,patientG;
+    TextView dateV,patientN,patientID,patientG,pulldate;
     EditText findingsT,impressionT,noteT;
     String findings,impression,note;
     String patientName,hospitalName;
@@ -124,6 +124,7 @@ public class EditXray extends AppCompatActivity {
         patientN=findViewById(R.id.patientName);
         patientID=findViewById(R.id.patientID);
         patientG=findViewById(R.id.gender);
+        pulldate=findViewById(R.id.exdate);
 
         //underline
         attachmentView.setPaintFlags(attachmentView.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
@@ -161,7 +162,36 @@ public class EditXray extends AppCompatActivity {
 
             }
         });
+        recordIDٍ=getIntent().getExtras().get("RecordID").toString();
+        recordRef.child(recordIDٍ).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                //record info
+                String date= dataSnapshot.child("testDate").getValue().toString();
+                pulldate.setText(date);
+                String adnote=dataSnapshot.child("note").getValue().toString();
+                if (!adnote.isEmpty())
+                    noteT.setText(adnote);
+                String impression,findings;
+                if(dataSnapshot.hasChild("impression")){
+                    impression=dataSnapshot.child("impression").getValue().toString();
+                    impressionT.setText(impression);
+                }
+
+                if(dataSnapshot.hasChild("findings")){
+                    findings=dataSnapshot.child("findings").getValue().toString();
+                   findingsT.setText(findings);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         //addAttachment
         addAttachment.setOnClickListener(new View.OnClickListener() {
             @Override

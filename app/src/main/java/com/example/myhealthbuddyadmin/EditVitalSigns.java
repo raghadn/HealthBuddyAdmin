@@ -161,6 +161,36 @@ public class EditVitalSigns extends AppCompatActivity {
 
             }
         });
+        recordIDٍ=getIntent().getExtras().get("RecordID").toString();
+        recordRef.child(recordIDٍ).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                //record info
+                String date= dataSnapshot.child("testDate").getValue().toString();
+                dateV.setText(date);
+                String adnote=dataSnapshot.child("note").getValue().toString();
+                if (!adnote.isEmpty())
+                    noteT.setText(adnote);
+                String impression,findings;
+                if(dataSnapshot.hasChild("impression")){
+                    impression=dataSnapshot.child("impression").getValue().toString();
+                    impressionT.setText(impression);
+                }
+
+                if(dataSnapshot.hasChild("findings")){
+                    findings=dataSnapshot.child("findings").getValue().toString();
+                    findingsT.setText(findings);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         //addAttachment
         addAttachment.setOnClickListener(new View.OnClickListener() {
